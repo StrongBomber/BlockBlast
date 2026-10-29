@@ -23,15 +23,17 @@ mkdir -p "$(dirname "$out")" "$RUNNER_TEMP/game-splits"
   echo "install_exit=$rc"
   [ "$rc" -eq 0 ] || exit 0
   adb logcat -c
+  echo 'Resolve launch activity:'
+  adb shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.LAUNCHER com.block.juggle
   echo 'Launch:'
-  adb shell monkey -p com.block.juggle -c android.intent.category.LAUNCHER 1
+  adb shell am start -W -n com.block.juggle/org.cocos2dx.javascript.AppActivity.Default
   sleep 70
   pid=$(adb shell pidof com.block.juggle | tr -d '\r' | awk '{print $1}')
   echo "game_pid=$pid"
   echo 'Resumed activity:'
   adb shell dumpsys activity activities | grep -E 'mResumedActivity|topResumedActivity' | head -5 || true
   echo 'Errors:'
-  adb logcat -d -v brief | grep -E '^E/AndroidRuntime|^F/libc|Abort message|UnsatisfiedLinkError|Process com.block.juggle|Displayed com.block.juggle' | tail -70 || true
+  adb logcat -d -v brief | grep -E '^E/AndroidRuntime|^F/libc|Abort message|UnsatisfiedLinkError|Process com.block.juggle|Displayed com.block.juggle|Start proc .*block.juggle|com.netease.nis|Force finishing'  | tail -70 || true
   if [ -n "$pid" ]; then
     echo 'Frida inventory:'
     xz -dc "$RUNNER_TEMP/frida-server.xz" > "$RUNNER_TEMP/frida-server"
