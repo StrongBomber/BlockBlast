@@ -15,9 +15,9 @@ public class InjectBinaryManifest {
         ResXmlElement app = manifest.getApplicationElement();
         if (app == null) throw new IllegalStateException("No application element");
         ResXmlElement provider = app.newElement("provider");
-        provider.getOrCreateAndroidAttribute("name", 0x01010003).setDataAsString(providerName);
+        provider.getOrCreateAndroidAttribute("name", 0x01010003).setValueAsString(providerName);
         provider.getOrCreateAndroidAttribute("authorities", 0x01010018)
-                .setDataAsString("com.block.juggle.arena.menu.bootstrap");
+                .setValueAsString("com.block.juggle.arena.menu.bootstrap");
         provider.getOrCreateAndroidAttribute("exported", 0x01010010).setValueAsBoolean(false);
         manifest.refresh();
         manifest.writeBytes(new File(args[1]));
