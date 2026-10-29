@@ -43,12 +43,14 @@ jobs:
       - name: Decompile references
         run: |
           mkdir -p "$RUNNER_TEMP/projects"
-          "$RUNNER_TEMP"/ghidra_12.2_PUBLIC/support/analyzeHeadless "$RUNNER_TEMP/projects" game -import "$RUNNER_TEMP/libcocos2djs.so" -analysisTimeoutPerFile 1800 -scriptPath "$GITHUB_WORKSPACE/tools/ghidra" -postScript FindScriptLoader.java "$GITHUB_WORKSPACE/analysis/loader-decompile.txt"
+          "$RUNNER_TEMP"/ghidra_12.2_PUBLIC/support/analyzeHeadless "$RUNNER_TEMP/projects" game -import "$RUNNER_TEMP/libcocos2djs.so" -analysisTimeoutPerFile 1800 -scriptPath "$GITHUB_WORKSPACE/tools/ghidra" -postScript FindScriptLoader.java "$GITHUB_WORKSPACE/analysis/loader-decompile.txt" > "$RUNNER_TEMP/ghidra.log" 2>&1
+          grep -Ei 'error|exception|failed|FindScriptLoader|postscript' "$RUNNER_TEMP/ghidra.log" | tail -120 > analysis/ghidra-diagnostics.txt || true
       - name: Save analysis
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add analysis/native-layout.json analysis/loader-decompile.txt
+          git add analysis/native-layout.json analysis/ghidra-diagnostics.txt
+          if [ -f analysis/loader-decompile.txt ]; then git add analysis/loader-decompile.txt; fi
           if ! git diff --cached --quiet; then
             git commit -m 'Record native script loader analysis'
             git push origin HEAD:${GITHUB_REF_NAME}
