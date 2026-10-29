@@ -1,113 +1,62 @@
-# BlockBlast — inceleme notları
+# Block Blast 10.9.2 — ARM64 mod
 
-Bu depo, Drive'daki Block Blast 10.9.2 XAPK dosyasının incelenmesi için
-hazırlanmıştır; **henüz oyuna entegre edilmiş bir mod menü veya derlenmiş APK içermez**.
+[Modlu APK'yı indir](https://github.com/StrongBomber/BlockBlast/releases/download/blockblast-mod-10.9.2-v1/BlockBlast-10.9.2-mod-arm64.apk) · [Sürüm ve doğrulama dosyası](https://github.com/StrongBomber/BlockBlast/releases/tag/blockblast-mod-10.9.2-v1)
 
-## İlk bulgular
+Bu depo, Block Blast 10.9.2 için oyun penceresi içinde sürüklenebilir,
+açılıp kapanabilir bir mod menüsü içerir. Klasik modda menüden **Kapalı (1x),
+10x, 100x veya 1000x** seçilebilir. Tercih cihazda saklanır; sistem overlay
+izni gerekmez. Çarpan, geçmiş skora değil, kazanılan pozitif puan bileşenlerine
+uygulanır. Diğer oyun modlarında kapsamlı test yapılmamıştır.
 
-- Dosya bir kaynak kod projesi değil, temel APK ve Android yapılandırma
-  bölümlerinden oluşan bir XAPK arşividir. Envanter:
-  [`analysis/archive-inventory.txt`](analysis/archive-inventory.txt).
-- REA 6.7.0 ile APK üzerinde `inspect-artifact` çalıştırıldı. Temel APK'nın
-  SHA-256 değeri `0d0ea68549d0498adeebd43a93afae76983e1da84dd201214e403dc5d5e58469`.
-- ARM64 bölümü `libcocos2djs.so` içeriyor. Temel oyun JavaScript dosyaları
-  düz UTF-8 değil; `HEK:` başlığıyla başlıyor. Bu nedenle skor güncelleme
-  kodu henüz belirlenemedi. Küçük bulgu dosyaları `analysis/` altında.
-- XAPK, yeniden imzalama gerektiğinden orijinal uygulamanın üzerine doğrudan
-  kurulabilecek tek bir APK olarak değerlendirilemez; gerekli bölümler de
-  dikkate alınmalıdır.
+## Kurulum ve önemli sınırlamalar
 
-## Araçlar
+- APK yalnızca **ARM64 / arm64-v8a** içindir. Fiziksel cihazların tamamında
+  test edilmiş değildir; doğrulama Android 13 ARM64 Redroid ortamındadır.
+- Modlu APK, orijinal geliştiricinin değil, bu derlemeye özgü geçici bir test
+  anahtarıyla imzalanmıştır. Orijinal uygulamanın üzerine güncelleme olarak
+  kurulamaz. Orijinali kaldırmak kayıtlarınızı silebilir; önce uygun bir yedek
+  almayı değerlendirin. Sonraki derlemeler farklı anahtarla imzalanacağından
+  bu sürümün üzerine güncelleme olarak kurulamayabilir.
+- SHA-256: `4a802fbef4cd9caf66b01906de3c80d4035876f637356a4e26fb68457fd8f680`.
+  Sürüm sayfasında ayrıca `SHA256SUMS.txt` bulunur.
 
-`tools/inspect_archive.py`, `tools/inspect_scripts.py` ve
-`tools/inspect_native.py` yerel bir XAPK üzerinde çalışır. Örneğin:
+## Doğrulama
 
-```sh
-python3 tools/inspect_archive.py /path/to/source.xapk /tmp/blockblast-apks
-python3 tools/inspect_scripts.py /path/to/source.xapk
-python3 tools/inspect_native.py /path/to/source.xapk
-```
+[GitHub Actions 40948911073](https://github.com/StrongBomber/BlockBlast/actions/runs/40948911073)
+testinde tek APK derlendi, imzası doğrulandı, ARM64 Android'e kuruldu ve gerçek
+oyunda menü aracılığıyla dört seçenek ayrı hamlelerle denendi. Örnek olarak
+10x'te 4 puanlık artış 40, 100x'te 3 puan 300, 1000x'te 14 puan 14000
+oldu. Uygulama yeniden başlatıldığında skorun 14468 olarak ve 1000x seçiminin
+korunduğu doğrulandı. Ayrıntılar `analysis/menu-injection-probe.txt` dosyasındadır.
+Menünün sürüklenmesi ve arka plana dokunma geçişi ayrıca taklit uygulamada test
+edildi. Bu sonuçlar tüm cihaz ve oyun modları için garanti değildir.
 
-Oyun dosyaları depoya eklenmedi. Kaynak arşiv, kullanıcı onayıyla GitHub Release üzerinde herkese açık
-yayımlandı; Drive dosyası tekrar özel yapıldı.
-Skor mantığının tespiti, menünün oyuna uygulanması ve modlu oyun paketinin
-imzalanması ile oyun üzerinde doğrulama henüz **yapılmadı**.
+## Kaynak ve derleme
 
-## Mod menü bileşeni (henüz oyuna bağlı değil)
-
-`menu/` altında etkinlik içine eklenebilen, sürüklenebilir bir Android menü
-ve 1x/10x/100x/1000x skor çarpanı bileşeni bulunmaktadır. Menü uygulama
-penceresi içinde çalışmak üzere tasarlanmıştır; sistem overlay izni istemez.
-Tercih cihazda saklanır. Pozitif skor artışları için kullanılacak aritmetik,
-negatif cezaları değiştirmez ve taşmada `int` üst sınırına sabitlenir.
-
-Bu bileşen deneysel bir geçici oyun paketine enjekte edilip açılışta
-görüntülendi; ancak puan güncelleme noktasına henüz bağlanmadı. `menu-check.yml` bileşeni derler ve aritmetik testini çalıştırır;
-`menu-ui-test.yml` ise geçici bir test uygulamasını emülatörde çalıştırarak
-seçimleri, tercihin saklanmasını, sürüklemeyi ve arka plana dokunma geçişini
-kontrol eder. Bu iş akışları modlu oyun APK'sı üretmez.
-
-Ghidra incelemesinde ilgili şifre çözme hata metinleri `.note.gnu.proc` olarak
-adlandırılan bölgede bulundu, fakat kod referansları tespit edilemedi.
-REA'nın ELF yerleşimi incelemesi ise 32 MiB dosya sınırı nedeniyle bu 35 MB
-kütüphaneyi kabul etmedi. Bu bulgular kendi başına puan bağlama noktasını
-göstermemektedir.
-
-## Oyun emülatörü araştırması
-
-- Orijinal XAPK'nın tüm bölümleri x86_64/ARM çevirili Android 11 emülatöre
-  kurulabildi, ancak ilk açılış yanlış mimarideki `libnesec-x86.so` yüzünden
-  `UnsatisfiedLinkError` ile başarısız oldu.
-- Yalnızca geçici test için ARM64 kütüphane ikamesi ve bütün bölümlerin aynı
-  geçici anahtarla yeniden imzalanması denendi. Son denemede React başlatma
-  sırasında `AssertionError` görüldü; oynanabilir açılış doğrulanmadı.
-- REA/JADX temel APK'da 44.415 sınıf gördü; çalışma zamanındaki Cocos ve
-  `DemokApplication` adlarını statik sınıf aramasında bulmadı. Çalışma zamanı
-  yığınında bir uygulama sarmalayıcısı da görülüyor. Bu gözlemler tek başına
-  skor kodunun yerini veya hatanın kesin nedenini belirlemiyor.
-- Ham oyun dosyası depoya eklenmedi; test artifaktı saklanmadı.
-
-### Yerel ARM Android incelemesi
-
-GitHub'ın ARM64 koşucusunda izole Redroid Android 13 kullanılarak orijinal
-bölünmüş paketler açıldı. Kullanıcının test için verdiği onayla kullanım
-koşulları geçildi ve isteğe bağlı bildirim izni reddedildi. Eğitim hamleleri
-sonrasında boş oyun tahtasına ulaşıldı. Frida, Cocos JavaScript köprüsüne
-GL iş parçacığından erişebiliyor ve skor alanlarını okuyabiliyor.
-
-Eğitim sonunda `ClassTopInfo._state.currentScore` 124 olarak okunmasına
-rağmen ekranda yeni oyunun skoru 0 göründü; bu alanın gerçek oyunda skorun
-tek kaynağı olduğu **henüz doğrulanmadı**. Test sarmalayıcıları da henüz
-kullanılabilir bir skor güncelleme çağrısı yakalamadı. Dolayısıyla bu sonuç,
-çarpanın uygulandığı veya modlu APK'nın oluşturulduğu anlamına gelmez.
-`analysis/arm-game-probe.txt` son testin ayrıntılarını içerir.
-
-### Deneysel oyun içi menü entegrasyonu
-
-`menu-injection-probe.yml` ve `tools/test_menu_injection.sh`, GitHub
-Release üzerindeki doğrulanmış kaynağı indirip binary manifest'e bir ContentProvider
-ve yeni bir DEX ekleyerek bölünmüş paketleri test anahtarıyla imzalar. Android
-ARM testinde paketlerin kurulumu, orijinal oyunun açılması ve menünün oyun
-üzerinde görünmesi doğrulandı (Actions çalıştırması `40930769169`). Ayrı UI
-testi `40928546144` ise taklit etkinlikte menünün açılmasını, seçenekleri,
-sürüklenmesini, tercih kaydını ve dokunma geçişini kontrol eder.
-
-Bu yalnızca **deneysel menü entegrasyonudur**: `MenuBootstrapProvider` skor
-hook'u kurmaz; 10x/100x/1000x seçenekleri gerçek oyun skorunu değiştirmez.
-Başarılı bir paketleme testi, tamamlanmış bir mod anlamına gelmez. Test
-paketleri depoya veya Actions artifaktı olarak kaydedilmez. Tam sürüm için
-önce skorun asıl hesaplama ve kalıcı kayıt noktası bulunmalı, seçilen çarpanla
-bağlanmalı ve gerçek hamleler ve yeniden başlatma ile doğrulanmalıdır.
-
-### GitHub kaynak arşivi
-
-Kaynak XAPK, kullanıcının açık onayıyla herkese açık [GitHub Release](https://github.com/StrongBomber/BlockBlast/releases/tag/blockblast-source-10.9.2)
-içinde tutulur. Çalışma akışları Drive erişimi gerektirmez. Arşivi indirip
-bütünlüğünü doğrulamak için:
+Kaynak XAPK, kullanıcının onayıyla herkese açık
+[GitHub Release](https://github.com/StrongBomber/BlockBlast/releases/tag/blockblast-source-10.9.2)
+içindedir. Drive bağımlılığı yoktur. İndirme ve bütünlük doğrulaması:
 
 ```sh
 bash tools/download_source.sh /tmp/blockblast-source.xapk
 ```
 
-Sabit SHA-256: `b4e19afccd7fea17a7c6e8cea8e91747f4f242cbd62b1539c8d196dab66be503`.
-Bu sürüm **orijinal kaynak arşividir**, bitmiş bir modlu APK değildir.
+Kaynak arşiv SHA-256: `b4e19afccd7fea17a7c6e8cea8e91747f4f242cbd62b1539c8d196dab66be503`.
+Bu arşiv orijinal pakettir, modlu APK değildir.
+
+`menu-injection-probe.yml`, doğrulanmış kaynağı indirir, binary manifest'e
+provider ve DEX ekler, APKEditor ile bölümleri birleştirir, geçici anahtarla
+imzalar ve gerçek oyunu test eder. Test başarılıysa tek APK'yı Actions
+artifaktı olarak yükler. Test cihazında kullanım koşulları yalnızca daha önce
+verilen kullanıcı onayıyla kabul edilir; isteğe bağlı bildirim izni reddedilir.
+`menu-check.yml` Java ve JavaScript bileşen testlerini, `menu-ui-test.yml` ise
+ayrı arayüz testlerini çalıştırır.
+
+## İnceleme yöntemi
+
+REA 6.7.0, APK envanterinde ve JADX sınıf taramasında kullanıldı. ARM64
+`libcocos2djs.so` kütüphanesi ve `HEK:` başlıklı şifreli JavaScript paketleri
+statik incelemeyi sınırladı. Çalışma zamanında Cocos modül kayıtları üzerinden
+`ClassScore_Proxy.increaseScoreByRound` skor artışı noktası bulundu. Hook,
+menü tercihini JNI aracılığıyla okur; `ScoreHookBridge` kodu GL iş parçacığında
+kurar. Ghidra/REA araştırma çıktıları `analysis/`, araçlar `tools/` altındadır.
