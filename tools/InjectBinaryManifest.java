@@ -10,8 +10,6 @@ public class InjectBinaryManifest {
         if (!"com.block.juggle".equals(manifest.getPackageName()))
             throw new IllegalArgumentException("Unexpected package");
         String providerName = "ai.arena.blockblast.menu.MenuBootstrapProvider";
-        if (manifest.serializeToXml().contains(providerName))
-            throw new IllegalArgumentException("Provider already present");
         ResXmlElement app = manifest.getApplicationElement();
         if (app == null) throw new IllegalStateException("No application element");
         ResXmlElement provider = app.newElement("provider");
