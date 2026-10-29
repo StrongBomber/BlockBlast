@@ -7,7 +7,7 @@ public final class ScoreMultiplier {
     private ScoreMultiplier() {}
 
     public static boolean isSupported(int value) {
-        return value == 1 || value == 10 || value == 100 || value == 1000;
+        return value == 1 || value == 10 || value == 100 || value == 1000 || value == 10000 || value == 100000;
     }
 
     public static void set(int value) {

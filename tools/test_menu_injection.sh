@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Experimental packaging and smoke test using the verified GitHub source release.
-# This is not a finished mod and produces no artifact.
+# Builds, signs, and tests a standalone mod APK.
 set -euo pipefail
 work="$RUNNER_TEMP/menu-injection"
 mkdir -p "$work/splits" "$work/classes" "$work/dex" "$work/output"

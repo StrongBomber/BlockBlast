@@ -6,7 +6,7 @@ public final class ScoreMultiplierTest {
     }
 
     public static void main(String[] args) {
-        for (int multiplier : new int[] {1, 10, 100, 1000}) {
+        for (int multiplier : new int[] {1, 10, 100, 1000, 10000, 100000}) {
             ScoreMultiplier.set(multiplier);
             check(ScoreMultiplier.get() == multiplier);
             check(ScoreMultiplier.applyToAward(7) == 7 * multiplier);
@@ -18,7 +18,7 @@ public final class ScoreMultiplierTest {
             ScoreMultiplier.set(0);
             throw new AssertionError("Invalid setting accepted");
         } catch (IllegalArgumentException expected) {
-            check(ScoreMultiplier.get() == 1000);
+            check(ScoreMultiplier.get() == 100000);
         }
         ScoreMultiplier.set(1);
         System.out.println("ScoreMultiplier tests passed");

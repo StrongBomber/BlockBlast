@@ -44,12 +44,34 @@ def text_contains(value):
     return lambda node: value in node.get('text', '')
 
 
+def choice_node(label):
+    """Scroll the menu in both directions to find an entirely visible choice."""
+    for direction in ('up', 'down'):
+        for _ in range(4):
+            root = tree()
+            nodes = [n for n in root.iter('node') if n.get('text', '').removeprefix('✓').strip() == label]
+            if len(nodes) == 1:
+                x1, y1, x2, y2 = map(int, re.findall(r'\d+', nodes[0].get('bounds', '')))
+                if y2 - y1 >= 35:
+                    return nodes[0]
+            scrolls = [n for n in root.iter('node') if n.get('class') == 'android.widget.ScrollView']
+            if len(scrolls) != 1:
+                raise AssertionError('Expected a scrollable menu')
+            x1, y1, x2, y2 = map(int, re.findall(r'\d+', scrolls[0].get('bounds', '')))
+            x = (x1 + x2) // 2
+            top, bottom = y1 + (y2-y1)//4, y2 - (y2-y1)//4
+            adb('shell', 'input', 'swipe', x, top if direction == 'up' else bottom,
+                x, bottom if direction == 'up' else top, 500)
+            time.sleep(1)
+    raise AssertionError('Could not find menu choice: ' + label)
+
+
 def select_factor(factor):
     tap_node(text_contains('MOD MENÜ'))
     label = 'Kapalı (1x)' if factor == 1 else str(factor) + 'x'
-    tap_node(lambda n: n.get('text', '').removeprefix('✓').strip() == label)
-    selected = [n for n in tree().iter('node') if n.get('text', '').removeprefix('✓').strip() == label]
-    if len(selected) != 1 or '✓' not in selected[0].get('text', ''):
+    adb('shell', 'input', 'tap', *center(choice_node(label)))
+    time.sleep(1)
+    if '✓' not in choice_node(label).get('text', ''):
         raise AssertionError('Menu did not select ' + label)
     tap_node(text_contains('MOD MENÜ'))
     print('Selected:', label, flush=True)
@@ -89,7 +111,7 @@ time.sleep(8)
 
 # Try candidate tray/board positions; require a genuine awarded score for each
 # factor, rather than inferring success merely from a UI selection or install.
-for factor in (1, 10, 100, 1000):
+for factor in (1, 10, 100, 1000, 10000, 100000):
     select_factor(factor)
     adb('logcat', '-c')
     award = None
@@ -118,7 +140,7 @@ for factor in (1, 10, 100, 1000):
     if award['after'] != award['before'] * factor:
         raise AssertionError('Wrong score multiplier: ' + repr(award))
     print('Verified game award:', json.dumps(award, sort_keys=True), flush=True)
-print('All four in-game multiplier settings affected actual awards as expected.', flush=True)
+print('All six in-game multiplier settings affected actual awards as expected.', flush=True)
 expected_score = int(award['current'] + award['after'])
 adb('shell', 'am', 'force-stop', 'com.block.juggle')
 adb('logcat', '-c')
@@ -147,8 +169,7 @@ if not loaded or int(loaded[-1]) != expected_score:
     print('Restart diagnostics:', '\n'.join(line for line in raw.splitlines() if any(s in line for s in ('ArenaScore', 'ArenaMenu', 'AndroidRuntime', 'F/libc', 'Force finishing', 'block.juggle'))) [-10000:], flush=True)
     raise AssertionError('Score did not survive restart: expected %s; loaded %s' % (expected_score, loaded))
 tap_node(text_contains('MOD MENÜ'))
-selected = [n for n in tree().iter('node') if n.get('text', '').removeprefix('✓').strip() == '1000x']
-if len(selected) != 1 or '✓' not in selected[0].get('text', ''):
+if '✓' not in choice_node('100000x').get('text', ''):
     raise AssertionError('Multiplier did not survive restart')
 tap_node(text_contains('MOD MENÜ'))
-print('Restart verified: saved score %d and 1000x selection persisted.' % expected_score, flush=True)
+print('Restart verified: saved score %d and 100000x selection persisted.' % expected_score, flush=True)

@@ -18,7 +18,7 @@
       var multiplier = 1;
       try { multiplier = Number(jsb.reflection.callStaticMethod(
         'ai/arena/blockblast/menu/ScoreMultiplier', 'get', '()I')); } catch (_) {}
-      if (multiplier !== 10 && multiplier !== 100 && multiplier !== 1000) multiplier = 1;
+      if (multiplier !== 10 && multiplier !== 100 && multiplier !== 1000 && multiplier !== 10000 && multiplier !== 100000) multiplier = 1;
       var keys = ['baseScore', 'comboScore', 'screenScore', 'blockScore'];
       var current = Number(result.curScore);
       if (!Number.isFinite(current) || current < 0) return result;

@@ -38,6 +38,33 @@ def tap(text):
     time.sleep(1)
 
 
+def choice(label):
+    for direction in ('up', 'down'):
+        for _ in range(4):
+            root = tree()
+            nodes = [n for n in root.iter('node') if n.get('text', '').removeprefix('✓').strip() == label]
+            if len(nodes) == 1:
+                x1, y1, x2, y2 = map(int, re.findall(r'\d+', nodes[0].get('bounds', '')))
+                if y2 - y1 >= 35:
+                    return nodes[0]
+            scrolls = [n for n in root.iter('node') if n.get('class') == 'android.widget.ScrollView']
+            assert len(scrolls) == 1, 'Expected a scrollable menu'
+            x1, y1, x2, y2 = map(int, re.findall(r'\d+', scrolls[0].get('bounds', '')))
+            x = (x1 + x2) // 2
+            top, bottom = y1 + (y2-y1)//4, y2 - (y2-y1)//4
+            adb('shell', 'input', 'swipe', str(x), str(top if direction == 'up' else bottom),
+                str(x), str(bottom if direction == 'up' else top), '500')
+            time.sleep(1)
+    raise AssertionError('Could not find choice: ' + label)
+
+
+def select(label):
+    x, y = center(choice(label))
+    adb('shell', 'input', 'tap', str(x), str(y))
+    time.sleep(1)
+    assert '✓' in choice(label).get('text', '')
+
+
 def start():
     adb('shell', 'am', 'start', '-n', APP + '/org.cocos2dx.javascript.AppActivity')
     time.sleep(3)
@@ -49,17 +76,14 @@ start()
 tap('Oyun alanı: 0')
 node('Oyun alanı: 1')  # An empty area of the overlay must not consume gameplay taps.
 tap('MOD MENÜ')
-for choice in ('Kapalı (1x)', '10x', '100x', '1000x'):
-    node(choice)
-tap('1000x')
-assert '✓' in node('1000x').get('text', '')
+for label in ('Kapalı (1x)', '10x', '100x', '1000x', '10000x', '100000x'):
+    select(label)
 tap('MOD MENÜ')
 adb('shell', 'am', 'force-stop', APP)
 start()
 tap('MOD MENÜ')
-assert '✓' in node('1000x').get('text', '')  # Selection survives process restart.
-tap('Kapalı (1x)')
-assert '✓' in node('Kapalı (1x)').get('text', '')
+assert '✓' in choice('100000x').get('text', '')  # Selection survives process restart.
+select('Kapalı (1x)')
 tap('MOD MENÜ')
 old = center(node('MOD MENÜ'))
 adb('shell', 'input', 'swipe', str(old[0]), str(old[1]), str(old[0] + 160), str(old[1] + 160), '600')

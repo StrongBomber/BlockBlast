@@ -66,7 +66,7 @@ public final class FloatingMenu {
         heading.setPadding(dp(activity, 4), dp(activity, 8), 0, dp(activity, 4));
         options.addView(heading);
 
-        int[] values = {1, 10, 100, 1000};
+        int[] values = {1, 10, 100, 1000, 10000, 100000};
         Button[] choices = new Button[values.length];
         for (int i = 0; i < values.length; i++) {
             final int value = values[i];
