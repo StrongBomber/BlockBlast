@@ -38,7 +38,7 @@ jobs:
           echo '6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75  '"$RUNNER_TEMP"'/jadx.jar' | sha256sum -c -
           export REA_JADX_MCP_JAR="$RUNNER_TEMP/jadx.jar"
           export REA_JADX_HEAP_MIB=4096 REA_JADX_OPERATION_TIMEOUT_MS=600000
-          npx -y rea-agents@6.7.0 search-android-classes "$RUNNER_TEMP/unsigned/com.block.juggle.apk" org.cocos2dx --format json > analysis/rea-class-search.txt 2>&1 || true
+          npx -y rea-agents@6.7.0 search-android-classes "$RUNNER_TEMP/unsigned/com.block.juggle.apk" DemokApplication --format json > analysis/rea-application-search.txt 2>&1 || true
       - name: Enable KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -60,7 +60,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           if [ -f analysis/emulator-probe.txt ]; then
             git add analysis/emulator-probe.txt
-            if [ -f analysis/rea-class-search.txt ]; then git add analysis/rea-class-search.txt; fi
+            if [ -f analysis/rea-application-search.txt ]; then git add analysis/rea-application-search.txt; fi
             if ! git diff --cached --quiet; then
               git commit -m 'Record emulator probe results'
               git push origin HEAD:${GITHUB_REF_NAME}

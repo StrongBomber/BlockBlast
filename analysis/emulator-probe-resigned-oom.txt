@@ -1,0 +1,108 @@
+Emulator ABI:
+x86_64,x86,arm64-v8a,armeabi-v7a,armeabi
+APK splits:
+Test splits are re-signed, and libnesec-x86.so is replaced by the ARM64 libnesec.so.
+Install result:
+Serving...
+All files should be loaded. Notifying the device.
+Performing Incremental Install
+Success
+Install command complete in 4678 ms
+install_exit=0
+Launch result:
+  bash arg: -p
+  bash arg: com.block.juggle
+  bash arg: -c
+  bash arg: android.intent.category.LAUNCHER
+  bash arg: 1
+args: [-p, com.block.juggle, -c, android.intent.category.LAUNCHER, 1]
+ arg: "-p"
+ arg: "com.block.juggle"
+ arg: "-c"
+ arg: "android.intent.category.LAUNCHER"
+ arg: "1"
+data="com.block.juggle"
+data="android.intent.category.LAUNCHER"
+Events injected: 1
+## Network stats: elapsed time=46ms (0ms mobile, 0ms wifi, 46ms not connected)
+Process:
+Resumed activity:
+    mResumedActivity: ActivityRecord{20f5990 u0 com.google.android.apps.nexuslauncher/.NexusLauncherActivity t11}
+Relevant diagnostic log:
+V/BackupManagerService(  487): [UserID:0] restoreAtInstall pkg=com.block.juggle token=1 restoreSet=0
+I/IntentFilterIntentOp( 1605): Verifying IntentFilter. verificationId:0 scheme:"https" hosts:"mainactivity blockblastgamectv.onelink.me www.hungrystudio.com blockblastgame.onelink.me" package:"com.block.juggle".
+I/MediaProvider( 1359): Invalidating LocalCallingIdentity cache for package com.block.juggle. Reason: package android.intent.action.PACKAGE_ADDED
+I/GsaVoiceInteractionSrv( 1388): O received Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) }
+D/AvrcpMediaPlayerList(  673): Name of package changed: com.block.juggle
+W/GCM     ( 1116): Unexpected forwarded intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) }
+W/GCM     ( 1116): Unexpected forwarded intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) }
+I/ChromeSync( 1605): [Sync,SyncIntentOperation] Handling the intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) }.
+I/ChromeSync( 1605): [Persistence,AffiliationManager] One of affiliation or grouping data for android://DOcRshjvIFG4Hgdy3egJwR_Ng8UXDZkSFWj0d4zepzQ-BzDxgVw3b8jod3YQGcKl6uXLEupVv1RbjW7IttkSRQ==@com.block.juggle/ was not found. Marking affiliation data as stale...
+W/Monkey  ( 3387): args: [-p, com.block.juggle, -c, android.intent.category.LAUNCHER, 1]
+W/Monkey  ( 3387):  arg: "com.block.juggle"
+W/Monkey  ( 3387): data="com.block.juggle"
+I/ActivityTaskManager(  487): START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.block.juggle/org.cocos2dx.javascript.AppActivity.Default} from uid 2000
+I/ActivityManager(  487): Start proc 3528:com.block.juggle/u0a154 for pre-top-activity {com.block.juggle/org.cocos2dx.javascript.AppActivity.Default}
+I/chatty  ( 3528): uid=10154(com.block.juggle) identical 18 lines
+W/om.block.juggl( 3528): Verification of void org.cocos2dx.javascript.DemokApplication.A(com.block.juggle.datareport.core.api.LizDataInitConfig, java.lang.String) took 187.732ms (1619.32 bytecodes/s) (8096B approximate peak alloc)
+I/MMKV    ( 3528): <MMKV.cpp:225::initializeMMKV> root dir: /data/user/0/com.block.juggle/files/mmkv
+I/MMKV    ( 3528): <MemoryFile.cpp:98::open> open fd[0x3f], /data/user/0/com.block.juggle/files/mmkv/J_AD
+I/MMKV    ( 3528): <MemoryFile.cpp:203::mmap> mmap to address [0x7f39f9610000], oldPtr [0x0], [/data/user/0/com.block.juggle/files/mmkv/J_AD]
+I/MMKV    ( 3528): <MemoryFile.cpp:98::open> open fd[0x45], /data/user/0/com.block.juggle/files/mmkv/J_AD.crc
+I/MMKV    ( 3528): <MemoryFile.cpp:203::mmap> mmap to address [0x7f39f960d000], oldPtr [0x0], [/data/user/0/com.block.juggle/files/mmkv/J_AD.crc]
+W/om.block.juggle( 3528): type=1400 audit(0.0:229): avc: denied { read } for name="cache" dev="dm-4" ino=16 scontext=u:r:untrusted_app:s0:c154,c256,c512,c768 tcontext=u:object_r:cache_file:s0 tclass=lnk_file permissive=0 app=com.block.juggle
+I/TetheringManager( 3528): registerTetheringEventCallback:com.block.juggle
+I/chatty  ( 3528): uid=10154(com.block.juggle) identical 1 line
+D/ConnectivityService(  487): requestNetwork for uid/pid:10154/3528 NetworkRequest [ TRACK_DEFAULT id=34, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ]
+D/UntrustedWifiNetworkFactory(  487): got request NetworkRequest [ TRACK_DEFAULT id=34, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ] with score 60 and providerId 3
+D/PhoneSwitcherNetworkRequstListener( 1019): got request NetworkRequest [ TRACK_DEFAULT id=34, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ] with score 60 and providerId 3
+D/WifiNetworkFactory(  487): got request NetworkRequest [ TRACK_DEFAULT id=34, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ] with score 60 and providerId 3
+W/ActivityManager(  487): Receiver with filter android.content.IntentFilter@75290c5 already registered for pid 3528, callerPackage is com.block.juggle
+W/ActivityManager(  487): Receiver with filter android.content.IntentFilter@31985ce already registered for pid 3528, callerPackage is com.block.juggle
+W/ActivityManager(  487): Receiver with filter android.content.IntentFilter@e3cf75f already registered for pid 3528, callerPackage is com.block.juggle
+W/BroadcastQueue(  487): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.packageinstaller/com.android.packageinstaller.PackageInstalledReceiver
+W/BroadcastQueue(  487): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.android.vending/com.google.android.finsky.packagemanager.impl.PackageMonitorReceiverImpl$RegisteredReceiver
+W/BroadcastQueue(  487): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.gms/.games.chimera.GamesSystemBroadcastReceiverProxy
+W/BroadcastQueue(  487): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.gms/.gass.chimera.PackageChangeBroadcastReceiver
+W/BroadcastQueue(  487): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.gms/.chimera.GmsIntentOperationService$PersistentTrustedReceiver
+W/BroadcastQueue(  487): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.googlequicksearchbox/com.google.android.apps.gsa.googlequicksearchbox.GelStubAppWatcher
+W/BroadcastQueue(  487): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.ims/.receivers.RcsAutoStartReceiver
+D/AvrcpMediaPlayerList(  673): Name of package changed: com.block.juggle
+I/Fitness ( 1116): OnPackageChangedOperation got intent: Intent { act=android.intent.action.PACKAGE_CHANGED dat=package:com.block.juggle flg=0x45000010 cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) } [CONTEXT service_id=17 ]
+D/ConnectivityService(  487): requestNetwork for uid/pid:10154/3528 NetworkRequest [ TRACK_DEFAULT id=36, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ]
+D/UntrustedWifiNetworkFactory(  487): got request NetworkRequest [ TRACK_DEFAULT id=36, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ] with score 60 and providerId 3
+D/WifiNetworkFactory(  487): got request NetworkRequest [ TRACK_DEFAULT id=36, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ] with score 60 and providerId 3
+D/PhoneSwitcherNetworkRequstListener( 1019): got request NetworkRequest [ TRACK_DEFAULT id=36, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ] with score 60 and providerId 3
+E/chromium( 3528): [ERROR:filesystem_posix.cc(62)] mkdir /data/user/0/com.block.juggle/cache/WebView/Crashpad: No such file or directory (2)
+I/ActivityManager(  487): Start proc 4266:com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0ai9000 for  {com.block.juggle/org.chromium.content.app.SandboxedProcessService0:0}
+I/iorapd  (  404): Perfetto TraceBuffer saved to file: /data/misc/iorapd/com.block.juggle/10920/org.cocos2dx.javascript.AppActivity.Default/raw_traces/1793288100054353196.perfetto_trace.pb
+W/com.block.juggle( 3528): type=1400 audit(0.0:249): avc: denied { read } for comm=474C54687265616420333339 name="/" dev="dm-4" ino=2 scontext=u:r:untrusted_app:s0:c154,c256,c512,c768 tcontext=u:object_r:rootfs:s0 tclass=dir permissive=0 app=com.block.juggle
+I/MMKV    ( 3528): <MMKV.cpp:225::initializeMMKV> root dir: /data/user/0/com.block.juggle/files/mmkv
+I/MMKV    ( 3528): <MemoryFile.cpp:203::mmap> mmap to address [0x7f33df284000], oldPtr [0x7f39f9610000], [/data/user/0/com.block.juggle/files/mmkv/J_AD]
+W/system_server(  487): Failed to determine oat file name for dex location /data/app/~~FY5P1aVUqIRUmLSsDGBu8Q==/com.block.juggle-deJIcewtFIlGAcof93miPQ==/base.apk: Dalvik cache directory does not exist
+D/ArtManagerInternalImpl(  487): /data/misc/iorapd/com.block.juggle/10920/org.cocos2dx.javascript.AppActivity.Default/compiled_traces/compiled_trace.pb doesn't exist
+I/ActivityTaskManager(  487): Displayed com.block.juggle/org.cocos2dx.javascript.AppActivity.Default: +22s337ms
+W/ActivityManager(  487): Scheduling restart of crashed service com.block.juggle/org.chromium.content.app.SandboxedProcessService0:0 in 38183ms for connection
+W/sesdk-init( 3528): type=1400 audit(0.0:254): avc: denied { search } for name="/" dev="vdd1" ino=2 scontext=u:r:untrusted_app:s0:c154,c256,c512,c768 tcontext=u:object_r:metadata_file:s0 tclass=dir permissive=0 app=com.block.juggle
+W/sesdk-init( 3528): type=1400 audit(0.0:255): avc: denied { read } for name="enforce" dev="selinuxfs" ino=4 scontext=u:r:untrusted_app:s0:c154,c256,c512,c768 tcontext=u:object_r:selinuxfs:s0 tclass=file permissive=0 app=com.block.juggle
+W/sesdk-emu( 3528): type=1400 audit(0.0:257): avc: denied { read } for name="devices" dev="proc" ino=4026532009 scontext=u:r:untrusted_app:s0:c154,c256,c512,c768 tcontext=u:object_r:proc:s0 tclass=file permissive=0 app=com.block.juggle
+I/lowmemorykiller(  154): Kill 'com.block.juggle' (3528), uid 10154, oom_adj 0 to free 1433332kB; reason: low watermark is breached and swap is low (0kB < 152144kB)
+D/ConnectivityService(  487): ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ LISTEN id=33, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&FOREGROUND Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ], android.os.BinderProxy@d832292)
+D/ConnectivityService(  487): ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ TRACK_DEFAULT id=34, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ], android.os.BinderProxy@44a6463)
+D/ConnectivityService(  487): ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ TRACK_DEFAULT id=36, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ], android.os.BinderProxy@5d51860)
+D/ConnectivityService(  487): ConnectivityService NetworkRequestInfo binderDied(NetworkRequest [ LISTEN id=35, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&FOREGROUND Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ], android.os.BinderProxy@368d119)
+D/ConnectivityService(  487): releasing NetworkRequest [ TRACK_DEFAULT id=34, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ] (release request)
+D/ConnectivityService(  487): releasing NetworkRequest [ TRACK_DEFAULT id=36, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ] (release request)
+I/ActivityManager(  487): Process com.block.juggle (pid 3528) has died: fg  TOP 
+I/WindowManager(  487): WIN DEATH: Window{cc7fc68 u0 com.block.juggle/org.cocos2dx.javascript.AppActivity.Default}
+W/InputDispatcher(  487): channel 'cc7fc68 com.block.juggle/org.cocos2dx.javascript.AppActivity.Default (server)' ~ Consumer closed input channel or an error occurred.  events=0x9
+E/InputDispatcher(  487): channel 'cc7fc68 com.block.juggle/org.cocos2dx.javascript.AppActivity.Default (server)' ~ Channel is unrecoverably broken and will be disposed!
+W/InputDispatcher(  487): Attempted to unregister already unregistered input channel 'cc7fc68 com.block.juggle/org.cocos2dx.javascript.AppActivity.Default (server)'
+W/ActivityTaskManager(  487): Force removing ActivityRecord{6bd0ca1 u0 com.block.juggle/org.cocos2dx.javascript.AppActivity.Default t9}: app died, no saved state
+I/PackageDexOptimizer(  487): Running dexopt (dexoptNeeded=1) on: /data/app/~~FY5P1aVUqIRUmLSsDGBu8Q==/com.block.juggle-deJIcewtFIlGAcof93miPQ==/base.apk pkg=com.block.juggle isa=x86_64 dexoptFlags=boot_complete,public,enable_hidden_api_checks targetFilter=verify oatDir=null classLoaderContext=PCL[]{PCL[/system_ext/framework/androidx.window.sidecar.jar]}
+V/installd(  403): DexInv: --- BEGIN '/data/app/~~FY5P1aVUqIRUmLSsDGBu8Q==/com.block.juggle-deJIcewtFIlGAcof93miPQ==/base.apk' ---
+I/dex2oat32( 7458): /apex/com.android.art/bin/dex2oat32 --input-vdex-fd=-1 --output-vdex-fd=9 --updatable-bcp-packages-file=/system/etc/updatable-bcp-packages.txt --resolve-startup-const-strings=true --max-image-block-size=524288 --compiler-filter=verify --classpath-dir=/data/app/~~FY5P1aVUqIRUmLSsDGBu8Q==/com.block.juggle-deJIcewtFIlGAcof93miPQ== --class-loader-context=PCL[]{PCL[/system_ext/framework/androidx.window.sidecar.jar]} --generate-mini-debug-info --compact-dex-level=none --compilation-reason=boot
+F/libc    ( 7458): Fatal signal 7 (SIGBUS), code 2 (BUS_ADRERR), fault addr 0xf4977000 in tid 7458 (dex2oat32), pid 7458 (dex2oat32)
+V/installd(  403): DexInv: --- END '/data/app/~~FY5P1aVUqIRUmLSsDGBu8Q==/com.block.juggle-deJIcewtFIlGAcof93miPQ==/base.apk' --- status=0x   7, process failed
+E/installd(  403): Dex2oat invocation for /data/app/~~FY5P1aVUqIRUmLSsDGBu8Q==/com.block.juggle-deJIcewtFIlGAcof93miPQ==/base.apk failed with 0x0007 (7)
+W/PackageDexOptimizer(  487): com.android.server.pm.Installer$InstallerException: android.os.ServiceSpecificException: Dex2oat invocation for /data/app/~~FY5P1aVUqIRUmLSsDGBu8Q==/com.block.juggle-deJIcewtFIlGAcof93miPQ==/base.apk failed with 0x0007 (code 7)
