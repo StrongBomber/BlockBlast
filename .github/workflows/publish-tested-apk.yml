@@ -1,5 +1,8 @@
 name: Publish tested ARM64 APK
 on:
+  push:
+    branches: [arena/fe683328-blockblast]
+    paths: [.github/workflows/publish-tested-apk.yml]
   workflow_dispatch:
 permissions:
   actions: read
