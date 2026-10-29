@@ -1,11 +1,13 @@
 # Block Blast 10.9.2 — ARM64 mod
 
-[Modlu APK'yı indir](https://github.com/StrongBomber/BlockBlast/releases/download/blockblast-mod-10.9.2-v2/BlockBlast-10.9.2-mod-arm64.apk) · [Sürüm ve doğrulama dosyası](https://github.com/StrongBomber/BlockBlast/releases/tag/blockblast-mod-10.9.2-v2)
+[Modlu APK'yı indir](https://github.com/StrongBomber/BlockBlast/releases/download/blockblast-mod-10.9.2-v3/BlockBlast-10.9.2-mod-arm64.apk) · [Sürüm ve doğrulama dosyası](https://github.com/StrongBomber/BlockBlast/releases/tag/blockblast-mod-10.9.2-v3)
 
 Bu depo, Block Blast 10.9.2 için oyun penceresi içinde sürüklenebilir,
 açılıp kapanabilir bir mod menüsü içerir. Klasik modda menüden **Kapalı (1x),
-10x, 100x, 1000x, 10000x veya 100000x** seçilebilir. Tercih cihazda saklanır; sistem overlay
-izni gerekmez. Çarpan, geçmiş skora değil, kazanılan pozitif puan bileşenlerine
+10x, 100x, 1000x, 10000x veya 100000x** seçilebilir. Menüde **By Raiwesy**
+yazısı bulunur. Ekrana üç parmakla aynı anda dokunarak menüyü gizleyebilir,
+ayni hareketle tekrar gösterebilirsiniz. Gizleme seçili çarpanı değiştirmez.
+Tercih cihazda saklanır; sistem overlay izni gerekmez. Çarpan, geçmiş skora değil, kazanılan pozitif puan bileşenlerine
 uygulanır. Diğer oyun modlarında kapsamlı test yapılmamıştır.
 
 ## Kurulum ve önemli sınırlamalar
@@ -16,21 +18,23 @@ uygulanır. Diğer oyun modlarında kapsamlı test yapılmamıştır.
   anahtarıyla imzalanmıştır. Orijinal uygulamanın üzerine güncelleme olarak
   kurulamaz. Orijinali kaldırmak kayıtlarınızı silebilir; önce uygun bir yedek
   almayı değerlendirin. Sonraki derlemeler farklı anahtarla imzalanacağından
-  bu sürümün üzerine güncelleme olarak kurulamayabilir. Bu v2 sürümü de
-  önceki v1 modlu APK ile farklı anahtara sahiptir ve v1 üzerine kurulamaz.
-- SHA-256: `d316f9fee1388f51542d31416e7e8b106fa5eaa9a331d346269b0eed990b572b`.
+  bu sürümün üzerine güncelleme olarak kurulamayabilir. Bu v3 sürümü de
+  önceki modlu APK sürümleri ile farklı anahtara sahiptir ve onların üzerine kurulamaz.
+- SHA-256: `3083377b68cee6f19b275d5b01e0360c716279137c9b34e3846a753b12d97984`.
   Sürüm sayfasında ayrıca `SHA256SUMS.txt` bulunur.
 
 ## Doğrulama
 
-[GitHub Actions 40951603156](https://github.com/StrongBomber/BlockBlast/actions/runs/40951603156)
+[GitHub Actions 40960017510](https://github.com/StrongBomber/BlockBlast/actions/runs/40960017510)
 testinde tek APK derlendi, imzası doğrulandı, ARM64 Android'e kuruldu ve gerçek
 oyunda menü aracılığıyla altı seçenek ayrı hamlelerle denendi. Örnek olarak
-10000x'te 4 puanlık artış 40000, 100000x'te 6 puanlık artış 600000 oldu.
-Uygulama yeniden başlatıldığında skorun 646679 olarak ve 100000x seçiminin
+10000x'te 4 puanlık artış 40000, 100000x'te 3 puanlık artış 300000 oldu.
+Uygulama yeniden başlatıldığında skorun 342568 olarak ve 100000x seçiminin
 korunduğu doğrulandı. Ayrıntılar `analysis/menu-injection-probe.txt` dosyasındadır.
-Menünün sürüklenmesi ve arka plana dokunma geçişi ayrıca taklit uygulamada test
-edildi. Bu sonuçlar tüm cihaz ve oyun modları için garanti değildir.
+Üç parmakla gizleme ve gösterme, Android girişine gönderilen çoklu dokunma
+olaylarıyla gerçek oyunda test edildi; iki parmağın menüyü değiştirmediği ve
+ayni hareket içindeki tekrar dokunuşun çift tetiklemediği doğrulandı. Menünün
+sürüklenmesi ve arka plana dokunma geçişi ayrıca taklit uygulamada test edildi. Bu sonuçlar tüm cihaz ve oyun modları için garanti değildir.
 
 ## Kaynak ve derleme
 
