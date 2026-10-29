@@ -26,7 +26,7 @@ mkdir -p "$(dirname "$out")" "$RUNNER_TEMP/game-splits"
   echo 'Resolve launch activity:'
   adb shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.LAUNCHER com.block.juggle
   echo 'Launch:'
-  adb shell am start -W -n com.block.juggle/org.cocos2dx.javascript.AppActivity.Default
+  timeout 30 adb shell am start -n com.block.juggle/org.cocos2dx.javascript.AppActivity.Default || true
   sleep 70
   pid=$(adb shell pidof com.block.juggle | tr -d '\r' | awk '{print $1}')
   echo "game_pid=$pid"
