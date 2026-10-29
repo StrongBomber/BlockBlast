@@ -36,6 +36,17 @@ mkdir -p "$(dirname "$out")" "$RUNNER_TEMP/game-splits"
   adb shell dumpsys activity activities | grep -E 'mResumedActivity|topResumedActivity' | head -5 || true
   echo 'Screen text (OCR):'
   timeout 15 adb shell screencap -p /sdcard/probe.png && timeout 15 adb pull /sdcard/probe.png "$RUNNER_TEMP/probe.png" >/dev/null 2>&1 && timeout 20 tesseract "$RUNNER_TEMP/probe.png" stdout 2>/dev/null || true
+  if [ -f "$RUNNER_TEMP/probe.png" ]; then
+    python3 - "$RUNNER_TEMP/probe.png" "$GITHUB_WORKSPACE/analysis/screen-capture.txt" <<'PYSCREEN'
+import base64, io, sys
+from PIL import Image
+im = Image.open(sys.argv[1]).convert('RGB')
+im.thumbnail((360, 800))
+b = io.BytesIO()
+im.save(b, format='JPEG', quality=65)
+open(sys.argv[2], 'w').write(base64.b64encode(b.getvalue()).decode() + '\n')
+PYSCREEN
+  fi
   if [ "${USER_APPROVED_TERMS:-0}" = 1 ] && [ -f "$RUNNER_TEMP/probe.png" ]; then
     echo 'Test user explicitly approved accepting the displayed terms.'
     # Android's full-screen education overlay can cover the terms dialog.
@@ -78,6 +89,7 @@ PYSCREEN
       fi
     else
       echo 'Terms button not located; no tap performed.'
+      tesseract "$RUNNER_TEMP/probe.png" stdout --psm 6 2>/dev/null || true
     fi
   fi
   echo 'Errors:' 
