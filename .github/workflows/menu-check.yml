@@ -1,0 +1,25 @@
+name: Menu component checks
+on:
+  push:
+    branches: [arena/fe683328-blockblast]
+    paths: [menu/**, .github/workflows/menu-check.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compile-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Compile Android menu and test arithmetic
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager 'platforms;android-35' >/dev/null
+          mkdir -p "$RUNNER_TEMP/menu-classes"
+          javac --release 8 -cp "$ANDROID_HOME/platforms/android-35/android.jar" -d "$RUNNER_TEMP/menu-classes" $(find menu/src -name '*.java')
+          java -cp "$RUNNER_TEMP/menu-classes" ai.arena.blockblast.menu.ScoreMultiplierTest

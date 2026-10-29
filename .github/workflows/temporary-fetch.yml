@@ -1,60 +1,15 @@
-name: Investigate script loader
+name: Remove temporary source artifact
 on:
   push:
     branches: [arena/fe683328-blockblast]
-    paths: [.github/workflows/temporary-fetch.yml, tools/ghidra/FindScriptLoader.java]
+    paths: [.github/workflows/temporary-fetch.yml]
 permissions:
-  contents: write
-  actions: read
+  actions: write
 jobs:
-  inspect:
+  cleanup:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '21'
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-      - uses: actions/download-artifact@v4
-        with:
-          name: temporary-source-archive
-          path: ${{ runner.temp }}/source
-          run-id: 40899794544
-          github-token: ${{ github.token }}
-      - name: Extract ARM64 library
-        run: |
-          python3 - <<'PY'
-          import io, os, zipfile
-          with zipfile.ZipFile(os.environ['RUNNER_TEMP']+'/source/source.xapk') as x:
-              with zipfile.ZipFile(io.BytesIO(x.read('config.arm64_v8a.apk'))) as z:
-                  with open(os.environ['RUNNER_TEMP']+'/libcocos2djs.so', 'wb') as f:
-                      f.write(z.read('lib/arm64-v8a/libcocos2djs.so'))
-          PY
-      - name: Inspect binary layout using REA
-        run: |
-          python3 -m venv "$RUNNER_TEMP/rea-python"
-          "$RUNNER_TEMP/rea-python/bin/pip" install -q pwntools==4.15.0 pyelftools==0.33 unicorn==2.1.2
-          REA_PWNTOOLS_PYTHON="$RUNNER_TEMP/rea-python/bin/python" npx -y rea-agents@6.7.0 inspect-binary-layout "$RUNNER_TEMP/libcocos2djs.so" --format json > analysis/native-layout.json 2>&1 || true
-      - name: Download Ghidra
-        run: |
-          wget -q https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_12.2_build/ghidra_12.2_PUBLIC_20261016.zip -O "$RUNNER_TEMP/ghidra.zip"
-          unzip -q "$RUNNER_TEMP/ghidra.zip" -d "$RUNNER_TEMP"
-      - name: Decompile references
-        run: |
-          mkdir -p "$RUNNER_TEMP/projects"
-          "$RUNNER_TEMP"/ghidra_12.2_PUBLIC/support/analyzeHeadless "$RUNNER_TEMP/projects" game -import "$RUNNER_TEMP/libcocos2djs.so" -analysisTimeoutPerFile 1800 -scriptPath "$GITHUB_WORKSPACE/tools/ghidra" -postScript FindScriptLoader.java "$GITHUB_WORKSPACE/analysis/loader-decompile.txt" > "$RUNNER_TEMP/ghidra.log" 2>&1
-          grep -E 'ERROR REPORT SCRIPT|FindScriptLoader.java:[0-9]+: error|REPORT: Execute script|REPORT: Import'  "$RUNNER_TEMP/ghidra.log" | tail -120 > analysis/ghidra-diagnostics.txt || true
-      - name: Save analysis
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add analysis/native-layout.json analysis/ghidra-diagnostics.txt
-          if [ -f analysis/loader-decompile.txt ]; then git add analysis/loader-decompile.txt; fi
-          if ! git diff --cached --quiet; then
-            git commit -m 'Record native script loader analysis'
-            git push origin HEAD:${GITHUB_REF_NAME}
-          fi
+      - name: Delete temporary source artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method DELETE "repos/${GITHUB_REPOSITORY}/actions/artifacts/12909021754"

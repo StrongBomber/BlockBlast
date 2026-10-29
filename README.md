@@ -32,3 +32,21 @@ Oyun dosyaları depoya eklenmedi. GitHub Actions aracılığıyla alınan geçic
 kaynak arşivi analiz sonrasında silindi; Drive dosyası tekrar özel yapıldı.
 Skor mantığının tespiti, menünün uygulanması, imzalama ve cihaz testi henüz
 **yapılmadı**.
+
+## Mod menü bileşeni (henüz oyuna bağlı değil)
+
+`menu/` altında etkinlik içine eklenebilen, sürüklenebilir bir Android menü
+ve 1x/10x/100x/1000x skor çarpanı bileşeni bulunmaktadır. Menü uygulama
+penceresi içinde çalışmak üzere tasarlanmıştır; sistem overlay izni istemez.
+Tercih cihazda saklanır. Pozitif skor artışları için kullanılacak aritmetik,
+negatif cezaları değiştirmez ve taşmada `int` üst sınırına sabitlenir.
+
+Bu bileşen henüz oyun APK'sına enjekte edilmedi; puan güncelleme noktasına
+bağlanmadı ve bir cihazda test edilmedi. `menu-check.yml` yalnızca bileşeni
+derler ve aritmetik testini çalıştırır; oyun APK'sı üretmez.
+
+Ghidra incelemesinde ilgili şifre çözme hata metinleri `.note.gnu.proc` olarak
+adlandırılan bölgede bulundu, fakat kod referansları tespit edilemedi.
+REA'nın ELF yerleşimi incelemesi ise 32 MiB dosya sınırı nedeniyle bu 35 MB
+kütüphaneyi kabul etmedi. Bu bulgular kendi başına puan bağlama noktasını
+göstermemektedir.
