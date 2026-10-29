@@ -1,31 +1,15 @@
-name: Temporary source analysis
+name: Remove temporary source artifact
 on:
   push:
     branches: [arena/fe683328-blockblast]
-    paths: [.github/workflows/temporary-fetch.yml, tools/inspect_scripts.py, tools/inspect_native.py]
+    paths: [.github/workflows/temporary-fetch.yml]
 permissions:
-  contents: write
-  actions: read
+  actions: write
 jobs:
-  inspect:
+  cleanup:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with:
-          name: temporary-source-archive
-          path: ${{ runner.temp }}/source
-          run-id: 40897904181
-          github-token: ${{ github.token }}
-      - name: Inspect scripts
-        run: python3 tools/inspect_native.py "$RUNNER_TEMP/source/source.xapk" > analysis/native-loader.txt
-      - name: Save analysis only
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add analysis/native-loader.txt
-          if ! git diff --cached --quiet; then
-            git commit -m 'Record native loader investigation'
-            git push origin HEAD:${GITHUB_REF_NAME}
-          fi
+      - name: Delete temporary source artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method DELETE "repos/${GITHUB_REPOSITORY}/actions/artifacts/12908530722"
