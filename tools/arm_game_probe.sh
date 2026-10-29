@@ -34,6 +34,32 @@ mkdir -p "$(dirname "$out")" "$RUNNER_TEMP/game-splits"
   adb shell dumpsys activity activities | grep -E 'mResumedActivity|topResumedActivity' | head -5 || true
   echo 'Screen text (OCR):'
   timeout 15 adb shell screencap -p /sdcard/probe.png && timeout 15 adb pull /sdcard/probe.png "$RUNNER_TEMP/probe.png" >/dev/null 2>&1 && timeout 20 tesseract "$RUNNER_TEMP/probe.png" stdout 2>/dev/null || true
+  if [ "${USER_APPROVED_TERMS:-0}" = 1 ] && [ -f "$RUNNER_TEMP/probe.png" ]; then
+    echo 'Test user explicitly approved accepting the displayed terms.'
+    if coords=$(python3 tools/find_terms_button.py "$RUNNER_TEMP/probe.png"); then
+      echo "Confirmed terms button at: $coords"
+      # OCR output is numeric and constrained by the Python parser.
+      read -r x y <<< "$coords"
+      adb shell input tap "$x" "$y"
+      sleep 45
+      timeout 15 adb shell screencap -p /sdcard/after.png && timeout 15 adb pull /sdcard/after.png "$RUNNER_TEMP/after.png" >/dev/null 2>&1 || true
+      if [ -f "$RUNNER_TEMP/after.png" ]; then
+        echo 'Screen text after terms:'
+        tesseract "$RUNNER_TEMP/after.png" stdout 2>/dev/null || true
+        python3 - "$RUNNER_TEMP/after.png" "$GITHUB_WORKSPACE/analysis/screen-capture.txt" <<'PYSCREEN'
+import base64, io, sys
+from PIL import Image
+im = Image.open(sys.argv[1]).convert('RGB')
+im.thumbnail((360, 800))
+b = io.BytesIO()
+im.save(b, format='JPEG', quality=65)
+open(sys.argv[2], 'w').write(base64.b64encode(b.getvalue()).decode() + '\n')
+PYSCREEN
+      fi
+    else
+      echo 'Terms button not located; no tap performed.'
+    fi
+  fi
   echo 'Errors:' 
   adb logcat -d -v brief | grep -E '^E/AndroidRuntime|^F/libc|Abort message|UnsatisfiedLinkError|Process com.block.juggle|Displayed com.block.juggle|Start proc .*block.juggle|com.netease.nis|Force finishing'  | tail -70 || true
   if [ -n "$pid" ]; then

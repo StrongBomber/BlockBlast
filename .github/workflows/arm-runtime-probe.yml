@@ -17,14 +17,16 @@ jobs:
       - run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq adb xz-utils tesseract-ocr
-          python -m pip install 'gdown==5.2.0'
+          python -m pip install 'gdown==5.2.0' pillow
           python -m venv "$RUNNER_TEMP/frida-venv"
           "$RUNNER_TEMP/frida-venv/bin/pip" install -q 'frida==16.7.19'
           wget -q https://github.com/frida/frida/releases/download/16.7.19/frida-server-16.7.19-android-arm64.xz -O "$RUNNER_TEMP/frida-server.xz"
       - name: Download source archive
         run: gdown --id 10qUhPRvMhCKxXPAH4TYzBk7c8JSnsPql -O "$RUNNER_TEMP/source.xapk"
       - name: Probe original game on native ARM Android
-        run: timeout --kill-after=10s 240 bash tools/arm_game_probe.sh || true
+        env:
+          USER_APPROVED_TERMS: '1'
+        run: timeout --kill-after=10s 300 bash tools/arm_game_probe.sh || true
       - name: Save probe results only
         if: always()
         run: |
@@ -32,6 +34,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           if [ -f analysis/arm-game-probe.txt ]; then
             git add analysis/arm-game-probe.txt
+            if [ -f analysis/screen-capture.txt ]; then git add analysis/screen-capture.txt; fi
             if ! git diff --cached --quiet; then
               git commit -m 'Record native ARM game probe'
               git push origin HEAD:${GITHUB_REF_NAME}
