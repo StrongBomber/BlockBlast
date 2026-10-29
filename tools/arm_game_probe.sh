@@ -74,8 +74,29 @@ PYSCREEN
       fi
       sleep 40
       timeout 15 adb shell screencap -p /sdcard/after.png && timeout 15 adb pull /sdcard/after.png "$RUNNER_TEMP/after.png" >/dev/null 2>&1 || true
+      # Decline optional notifications in this disposable test instance only.
+      timeout 20 adb shell uiautomator dump /sdcard/window.xml >/dev/null 2>&1 &&
+        adb pull /sdcard/window.xml "$RUNNER_TEMP/window.xml" >/dev/null 2>&1 || true
+      if [ -f "$RUNNER_TEMP/window.xml" ]; then
+        coords=$(python3 - "$RUNNER_TEMP/window.xml" <<'PYUI'
+import re, sys, xml.etree.ElementTree as ET
+root = ET.parse(sys.argv[1]).getroot()
+buttons = [n for n in root.iter('node') if n.get('resource-id') == 'com.android.permissioncontroller:id/permission_deny_button']
+if len(buttons) == 1:
+    m = re.fullmatch(r'\[(\d+),(\d+)\]\[(\d+),(\d+)\]', buttons[0].get('bounds', ''))
+    if m:
+        x1, y1, x2, y2 = map(int, m.groups())
+        print((x1+x2)//2, (y1+y2)//2)
+PYUI
+)
+        if [ -n "$coords" ]; then
+          echo 'Declining optional notification permission in the test device.'
+          read -r x y <<< "$coords"; adb shell input tap "$x" "$y"; sleep 8
+          timeout 15 adb shell screencap -p /sdcard/after.png && timeout 15 adb pull /sdcard/after.png "$RUNNER_TEMP/after.png" >/dev/null 2>&1 || true
+        fi
+      fi
       if [ -f "$RUNNER_TEMP/after.png" ]; then
-        echo 'Screen text after terms:'
+        echo 'Screen text after terms:' 
         tesseract "$RUNNER_TEMP/after.png" stdout 2>/dev/null || true
         python3 - "$RUNNER_TEMP/after.png" "$GITHUB_WORKSPACE/analysis/screen-capture.txt" <<'PYSCREEN'
 import base64, io, sys
