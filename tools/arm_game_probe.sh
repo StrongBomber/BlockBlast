@@ -145,6 +145,20 @@ with open(sys.argv[2], 'a') as out: out.write(sys.argv[3] + ':' + base64.b64enco
 PYSCREEN
       fi
     done
+    echo 'Instrument score state after tutorial and make a normal-game move:'
+    timeout 35 "$RUNNER_TEMP/frida-venv/bin/python" tools/frida_inventory.py "$pid" tools/frida_real_score.js || true
+    adb shell input swipe 150 1050 180 780 1200 || true
+    sleep 10
+    timeout 15 adb shell screencap -p /sdcard/game.png && timeout 15 adb pull /sdcard/game.png "$RUNNER_TEMP/game.png" >/dev/null 2>&1 || true
+    if [ -f "$RUNNER_TEMP/game.png" ]; then
+      python3 - "$RUNNER_TEMP/game.png" "$GITHUB_WORKSPACE/analysis/screen-capture.txt" <<'PYSCREEN'
+import base64, io, sys
+from PIL import Image
+im = Image.open(sys.argv[1]).convert('RGB'); im.thumbnail((360, 800))
+b = io.BytesIO(); im.save(b, format='JPEG', quality=65)
+open(sys.argv[2], 'w').write(base64.b64encode(b.getvalue()).decode() + '\n')
+PYSCREEN
+    fi
     echo 'Score state after drag:'
     timeout 35 "$RUNNER_TEMP/frida-venv/bin/python" tools/frida_inventory.py "$pid" tools/frida_after_move.js || true
     echo 'JavaScript global probe:'
