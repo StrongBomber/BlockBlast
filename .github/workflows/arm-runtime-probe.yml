@@ -16,7 +16,7 @@ jobs:
           python-version: '3.12'
       - run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq adb xz-utils
+          sudo apt-get install -y -qq adb xz-utils tesseract-ocr
           python -m pip install 'gdown==5.2.0'
           python -m venv "$RUNNER_TEMP/frida-venv"
           "$RUNNER_TEMP/frida-venv/bin/pip" install -q 'frida==16.7.19'

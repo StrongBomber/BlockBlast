@@ -25,10 +25,15 @@ setTimeout(function () {
             try {
               var code = '(function(){try{' +
                 'var g=typeof window!=="undefined"?window:this;' +
-                'var k=Object.keys(g).filter(function(x){return /score|game|require|block/i.test(x)}).slice(0,80);' +
-                'var s=(typeof cc!=="undefined"&&cc.director)?cc.director.getScene():null;' +
-                'var o={keys:k,cc:typeof cc,requireType:typeof g.__require,scene:s&&s.name,children:s&&s.children?s.children.map(function(n){return n.name}).slice(0,50):[]};' +
-                'jsb.reflection.callStaticMethod("android/util/Log","i","(Ljava/lang/String;Ljava/lang/String;)I","ArenaJS",JSON.stringify(o));' +
+                'var log=function(o){jsb.reflection.callStaticMethod("android/util/Log","i","(Ljava/lang/String;Ljava/lang/String;)I","ArenaJS",JSON.stringify(o));};' +
+                'var fn=function(x){try{return typeof x==="function"?String(x).slice(0,700):typeof x}catch(e){return String(e)}};' +
+                'log({kind:"loaders",req:fn(g.__require),reqProps:Object.keys(g.__require||{}),requireModule:fn(g.requireModule),combileRequire:fn(g.combileRequire)});' +
+                'var root=(typeof cc!=="undefined"&&cc.director)?cc.director.getScene():null, hits=[],seen=0;' +
+                'function walk(n,p){if(!n||seen++>1000)return;var path=p+"/"+n.name,cs=n._components||[];' +
+                'cs.forEach(function(c){try{var cl=cc.js.getClassName(c)||"?",ks=Object.keys(c).filter(function(k){return /score|block|board|level/i.test(k)}).slice(0,12);if(ks.length||/score|block|board|game/i.test(cl))hits.push({path:path,cls:cl,keys:ks})}catch(e){}});' +
+                'if(/score|block|board/i.test(n.name))hits.push({path:path});' +
+                '(n.children||[]).forEach(function(c){walk(c,path)})}' +
+                'if(root)walk(root,""); log({kind:"scene",name:root&&root.name,visited:seen,hits:hits.slice(0,60)});' +
                 '}catch(e){jsb.reflection.callStaticMethod("android/util/Log","e","(Ljava/lang/String;Ljava/lang/String;)I","ArenaJS",String(e))}})();';
               send({type: 'eval_return', value: Bridge.evalString(code)});
             } catch (e) { send({type: 'eval_error', detail: String(e)}); }

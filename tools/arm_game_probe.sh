@@ -32,7 +32,9 @@ mkdir -p "$(dirname "$out")" "$RUNNER_TEMP/game-splits"
   echo "game_pid=$pid"
   echo 'Resumed activity:'
   adb shell dumpsys activity activities | grep -E 'mResumedActivity|topResumedActivity' | head -5 || true
-  echo 'Errors:'
+  echo 'Screen text (OCR):'
+  timeout 15 adb shell screencap -p /sdcard/probe.png && timeout 15 adb pull /sdcard/probe.png "$RUNNER_TEMP/probe.png" >/dev/null 2>&1 && timeout 20 tesseract "$RUNNER_TEMP/probe.png" stdout 2>/dev/null || true
+  echo 'Errors:' 
   adb logcat -d -v brief | grep -E '^E/AndroidRuntime|^F/libc|Abort message|UnsatisfiedLinkError|Process com.block.juggle|Displayed com.block.juggle|Start proc .*block.juggle|com.netease.nis|Force finishing'  | tail -70 || true
   if [ -n "$pid" ]; then
     echo 'Frida inventory:'
