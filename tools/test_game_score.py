@@ -127,6 +127,18 @@ time.sleep(70)
 logs = adb('logcat', '-d', '-s', 'ArenaScoreHook:I', '*:S')
 loaded = re.findall(r'loaded-score:(\d+)', logs)
 if not loaded or int(loaded[-1]) != expected_score:
+    from PIL import Image
+    import base64, io
+    adb('shell', 'screencap', '-p', '/sdcard/restart.png')
+    restart = os.path.join(os.environ['RUNNER_TEMP'], 'arena-restart.png')
+    adb('pull', '/sdcard/restart.png', restart)
+    image = Image.open(restart).convert('RGB'); image.thumbnail((360, 800))
+    buffer = io.BytesIO(); image.save(buffer, format='JPEG', quality=65)
+    with open('analysis/score-test-failure.txt', 'w') as f:
+        f.write(base64.b64encode(buffer.getvalue()).decode() + '\n')
+    print('Restart UI:', [(n.get('text'), n.get('resource-id')) for n in tree().iter('node') if n.get('text')], flush=True)
+    raw = adb('logcat', '-d', '-v', 'brief')
+    print('Restart diagnostics:', '\n'.join(line for line in raw.splitlines() if any(s in line for s in ('ArenaScore', 'ArenaMenu', 'AndroidRuntime', 'F/libc', 'Force finishing', 'block.juggle'))) [-10000:], flush=True)
     raise AssertionError('Score did not survive restart: expected %s; loaded %s' % (expected_score, loaded))
 tap_node(text_contains('MOD MENÜ'))
 selected = [n for n in tree().iter('node') if n.get('text', '').removeprefix('✓').strip() == '1000x']

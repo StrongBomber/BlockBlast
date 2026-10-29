@@ -75,5 +75,5 @@ if ! adb logcat -d -s ArenaScoreHook:I '*:S' | grep -q 'installed'; then
   exit 1
 fi
 echo 'Testing the menu selections and score awards on the disposable game:'
-python3 tools/test_game_score.py # exercises the game, multiplier choices, and restart persistence
+python3 tools/test_game_score.py # exercise real game choices, restart and diagnostics
 echo 'In-game score multiplier test passed.'
