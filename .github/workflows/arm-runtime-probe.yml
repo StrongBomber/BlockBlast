@@ -16,7 +16,7 @@ jobs:
           python-version: '3.12'
       - run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq adb xz-utils tesseract-ocr
+          sudo apt-get install -y -qq adb xz-utils tesseract-ocr apksigner
           python -m pip install 'gdown==5.2.0' pillow
           python -m venv "$RUNNER_TEMP/frida-venv"
           "$RUNNER_TEMP/frida-venv/bin/pip" install -q 'frida==16.7.19'
@@ -26,7 +26,7 @@ jobs:
       - name: Probe original game on native ARM Android
         env:
           USER_APPROVED_TERMS: '1'
-        run: timeout --kill-after=10s 480 bash tools/arm_game_probe.sh || true
+        run: timeout --kill-after=10s 600 bash tools/arm_game_probe.sh || true
       - name: Save probe results only
         if: always()
         run: |
