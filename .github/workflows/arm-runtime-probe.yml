@@ -35,6 +35,7 @@ jobs:
           if [ -f analysis/arm-game-probe.txt ]; then
             git add analysis/arm-game-probe.txt
             if [ -f analysis/screen-capture.txt ]; then git add analysis/screen-capture.txt; fi
+            if [ -f analysis/move-captures.txt ]; then git add analysis/move-captures.txt; fi
             if ! git diff --cached --quiet; then
               git commit -m 'Record native ARM game probe'
               git push origin HEAD:${GITHUB_REF_NAME}

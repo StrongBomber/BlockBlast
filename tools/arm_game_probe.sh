@@ -128,19 +128,23 @@ PYSCREEN
     timeout 45 "$RUNNER_TEMP/frida-venv/bin/python" tools/frida_inventory.py "$pid" tools/frida_inventory.js || echo 'Runtime inventory failed or timed out'
     echo 'Install temporary score tracing in disposable game:'
     timeout 35 "$RUNNER_TEMP/frida-venv/bin/python" tools/frida_inventory.py "$pid" tools/frida_trace.js || echo 'Trace setup failed'
-    echo 'Drag the tutorial piece to the indicated board position:'
-    adb shell input swipe 360 1050 360 650 1200 || true
-    sleep 8
-    timeout 15 adb shell screencap -p /sdcard/played.png && timeout 15 adb pull /sdcard/played.png "$RUNNER_TEMP/played.png" >/dev/null 2>&1 || true
-    if [ -f "$RUNNER_TEMP/played.png" ]; then
-      python3 - "$RUNNER_TEMP/played.png" "$GITHUB_WORKSPACE/analysis/screen-capture.txt" <<'PYSCREEN'
+    echo 'Try tutorial drag positions in the disposable test:'
+    : > "$GITHUB_WORKSPACE/analysis/move-captures.txt"
+    for y in 480 540 600 700 780; do
+      echo "Drag to y=$y"
+      adb shell input swipe 360 1050 360 "$y" 1200 || true
+      sleep 4
+      timeout 15 adb shell screencap -p /sdcard/played.png && timeout 15 adb pull /sdcard/played.png "$RUNNER_TEMP/played.png" >/dev/null 2>&1 || true
+      if [ -f "$RUNNER_TEMP/played.png" ]; then
+        python3 - "$RUNNER_TEMP/played.png" "$GITHUB_WORKSPACE/analysis/move-captures.txt" "$y" <<'PYSCREEN'
 import base64, io, sys
 from PIL import Image
 im = Image.open(sys.argv[1]).convert('RGB'); im.thumbnail((360, 800))
 b = io.BytesIO(); im.save(b, format='JPEG', quality=65)
-open(sys.argv[2], 'w').write(base64.b64encode(b.getvalue()).decode() + '\n')
+with open(sys.argv[2], 'a') as out: out.write(sys.argv[3] + ':' + base64.b64encode(b.getvalue()).decode() + '\n')
 PYSCREEN
-    fi
+      fi
+    done
     echo 'Score state after drag:'
     timeout 35 "$RUNNER_TEMP/frida-venv/bin/python" tools/frida_inventory.py "$pid" tools/frida_after_move.js || true
     echo 'JavaScript global probe:'
