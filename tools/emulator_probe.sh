@@ -7,9 +7,9 @@ mkdir -p "$(dirname "$out")" "$RUNNER_TEMP/parts"
   echo 'Emulator ABI:'
   adb shell getprop ro.product.cpu.abilist
   echo 'APK splits:'
-  unzip -j -q "$RUNNER_TEMP/source.xapk" '*.apk' -d "$RUNNER_TEMP/parts"
+  echo "Test splits are re-signed, and libnesec-x86.so is replaced by the ARM64 libnesec.so."
   echo 'Install result:'
-  adb install-multiple -r "$RUNNER_TEMP"/parts/*.apk
+  adb install-multiple -r "$RUNNER_TEMP"/signed/*.apk
   status=$?
   echo "install_exit=$status"
   if [ "$status" -eq 0 ]; then
