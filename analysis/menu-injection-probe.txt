@@ -1,13 +1,7 @@
 Patch the binary manifest without rebuilding game resources:
-tools/InjectBinaryManifest.java:18: error: cannot find symbol
-        provider.getOrCreateAndroidAttribute("name", 0x01010003).setDataAsString(providerName);
-                                                                ^
-  symbol:   method setDataAsString(String)
-  location: class ResXmlAttribute
-tools/InjectBinaryManifest.java:20: error: cannot find symbol
-                .setDataAsString("com.block.juggle.arena.menu.bootstrap");
-                ^
-  symbol:   method setDataAsString(String)
-  location: class ResXmlAttribute
-2 errors
+Exception in thread "main" java.io.IOException: Can not decode without package
+	at com.reandroid.arsc.chunk.xml.ResXmlDocument.serialize(ResXmlDocument.java:326)
+	at com.reandroid.arsc.chunk.xml.ResXmlDocument.serialize(ResXmlDocument.java:320)
+	at com.reandroid.arsc.chunk.xml.ResXmlDocument.serializeToXml(ResXmlDocument.java:212)
+	at InjectBinaryManifest.main(InjectBinaryManifest.java:13)
 probe_exit=1
