@@ -2,7 +2,7 @@ name: Native ARM game probe
 on:
   push:
     branches: [arena/fe683328-blockblast]
-    paths: [.github/workflows/arm-runtime-probe.yml, tools/arm_game_probe.sh, tools/frida_inventory.*]
+    paths: [.github/workflows/arm-runtime-probe.yml, tools/arm_game_probe.sh, tools/frida_inventory.*, tools/find_terms_button.py]
 permissions:
   contents: write
 jobs:
