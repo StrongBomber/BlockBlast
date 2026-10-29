@@ -4,11 +4,12 @@ set -euo pipefail
 work="$RUNNER_TEMP/menu-injection"
 mkdir -p "$work/splits" "$work/classes" "$work/dex" "$work/output"
 unzip -j -q "$RUNNER_TEMP/source.xapk" '*.apk' -d "$work/splits"
-echo 'Decode base APK without touching assets or dex:'
-apktool d -f -s -r "$work/splits/com.block.juggle.apk" -o "$work/decoded"
+curl -fsSL https://github.com/iBotPeaches/Apktool/releases/download/v2.11.1/apktool_2.11.1.jar -o "$work/apktool.jar"
+echo 'Decode base APK resources and manifest, retaining original dex:'
+java -jar "$work/apktool.jar" d -f -s "$work/splits/com.block.juggle.apk" -o "$work/decoded"
 python3 tools/inject_menu_manifest.py "$work/decoded/AndroidManifest.xml"
 echo 'Rebuild with experimental lifecycle provider declaration:'
-apktool b "$work/decoded" -o "$work/base-rebuilt.apk"
+java -jar "$work/apktool.jar" b "$work/decoded" -o "$work/base-rebuilt.apk"
 echo 'Compile experimental menu dex:'
 curl -fsSL https://github.com/Sable/android-platforms/raw/master/android-35/android.jar -o "$work/android.jar"
 curl -fsSL https://storage.googleapis.com/r8-releases/raw/8.5.35/r8.jar -o "$work/r8.jar"
