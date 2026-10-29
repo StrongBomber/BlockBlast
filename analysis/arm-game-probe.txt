@@ -1,5 +1,5 @@
 Boot native ARM64 Android container:
-b28775c21168c2c1d408eb839e666455803e000a758aa93b2bcc67a791646a41
+dae41ea2d5c0ea413c38747a077acefd4c07879430d65a00c13e2accb8190dc8
 * daemon not running; starting now at tcp:5037
 * daemon started successfully
 connected to 127.0.0.1:5555
@@ -9,22 +9,17 @@ Extracting split APKs for this test only.
 Install original split APKs:
 Success
 install_exit=0
+Resolve launch activity:
+priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
+com.block.juggle/org.cocos2dx.javascript.AppActivity.Default
 Launch:
-  bash arg: -p
-  bash arg: com.block.juggle
-  bash arg: -c
-  bash arg: android.intent.category.LAUNCHER
-  bash arg: 1
-args: [-p, com.block.juggle, -c, android.intent.category.LAUNCHER, 1]
- arg: "-p"
- arg: "com.block.juggle"
- arg: "-c"
- arg: "android.intent.category.LAUNCHER"
- arg: "1"
-data="com.block.juggle"
-data="android.intent.category.LAUNCHER"
-** SYS_KEYS has no physical keys but with factor 2.0%.
-game_pid=
+Starting: Intent { cmp=com.block.juggle/org.cocos2dx.javascript.AppActivity.Default }
+game_pid=2347
 Resumed activity:
-      topResumedActivity=ActivityRecord{9f01ac u0 com.android.launcher3/.uioverrides.QuickstepLauncher} t7}
+    topResumedActivity=ActivityRecord{dd5218a u0 com.block.juggle/org.cocos2dx.javascript.AppActivity.Default} t8}
 Errors:
+I/ActivityManager(  235): Start proc 2347:com.block.juggle/u0a77 for next-top-activity {com.block.juggle/org.cocos2dx.javascript.AppActivity.Default}
+I/ActivityTaskManager(  235): Displayed com.block.juggle/org.cocos2dx.javascript.AppActivity.Default: +730ms
+I/ActivityManager(  235): Start proc 2558:com.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0ai9000 for  {com.block.juggle/org.chromium.content.app.SandboxedProcessService0:0}
+Frida inventory:
+Terminated
