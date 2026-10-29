@@ -2,7 +2,7 @@ name: Temporary source analysis
 on:
   push:
     branches: [arena/fe683328-blockblast]
-    paths: [.github/workflows/temporary-fetch.yml, tools/inspect_scripts.py]
+    paths: [.github/workflows/temporary-fetch.yml, tools/inspect_scripts.py, tools/inspect_native.py]
 permissions:
   contents: write
   actions: read
@@ -19,13 +19,13 @@ jobs:
           run-id: 40897904181
           github-token: ${{ github.token }}
       - name: Inspect scripts
-        run: python3 tools/inspect_scripts.py "$RUNNER_TEMP/source/source.xapk" > analysis/score-context.txt
+        run: python3 tools/inspect_native.py "$RUNNER_TEMP/source/source.xapk" > analysis/native-loader.txt
       - name: Save analysis only
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add analysis/score-context.txt
+          git add analysis/native-loader.txt
           if ! git diff --cached --quiet; then
-            git commit -m 'Record score investigation'
+            git commit -m 'Record native loader investigation'
             git push origin HEAD:${GITHUB_REF_NAME}
           fi
