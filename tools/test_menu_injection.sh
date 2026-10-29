@@ -39,6 +39,12 @@ for apk in "$work"/splits/*.apk; do
   [ "$(basename "$apk")" = 'com.block.juggle.apk' ] && continue
   apksigner sign --ks "$work/test.keystore" --ks-pass pass:android --key-pass pass:android --out "$work/output/$(basename "$apk")" "$apk"
 done
+echo 'Merge the signed splits into an experimental standalone ARM64 APK:'
+java -jar "$work/apkeditor.jar" m -i "$work/output" -o "$work/merged.apk" -clean-meta -f
+zipalign -f -p 4 "$work/merged.apk" "$work/merged-aligned.apk"
+apksigner sign --ks "$work/test.keystore" --ks-pass pass:android --key-pass pass:android --out "$RUNNER_TEMP/BlockBlast-10.9.2-mod-arm64.apk" "$work/merged-aligned.apk"
+apksigner verify --verbose "$RUNNER_TEMP/BlockBlast-10.9.2-mod-arm64.apk"
+sha256sum "$RUNNER_TEMP/BlockBlast-10.9.2-mod-arm64.apk"
 echo 'Boot disposable ARM64 Android:'
 sudo modprobe binder_linux devices=binder,hwbinder,vndbinder || true
 docker pull redroid/redroid:13.0.0-latest >/dev/null
@@ -49,8 +55,8 @@ adb connect 127.0.0.1:5555
 export ANDROID_SERIAL=127.0.0.1:5555
 timeout 120 adb wait-for-device
 adb shell settings put secure immersive_mode_confirmations confirmed || true
-echo 'Install experimental patched split APKs:'
-timeout 120 adb install-multiple --no-incremental -r "$work"/output/*.apk
+echo 'Install experimental standalone APK:'
+timeout 120 adb install --no-incremental -r "$RUNNER_TEMP/BlockBlast-10.9.2-mod-arm64.apk"
 adb logcat -c
 adb shell am start -n com.block.juggle/org.cocos2dx.javascript.AppActivity.Default || true
 sleep 75

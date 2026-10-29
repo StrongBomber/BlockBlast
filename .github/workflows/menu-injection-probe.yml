@@ -34,6 +34,14 @@ jobs:
           status=$?
           echo "probe_exit=$status" >> analysis/menu-injection-probe.txt
           exit "$status"
+      - name: Upload tested standalone APK
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: BlockBlast-10.9.2-mod-arm64
+          path: ${{ runner.temp }}/BlockBlast-10.9.2-mod-arm64.apk
+          retention-days: 30
+          if-no-files-found: error
       - name: Save diagnostics only
         if: always()
         run: |
