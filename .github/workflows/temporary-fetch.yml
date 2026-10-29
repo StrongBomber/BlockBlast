@@ -1,0 +1,23 @@
+name: Temporary source retrieval
+on:
+  push:
+    branches: [arena/fe683328-blockblast]
+    paths: [.github/workflows/temporary-fetch.yml]
+permissions:
+  contents: read
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'gdown==5.2.0'
+      - run: gdown --id 10qUhPRvMhCKxXPAH4TYzBk7c8JSnsPql -O "$RUNNER_TEMP/source.xapk"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: temporary-source-archive
+          path: ${{ runner.temp }}/source.xapk
+          retention-days: 1
+          compression-level: 0
