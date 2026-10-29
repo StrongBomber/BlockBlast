@@ -35,7 +35,10 @@ jobs:
                       f.write(z.read('lib/arm64-v8a/libcocos2djs.so'))
           PY
       - name: Inspect binary layout using REA
-        run: npx -y rea-agents@6.7.0 inspect-binary-layout "$RUNNER_TEMP/libcocos2djs.so" --format json > analysis/native-layout.json 2>&1 || true
+        run: |
+          python3 -m venv "$RUNNER_TEMP/rea-python"
+          "$RUNNER_TEMP/rea-python/bin/pip" install -q pwntools==4.15.0 pyelftools==0.33 unicorn==2.1.2
+          REA_PWNTOOLS_PYTHON="$RUNNER_TEMP/rea-python/bin/python" npx -y rea-agents@6.7.0 inspect-binary-layout "$RUNNER_TEMP/libcocos2djs.so" --format json > analysis/native-layout.json 2>&1 || true
       - name: Download Ghidra
         run: |
           wget -q https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_12.2_build/ghidra_12.2_PUBLIC_20261016.zip -O "$RUNNER_TEMP/ghidra.zip"
@@ -44,7 +47,7 @@ jobs:
         run: |
           mkdir -p "$RUNNER_TEMP/projects"
           "$RUNNER_TEMP"/ghidra_12.2_PUBLIC/support/analyzeHeadless "$RUNNER_TEMP/projects" game -import "$RUNNER_TEMP/libcocos2djs.so" -analysisTimeoutPerFile 1800 -scriptPath "$GITHUB_WORKSPACE/tools/ghidra" -postScript FindScriptLoader.java "$GITHUB_WORKSPACE/analysis/loader-decompile.txt" > "$RUNNER_TEMP/ghidra.log" 2>&1
-          grep -Ei 'error|exception|failed|FindScriptLoader|postscript' "$RUNNER_TEMP/ghidra.log" | tail -120 > analysis/ghidra-diagnostics.txt || true
+          grep -E 'ERROR REPORT SCRIPT|FindScriptLoader.java:[0-9]+: error|REPORT: Execute script|REPORT: Import'  "$RUNNER_TEMP/ghidra.log" | tail -120 > analysis/ghidra-diagnostics.txt || true
       - name: Save analysis
         run: |
           git config user.name 'github-actions[bot]'

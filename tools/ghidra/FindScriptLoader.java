@@ -8,6 +8,7 @@ import ghidra.program.model.listing.Data;
 import ghidra.program.model.listing.DataIterator;
 import ghidra.program.model.listing.Function;
 import ghidra.program.model.symbol.Reference;
+import ghidra.program.model.symbol.ReferenceIterator;
 import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,9 +29,9 @@ public class FindScriptLoader extends GhidraScript {
                 String text = (String) value;
                 if (!text.contains("Can't decrypt code") && !text.contains("ScriptEngine::runScript script")) continue;
                 out.println("\nSTRING " + data.getAddress() + " " + text);
-                Reference[] refs = currentProgram.getReferenceManager().getReferencesTo(data.getAddress());
-                out.println("references: " + refs.length);
-                for (Reference ref : refs) {
+                ReferenceIterator refs = currentProgram.getReferenceManager().getReferencesTo(data.getAddress());
+                while (refs.hasNext()) {
+                    Reference ref = refs.next();
                     Function function = getFunctionContaining(ref.getFromAddress());
                     out.println("xref " + ref.getFromAddress() + " function " + (function == null ? "none" : function.getEntryPoint()));
                     if (function == null || !reported.add(function.getEntryPoint())) continue;
