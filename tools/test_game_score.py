@@ -93,9 +93,9 @@ for factor in (1, 10, 100, 1000):
     select_factor(factor)
     adb('logcat', '-c')
     award = None
-    for x, target_x, target_y in ((150, 150, 780), (360, 350, 780), (570, 550, 780),
-                                  (150, 150, 620), (360, 350, 620), (570, 550, 620),
-                                  (150, 150, 480), (360, 350, 480), (570, 550, 480)):
+    attempts = [(150, 150, 780), (360, 350, 780), (570, 360, 780)]
+    attempts += [(x, tx, ty) for ty in (780, 620, 480) for x in (150, 360, 570) for tx in (240, 360, 480)]
+    for x, target_x, target_y in attempts:
         adb('shell', 'input', 'swipe', x, 1050, target_x, target_y, 1200)
         time.sleep(4)
         candidates = [a for a in read_awards() if a.get('factor') == factor and a.get('before', 0) > 0]
