@@ -103,6 +103,17 @@ for factor in (1, 10, 100, 1000):
             award = candidates[-1]
             break
     if award is None:
+        from PIL import Image
+        import base64, io
+        adb('shell', 'screencap', '-p', '/sdcard/failure.png')
+        failure = os.path.join(os.environ['RUNNER_TEMP'], 'arena-failure.png')
+        adb('pull', '/sdcard/failure.png', failure)
+        im = Image.open(failure).convert('RGB'); im.thumbnail((360, 800))
+        buffer = io.BytesIO(); im.save(buffer, format='JPEG', quality=65)
+        with open('analysis/score-test-failure.txt', 'w') as f:
+            f.write(base64.b64encode(buffer.getvalue()).decode() + '\n')
+        print('Visible UI:', [(n.get('text'), n.get('resource-id')) for n in tree().iter('node') if n.get('text')], flush=True)
+        print('Awards:', read_awards(), flush=True)
         raise AssertionError('No actual score award observed for factor ' + str(factor))
     if award['after'] != award['before'] * factor:
         raise AssertionError('Wrong score multiplier: ' + repr(award))
