@@ -30,8 +30,8 @@ python3 tools/inspect_native.py /path/to/source.xapk
 
 Oyun dosyaları depoya eklenmedi. GitHub Actions aracılığıyla alınan geçici
 kaynak arşivi analiz sonrasında silindi; Drive dosyası tekrar özel yapıldı.
-Skor mantığının tespiti, menünün uygulanması, imzalama ve cihaz testi henüz
-**yapılmadı**.
+Skor mantığının tespiti, menünün oyuna uygulanması ve modlu oyun paketinin
+imzalanması ile oyun üzerinde doğrulama henüz **yapılmadı**.
 
 ## Mod menü bileşeni (henüz oyuna bağlı değil)
 
@@ -41,12 +41,28 @@ penceresi içinde çalışmak üzere tasarlanmıştır; sistem overlay izni iste
 Tercih cihazda saklanır. Pozitif skor artışları için kullanılacak aritmetik,
 negatif cezaları değiştirmez ve taşmada `int` üst sınırına sabitlenir.
 
-Bu bileşen henüz oyun APK'sına enjekte edilmedi; puan güncelleme noktasına
-bağlanmadı ve bir cihazda test edilmedi. `menu-check.yml` yalnızca bileşeni
-derler ve aritmetik testini çalıştırır; oyun APK'sı üretmez.
+Bu bileşen henüz oyun APK'sına enjekte edilmedi ve puan güncelleme noktasına
+bağlanmadı. `menu-check.yml` bileşeni derler ve aritmetik testini çalıştırır;
+`menu-ui-test.yml` ise geçici bir test uygulamasını emülatörde çalıştırarak
+seçimleri, tercihin saklanmasını, sürüklemeyi ve arka plana dokunma geçişini
+kontrol eder. Bu iş akışları modlu oyun APK'sı üretmez.
 
 Ghidra incelemesinde ilgili şifre çözme hata metinleri `.note.gnu.proc` olarak
 adlandırılan bölgede bulundu, fakat kod referansları tespit edilemedi.
 REA'nın ELF yerleşimi incelemesi ise 32 MiB dosya sınırı nedeniyle bu 35 MB
 kütüphaneyi kabul etmedi. Bu bulgular kendi başına puan bağlama noktasını
 göstermemektedir.
+
+## Oyun emülatörü araştırması
+
+- Orijinal XAPK'nın tüm bölümleri x86_64/ARM çevirili Android 11 emülatöre
+  kurulabildi, ancak ilk açılış yanlış mimarideki `libnesec-x86.so` yüzünden
+  `UnsatisfiedLinkError` ile başarısız oldu.
+- Yalnızca geçici test için ARM64 kütüphane ikamesi ve bütün bölümlerin aynı
+  geçici anahtarla yeniden imzalanması denendi. Son denemede React başlatma
+  sırasında `AssertionError` görüldü; oynanabilir açılış doğrulanmadı.
+- REA/JADX temel APK'da 44.415 sınıf gördü; çalışma zamanındaki Cocos ve
+  `DemokApplication` adlarını statik sınıf aramasında bulmadı. Çalışma zamanı
+  yığınında bir uygulama sarmalayıcısı da görülüyor. Bu gözlemler tek başına
+  skor kodunun yerini veya hatanın kesin nedenini belirlemiyor.
+- Ham oyun dosyası depoya eklenmedi; test artifaktı saklanmadı.
