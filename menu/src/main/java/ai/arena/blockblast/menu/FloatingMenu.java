@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -40,9 +41,10 @@ public final class FloatingMenu {
 
         LinearLayout panel = new LinearLayout(activity);
         panel.setOrientation(LinearLayout.VERTICAL);
-        panel.setPadding(dp(activity, 8), dp(activity, 8), dp(activity, 8), dp(activity, 8));
-        panel.setBackground(background(0xe6293347, dp(activity, 12)));
-        FrameLayout.LayoutParams position = new FrameLayout.LayoutParams(dp(activity, 176), -2, Gravity.TOP | Gravity.START);
+        panel.setPadding(dp(activity, 10), dp(activity, 10), dp(activity, 10), dp(activity, 10));
+        panel.setBackground(outlined(0xf2192235, 0xff455c80, dp(activity, 16), dp(activity, 1)));
+        panel.setElevation(dp(activity, 8));
+        FrameLayout.LayoutParams position = new FrameLayout.LayoutParams(dp(activity, 206), -2, Gravity.TOP | Gravity.START);
         position.leftMargin = dp(activity, 12);
         position.topMargin = dp(activity, 80);
         overlay.addView(panel, position);
@@ -51,7 +53,23 @@ public final class FloatingMenu {
         handle.setText("MOD MENÜ  ▾");
         handle.setContentDescription("Mod menüsünü aç veya kapat; sürükleyerek taşı");
         handle.setAllCaps(false);
-        panel.addView(handle, new LinearLayout.LayoutParams(-1, -2));
+        handle.setTextColor(Color.WHITE);
+        handle.setTextSize(14);
+        handle.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        handle.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
+        handle.setPadding(dp(activity, 14), 0, dp(activity, 10), 0);
+        handle.setMinHeight(0);
+        handle.setMinimumHeight(0);
+        handle.setBackground(outlined(0xff344c73, 0xff5877ad, dp(activity, 10), dp(activity, 1)));
+        panel.addView(handle, new LinearLayout.LayoutParams(-1, dp(activity, 44)));
+
+        TextView credit = new TextView(activity);
+        credit.setText("By Raiwesy");
+        credit.setTextSize(11);
+        credit.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        credit.setTextColor(0xff9cb9f0);
+        credit.setPadding(dp(activity, 4), dp(activity, 6), dp(activity, 4), dp(activity, 2));
+        panel.addView(credit);
 
         LinearLayout options = new LinearLayout(activity);
         options.setOrientation(LinearLayout.VERTICAL);
@@ -61,10 +79,18 @@ public final class FloatingMenu {
         scroll.addView(options);
         panel.addView(scroll, new LinearLayout.LayoutParams(-1, -2));
         TextView heading = new TextView(activity);
-        heading.setText("Skor çarpanı");
-        heading.setTextColor(Color.WHITE);
-        heading.setPadding(dp(activity, 4), dp(activity, 8), 0, dp(activity, 4));
+        heading.setText("SKOR ÇARPANI");
+        heading.setTextSize(11);
+        heading.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        heading.setLetterSpacing(0.08f);
+        heading.setTextColor(0xff9eb1d0);
+        heading.setPadding(dp(activity, 4), dp(activity, 10), 0, dp(activity, 5));
         options.addView(heading);
+        TextView status = new TextView(activity);
+        status.setTextColor(0xffe4ecfb);
+        status.setTextSize(12);
+        status.setPadding(dp(activity, 4), 0, dp(activity, 4), dp(activity, 8));
+        options.addView(status);
 
         int[] values = {1, 10, 100, 1000, 10000, 100000};
         Button[] choices = new Button[values.length];
@@ -72,15 +98,31 @@ public final class FloatingMenu {
             final int value = values[i];
             Button choice = new Button(activity);
             choice.setAllCaps(false);
+            choice.setTextSize(13);
+            choice.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+            choice.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
+            choice.setPadding(dp(activity, 12), 0, dp(activity, 8), 0);
+            choice.setMinHeight(0);
+            choice.setMinimumHeight(0);
             choices[i] = choice;
-            options.addView(choice, new LinearLayout.LayoutParams(-1, -2));
+            LinearLayout.LayoutParams choiceParams = new LinearLayout.LayoutParams(-1, dp(activity, 40));
+            choiceParams.bottomMargin = dp(activity, 5);
+            options.addView(choice, choiceParams);
             choice.setOnClickListener(v -> {
                 ScoreMultiplier.set(value);
                 prefs.edit().putInt(MULTIPLIER, value).apply();
-                updateLabels(choices, values);
+                updateLabels(activity, choices, values, status);
             });
         }
-        updateLabels(choices, values);
+        updateLabels(activity, choices, values, status);
+
+        TextView hint = new TextView(activity);
+        hint.setText("3 parmakla gizle / göster");
+        hint.setTextSize(10);
+        hint.setTextColor(0xff9eb1d0);
+        hint.setPadding(dp(activity, 4), dp(activity, 7), dp(activity, 4), dp(activity, 4));
+        options.addView(hint);
+        ThreeFingerVisibility.install(activity.getWindow(), panel);
 
         final int threshold = ViewConfiguration.get(activity).getScaledTouchSlop();
         handle.setOnTouchListener(new View.OnTouchListener() {
@@ -134,10 +176,16 @@ public final class FloatingMenu {
         });
     }
 
-    private static void updateLabels(Button[] buttons, int[] values) {
+    private static void updateLabels(Activity activity, Button[] buttons, int[] values, TextView status) {
+        int selected = ScoreMultiplier.get();
+        status.setText(selected == 1 ? "Durum: Kapalı" : "Aktif: " + selected + "x");
         for (int i = 0; i < values.length; i++) {
+            boolean active = selected == values[i];
             String name = values[i] == 1 ? "Kapalı (1x)" : values[i] + "x";
-            buttons[i].setText((ScoreMultiplier.get() == values[i] ? "✓  " : "") + name);
+            buttons[i].setText((active ? "✓  " : "") + name);
+            buttons[i].setTextColor(active ? 0xffc6f8ee : 0xffd9e2f2);
+            buttons[i].setBackground(outlined(active ? 0xff245b62 : 0xff29364c,
+                    active ? 0xff5ecfbb : 0xff364862, dp(activity, 8), dp(activity, 1)));
         }
     }
 
@@ -145,10 +193,11 @@ public final class FloatingMenu {
         return Math.round(value * context.getResources().getDisplayMetrics().density);
     }
 
-    private static GradientDrawable background(int color, int radius) {
+    private static GradientDrawable outlined(int color, int stroke, int radius, int width) {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setColor(color);
         drawable.setCornerRadius(radius);
+        drawable.setStroke(width, stroke);
         return drawable;
     }
 }

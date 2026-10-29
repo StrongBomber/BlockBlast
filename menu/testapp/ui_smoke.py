@@ -75,10 +75,34 @@ adb('shell', 'pm', 'clear', APP)
 start()
 tap('Oyun alanı: 0')
 node('Oyun alanı: 1')  # An empty area of the overlay must not consume gameplay taps.
+node('By Raiwesy')
 tap('MOD MENÜ')
 for label in ('Kapalı (1x)', '10x', '100x', '1000x', '10000x', '100000x'):
     select(label)
+
+# Send complete multi-pointer MotionEvents through the activity's real window
+# callback. A retouch before all fingers lift must not toggle a second time.
+def fingers(count, retouch=False):
+    adb('shell', 'am', 'broadcast', '-a', APP + '.FINGERS', '-p', APP,
+        '--ei', 'count', str(count), '--ez', 'retouch', str(retouch).lower())
+    time.sleep(1)
+
+adb('logcat', '-c')
+fingers(2)
+node('MOD MENÜ')  # Two fingers must not hide the panel.
+fingers(3, retouch=True)
+assert not any('MOD MENÜ' in n.get('text', '') for n in tree().iter('node')), 'Three fingers did not hide menu'
+assert not any('By Raiwesy' in n.get('text', '') for n in tree().iter('node')), 'Credit remained visible'
+assert 'pointers=3' in adb('logcat', '-d', '-s', 'ArenaTestInput:I', '*:S'), 'Touches did not reach the game'
+fingers(3)
+node('MOD MENÜ')
+node('By Raiwesy')
+assert '✓' in choice('100000x').get('text', ''), 'Selection changed while hidden'
 tap('MOD MENÜ')
+fingers(3)
+assert not any('MOD MENÜ' in n.get('text', '') for n in tree().iter('node')), 'Collapsed menu did not hide'
+fingers(3)
+node('MOD MENÜ')
 adb('shell', 'am', 'force-stop', APP)
 start()
 tap('MOD MENÜ')
@@ -90,4 +114,4 @@ adb('shell', 'input', 'swipe', str(old[0]), str(old[1]), str(old[0] + 160), str(
 time.sleep(1)
 new = center(node('MOD MENÜ'))
 assert new != old, 'Floating menu did not move when dragged'
-print('Bootstrap + menu UI smoke test passed: choices, persistence, drag and input pass-through')
+print('Menu UI test passed: choices, persistence, drag, credit, three-finger visibility and input pass-through')

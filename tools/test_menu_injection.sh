@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Experimental packaging and smoke test using the verified GitHub source release.
-# Builds, signs, and tests a standalone mod APK.
+# Builds, signs, and tests a standalone mod APK with the updated floating menu.
 set -euo pipefail
 work="$RUNNER_TEMP/menu-injection"
 mkdir -p "$work/splits" "$work/classes" "$work/dex" "$work/output"
