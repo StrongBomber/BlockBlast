@@ -32,8 +32,8 @@ setTimeout(function () {
                 'var own=Object.getOwnPropertyNames(c).slice(0,150),proto=Object.getPrototypeOf(c),names=[],methods=[];' +
                 'for(var d=0;proto&&d<4;d++,proto=Object.getPrototypeOf(proto)){Object.getOwnPropertyNames(proto).forEach(function(k){if(names.indexOf(k)<0)names.push(k);try{var v=Object.getOwnPropertyDescriptor(proto,k).value;if(typeof v==="function"&&(/score|point|combo|elimin|place/i.test(k)||/score/i.test(String(v))))methods.push({name:k,source:String(v).slice(0,1000)})}catch(e){}})}' +
                 'log({kind:"component",cls:klass,own:own,methods:names.filter(function(k){return /score|point|combo|elimin|place|block|data/i.test(k)})});' +
-                'methods.slice(0,8).forEach(function(m){log({kind:"method",cls:klass,name:m.name,source:m.source})});' +
-                'own.forEach(function(k){try{var v=Object.getOwnPropertyDescriptor(c,k).value;if(v&&typeof v==="object"&&!Array.isArray(v)){var a=Object.keys(v).filter(function(q){return /score|point|combo/i.test(q)});if(a.length)log({kind:"nested",cls:klass,key:k,keys:a.slice(0,25)})}}catch(e){}})}' +
+                'methods.slice(0,12).forEach(function(m){log({kind:"method-name",cls:klass,name:m.name})});' +
+                'own.forEach(function(k){try{var v=Object.getOwnPropertyDescriptor(c,k).value;if(v&&typeof v==="object"&&!Array.isArray(v)){var a=Object.keys(v).filter(function(q){return /score|points|combo/i.test(q)});if(a.length)log({kind:"nested",cls:klass,key:k,keys:a.slice(0,25)})}}catch(e){}})}' +
                 'inspect("persist/gameUiLayer/ClassGame","ClassGame");inspect("persist/gameUiLayer/ClassGame/boardContainer/Board","Board");' +
                 '}catch(e){jsb.reflection.callStaticMethod("android/util/Log","e","(Ljava/lang/String;Ljava/lang/String;)I","ArenaJS",String(e))}})();';
               send({type: 'eval_return', value: Bridge.evalString(code)});

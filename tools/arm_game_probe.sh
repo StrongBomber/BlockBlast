@@ -48,7 +48,7 @@ mkdir -p "$(dirname "$out")" "$RUNNER_TEMP/game-splits"
     echo 'Attaching runtime inventory'
     timeout 45 "$RUNNER_TEMP/frida-venv/bin/python" tools/frida_inventory.py "$pid" tools/frida_inventory.js || echo 'Runtime inventory failed or timed out'
     echo 'JavaScript global probe:'
-    timeout 15 adb logcat -d -s ArenaJS:I '*:S' | tail -10 || true
+    timeout 15 adb logcat -d -s ArenaJS:I '*:S' | tail -100 || true
 
   fi
 } > "$out" 2>&1
