@@ -36,11 +36,15 @@ mkdir -p "$(dirname "$out")" "$RUNNER_TEMP/game-splits"
   adb logcat -d -v brief | grep -E '^E/AndroidRuntime|^F/libc|Abort message|UnsatisfiedLinkError|Process com.block.juggle|Displayed com.block.juggle|Start proc .*block.juggle|com.netease.nis|Force finishing'  | tail -70 || true
   if [ -n "$pid" ]; then
     echo 'Frida inventory:'
+    echo 'Preparing server'
     xz -dc "$RUNNER_TEMP/frida-server.xz" > "$RUNNER_TEMP/frida-server"
-    adb push "$RUNNER_TEMP/frida-server" /data/local/tmp/frida-server >/dev/null
-    adb shell chmod 755 /data/local/tmp/frida-server
-    adb shell /data/local/tmp/frida-server -D -l 0.0.0.0:27042
-    sleep 4
-    "$RUNNER_TEMP/frida-venv/bin/python" tools/frida_inventory.py "$pid" tools/frida_inventory.js || true
+    docker cp "$RUNNER_TEMP/frida-server" android-game:/data/local/tmp/frida-server
+    docker exec android-game chmod 755 /data/local/tmp/frida-server
+    echo 'Starting server'
+    docker exec -d android-game /data/local/tmp/frida-server -l 0.0.0.0:27042
+    sleep 5
+    echo 'Attaching runtime inventory'
+    timeout 45 "$RUNNER_TEMP/frida-venv/bin/python" tools/frida_inventory.py "$pid" tools/frida_inventory.js || echo 'Runtime inventory failed or timed out'
+
   fi
 } > "$out" 2>&1
