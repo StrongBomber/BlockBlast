@@ -1,0 +1,35 @@
+name: Publish tested ARM64 APK
+on:
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Download the exact tested build
+        uses: actions/download-artifact@v4
+        with:
+          name: BlockBlast-10.9.2-mod-arm64
+          path: release
+          github-token: ${{ github.token }}
+          run-id: 40948911073
+      - name: Check digest and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          cd release
+          echo '4a802fbef4cd9caf66b01906de3c80d4035876f637356a4e26fb68457fd8f680  BlockBlast-10.9.2-mod-arm64.apk' > SHA256SUMS.txt
+          sha256sum -c SHA256SUMS.txt
+          cat > release-notes.txt <<'EOF'
+          Block Blast 10.9.2 için ARM64 (arm64-v8a) modlu tek APK.
+
+          Açılır/kapanır ve sürüklenebilir menü; klasik modda kapalı/1x, 10x, 100x ve 1000x skor artışı. Android 13 ARM64 Redroid üzerinde gerçek oyun hamleleri, dört seçenek, skorun ve 1000x seçiminin yeniden açılışta korunması test edildi. Fiziksel cihazlarda ve diğer oyun modlarında kapsamlı test yapılmadı.
+
+          APK, orijinal geliştirici anahtarıyla değil, bu derlemeye özgü bir test anahtarıyla imzalanmıştır. Orijinal uygulamanın üzerine güncelleme olarak kurulamaz; orijinali kaldırmak kayıtları silebilir. Başka yeniden derlemeler de farklı anahtara sahip olabilir ve bu APK'nın üzerine kurulamayabilir.
+
+          Test: https://github.com/StrongBomber/BlockBlast/actions/runs/40948911073
+          EOF
+          gh release create blockblast-mod-10.9.2-v1 BlockBlast-10.9.2-mod-arm64.apk SHA256SUMS.txt --target 81169cf43a64d41f2762a039d8a08a54d262893e --title 'Block Blast 10.9.2 — ARM64 mod' --notes-file release-notes.txt
