@@ -123,6 +123,12 @@ expected_score = int(award['current'] + award['after'])
 adb('shell', 'am', 'force-stop', 'com.block.juggle')
 adb('logcat', '-c')
 adb('shell', 'am', 'start', '-n', 'com.block.juggle/org.cocos2dx.javascript.AppActivity.Default')
+time.sleep(10)
+for item in tree().iter('node'):
+    if item.get('resource-id', '').startswith('com.android.permissioncontroller:id/permission_deny'):
+        adb('shell', 'input', 'tap', *center(item))
+        print('Declined repeated optional notification request', flush=True)
+        break
 time.sleep(70)
 logs = adb('logcat', '-d', '-s', 'ArenaScoreHook:I', '*:S')
 loaded = re.findall(r'loaded-score:(\d+)', logs)
