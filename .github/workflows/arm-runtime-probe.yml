@@ -17,12 +17,12 @@ jobs:
       - run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq adb xz-utils tesseract-ocr apksigner
-          python -m pip install 'gdown==5.2.0' pillow
+          python -m pip install pillow
           python -m venv "$RUNNER_TEMP/frida-venv"
           "$RUNNER_TEMP/frida-venv/bin/pip" install -q 'frida==16.7.19'
           wget -q https://github.com/frida/frida/releases/download/16.7.19/frida-server-16.7.19-android-arm64.xz -O "$RUNNER_TEMP/frida-server.xz"
       - name: Download source archive
-        run: gdown --id 10qUhPRvMhCKxXPAH4TYzBk7c8JSnsPql -O "$RUNNER_TEMP/source.xapk"
+        run: bash tools/download_source.sh "$RUNNER_TEMP/source.xapk"
       - name: Probe original game on native ARM Android
         env:
           USER_APPROVED_TERMS: '1'
