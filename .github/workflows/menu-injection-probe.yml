@@ -2,7 +2,7 @@ name: Experimental game menu bootstrap probe
 on:
   push:
     branches: [arena/fe683328-blockblast]
-    paths: [.github/workflows/menu-injection-probe.yml, tools/test_menu_injection.sh, tools/inject_menu_manifest.py]
+    paths: [.github/workflows/menu-injection-probe.yml, tools/test_menu_injection.sh, tools/inject_menu_manifest.py, tools/InjectBinaryManifest.java]
   workflow_dispatch:
 permissions:
   contents: write
@@ -19,7 +19,7 @@ jobs:
       - name: Install packaging tools
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq apktool aapt apksigner zipalign adb tesseract-ocr
+          sudo apt-get install -y -qq zip apksigner zipalign adb tesseract-ocr
           python3 -m pip install --break-system-packages 'gdown==5.2.0'
       - name: Download source archive
         run: gdown --id 10qUhPRvMhCKxXPAH4TYzBk7c8JSnsPql -O "$RUNNER_TEMP/source.xapk"

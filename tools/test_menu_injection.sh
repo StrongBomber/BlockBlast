@@ -4,18 +4,14 @@ set -euo pipefail
 work="$RUNNER_TEMP/menu-injection"
 mkdir -p "$work/splits" "$work/classes" "$work/dex" "$work/output"
 unzip -j -q "$RUNNER_TEMP/source.xapk" '*.apk' -d "$work/splits"
-curl -fsSL https://github.com/iBotPeaches/Apktool/releases/download/v2.11.1/apktool_2.11.1.jar -o "$work/apktool.jar"
-echo 'Decode base APK resources and manifest, retaining original dex:'
-java -jar "$work/apktool.jar" d -f -s "$work/splits/com.block.juggle.apk" -o "$work/decoded"
-python3 tools/inject_menu_manifest.py "$work/decoded/AndroidManifest.xml"
-echo 'Rebuild with experimental lifecycle provider declaration:'
-if command -v aapt2 >/dev/null; then
-  cp "$(command -v aapt2)" "$work/aapt2"; chmod +x "$work/aapt2"
-  java -jar "$work/apktool.jar" b --aapt "$work/aapt2" "$work/decoded" -o "$work/base-rebuilt.apk"
-else
-  cp "$(command -v aapt)" "$work/aapt"; chmod +x "$work/aapt"
-  java -jar "$work/apktool.jar" b --use-aapt1 --aapt "$work/aapt" "$work/decoded" -o "$work/base-rebuilt.apk"
-fi
+echo 'Patch the binary manifest without rebuilding game resources:'
+curl -fsSL https://github.com/REAndroid/APKEditor/releases/download/V1.4.9/APKEditor-1.4.9.jar -o "$work/apkeditor.jar"
+unzip -p "$work/splits/com.block.juggle.apk" AndroidManifest.xml > "$work/original-manifest.xml"
+javac -cp "$work/apkeditor.jar" -d "$work" tools/InjectBinaryManifest.java
+java -cp "$work/apkeditor.jar:$work" InjectBinaryManifest "$work/original-manifest.xml" "$work/AndroidManifest.xml"
+cp "$work/splits/com.block.juggle.apk" "$work/base-rebuilt.apk"
+zip -q -d "$work/base-rebuilt.apk" AndroidManifest.xml
+(cd "$work" && zip -q "$work/base-rebuilt.apk" AndroidManifest.xml)
 echo 'Compile experimental menu dex:'
 curl -fsSL https://github.com/Sable/android-platforms/raw/master/android-35/android.jar -o "$work/android.jar"
 curl -fsSL https://storage.googleapis.com/r8-releases/raw/8.5.35/r8.jar -o "$work/r8.jar"
