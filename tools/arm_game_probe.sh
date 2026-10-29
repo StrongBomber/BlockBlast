@@ -11,6 +11,7 @@ mkdir -p "$(dirname "$out")" "$RUNNER_TEMP/game-splits"
   trap 'docker rm -f android-game >/dev/null 2>&1 || true' EXIT
   sleep 35
   adb connect 127.0.0.1:5555
+  export ANDROID_SERIAL=127.0.0.1:5555
   timeout 120 adb wait-for-device || exit 0
   echo "boot=$(adb shell getprop sys.boot_completed | tr -d '\r')"
   echo "abi=$(adb shell getprop ro.product.cpu.abilist | tr -d '\r')"
