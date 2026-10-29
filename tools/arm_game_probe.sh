@@ -164,26 +164,6 @@ PYSCREEN
     timeout 35 "$RUNNER_TEMP/frida-venv/bin/python" tools/frida_inventory.py "$pid" tools/frida_after_move.js || true
     echo 'JavaScript global probe:'
     timeout 15 adb logcat -d -s ArenaJS:I '*:S' | tail -100 || true
-    echo 'Testing whether original game survives clean re-signing on ARM:'
-    mkdir -p "$RUNNER_TEMP/resigned"
-    keytool -genkeypair -keystore "$RUNNER_TEMP/test.keystore" -storepass android -keypass android -alias test -dname 'CN=Disposable Test' -keyalg RSA -keysize 2048 -validity 2 >/dev/null 2>&1 || true
-    for apk in "$RUNNER_TEMP"/game-splits/*.apk; do
-      apksigner sign --ks "$RUNNER_TEMP/test.keystore" --ks-pass pass:android --key-pass pass:android --out "$RUNNER_TEMP/resigned/$(basename "$apk")" "$apk" || break
-    done
-    adb shell am force-stop com.block.juggle || true
-    adb uninstall com.block.juggle || true
-    timeout 90 adb install-multiple --no-incremental -r "$RUNNER_TEMP"/resigned/*.apk
-    echo "resigned_install_exit=$?"
-    adb logcat -c
-    timeout 30 adb shell am start -n com.block.juggle/org.cocos2dx.javascript.AppActivity.Default || true
-    sleep 60
-    echo "resigned_pid=$(adb shell pidof com.block.juggle | tr -d '\r')"
-    timeout 15 adb shell screencap -p /sdcard/resigned.png && timeout 15 adb pull /sdcard/resigned.png "$RUNNER_TEMP/resigned.png" >/dev/null 2>&1 || true
-    if [ -f "$RUNNER_TEMP/resigned.png" ]; then
-      echo 'Resigned app screen OCR:'
-      tesseract "$RUNNER_TEMP/resigned.png" stdout 2>/dev/null || true
-    fi
-    adb logcat -d -v brief | grep -E '^E/AndroidRuntime|^F/libc|Abort message|UnsatisfiedLinkError|Process com.block.juggle|Force finishing' | tail -70 || true
 
   fi
 } > "$out" 2>&1
