@@ -25,16 +25,13 @@ setTimeout(function () {
             try {
               var code = '(function(){try{' +
                 'var log=function(o){jsb.reflection.callStaticMethod("android/util/Log","i","(Ljava/lang/String;Ljava/lang/String;)I","ArenaJS",JSON.stringify(o));};' +
-                'var root=cc.director.getScene(),hits=[],seen=0,unique={};' +
-                'function walk(n,p){if(!n||seen++>1500)return;var path=p+"/"+n.name;(n._components||[]).forEach(function(c){try{var cl=cc.js.getClassName(c)||"?";if(/score/i.test(cl)||/score/i.test(n.name)){var id=path+cl;if(!unique[id]){unique[id]=1;hits.push({path:path,cls:cl})}}}catch(e){}});(n.children||[]).forEach(function(c){walk(c,path)})}' +
-                'walk(root,"");log({kind:"score-components",items:hits.slice(0,35),visited:seen});' +
-                'function inspect(path,klass){var n=cc.find(path),c=n&&n.getComponent(klass);if(!c){log({kind:"missing",path:path,cls:klass});return;}' +
-                'var own=Object.getOwnPropertyNames(c).slice(0,150),proto=Object.getPrototypeOf(c),names=[],methods=[];' +
-                'for(var d=0;proto&&d<4;d++,proto=Object.getPrototypeOf(proto)){Object.getOwnPropertyNames(proto).forEach(function(k){if(names.indexOf(k)<0)names.push(k);try{var v=Object.getOwnPropertyDescriptor(proto,k).value;if(typeof v==="function"&&(/score|point|combo|elimin|place/i.test(k)||/score/i.test(String(v))))methods.push({name:k,source:String(v).slice(0,1000)})}catch(e){}})}' +
-                'log({kind:"component",cls:klass,own:own,methods:names.filter(function(k){return /score|point|combo|elimin|place|block|data/i.test(k)})});' +
-                'methods.slice(0,12).forEach(function(m){log({kind:"method-name",cls:klass,name:m.name})});' +
-                'own.forEach(function(k){try{var v=Object.getOwnPropertyDescriptor(c,k).value;if(v&&typeof v==="object"&&!Array.isArray(v)){var a=Object.keys(v).filter(function(q){return /score|points|combo/i.test(q)});if(a.length)log({kind:"nested",cls:klass,key:k,keys:a.slice(0,25)})}}catch(e){}})}' +
-                'inspect("persist/gameUiLayer/ClassGame","ClassGame");inspect("persist/gameUiLayer/ClassGame/boardContainer/Board","Board");' +
+                'function describe(label,o){if(!o)return log({kind:"missing",label:label});var own=Object.getOwnPropertyNames(o).slice(0,130),p=Object.getPrototypeOf(o),methods=[];' +
+                'for(var d=0;p&&d<3;d++,p=Object.getPrototypeOf(p))Object.getOwnPropertyNames(p).forEach(function(k){if(methods.indexOf(k)<0)methods.push(k)});' +
+                'log({kind:"describe",label:label,cls:o.constructor&&o.constructor.name,own:own,methods:methods.filter(function(k){return /score|points|combo|game|data|place|merge|elimin|board/i.test(k)})});' +
+                'own.forEach(function(k){try{var desc=Object.getOwnPropertyDescriptor(o,k),v=desc&&desc.value;if(v&&typeof v==="object"&&!Array.isArray(v)&&!(v instanceof cc.Node)){var ks=Object.getOwnPropertyNames(v),score=ks.filter(function(q){return /score|points|combo/i.test(q)});if(score.length)log({kind:"nested-score",label:label,key:k,keys:score})}}catch(e){}})}' +
+                'var n=cc.find("persist/gameUiLayer/ClassGame"),c=n&&n.getComponent("ClassGame");describe("ClassGame",c);describe("ClassGame.operator",c&&c.operator);' +
+                'if(c&&c.operator)Object.getOwnPropertyNames(c.operator).forEach(function(k){try{var v=Object.getOwnPropertyDescriptor(c.operator,k).value;if(v&&typeof v==="object"&&!Array.isArray(v)&&!(v instanceof cc.Node))describe("operator."+k,v)}catch(e){}});' +
+                'var top=cc.find("persist/gameUiLayer/ClassGame/topContainer/ClassTopInfo");if(top)(top._components||[]).forEach(function(c){describe("top:"+cc.js.getClassName(c),c)});' +
                 '}catch(e){jsb.reflection.callStaticMethod("android/util/Log","e","(Ljava/lang/String;Ljava/lang/String;)I","ArenaJS",String(e))}})();';
               send({type: 'eval_return', value: Bridge.evalString(code)});
             } catch (e) { send({type: 'eval_error', detail: String(e)}); }
