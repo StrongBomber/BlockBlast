@@ -1,5 +1,8 @@
 name: Experimental game menu bootstrap probe
 on:
+  push:
+    branches: [arena/fe683328-blockblast]
+    paths: [tools/test_menu_injection.sh, tools/InjectBinaryManifest.java]
   workflow_dispatch:
 permissions:
   contents: write
