@@ -1,0 +1,9 @@
+
+assets/assets/main/index.26d10.js: 2410932 bytes; prefix=b'HEK:\x01\x00\x01\x02\xdb\xff\xc0\xf4\xeb\xa2\xeb\x96K\xc3\\\x02\x91%pR'
+Not UTF-8; no textual score inspection possible.
+
+assets/assets/mainTraits/index.458e0.js: 219952 bytes; prefix=b'HEK:\x01\x00\x01\x02\x82\x031X\xb9e\xf1O@\x95;\xe8i\x1e\x07\xd2'
+Not UTF-8; no textual score inspection possible.
+
+assets/main.js: 3168 bytes; prefix=b'HEK:\x01\x00\x01\x02\x95m\r2D\x82\xa4\x83\xdfG@\x9c\xb8\xaca\t'
+Not UTF-8; no textual score inspection possible.
