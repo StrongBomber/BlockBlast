@@ -66,3 +66,18 @@ göstermemektedir.
   yığınında bir uygulama sarmalayıcısı da görülüyor. Bu gözlemler tek başına
   skor kodunun yerini veya hatanın kesin nedenini belirlemiyor.
 - Ham oyun dosyası depoya eklenmedi; test artifaktı saklanmadı.
+
+### Yerel ARM Android incelemesi
+
+GitHub'ın ARM64 koşucusunda izole Redroid Android 13 kullanılarak orijinal
+bölünmüş paketler açıldı. Kullanıcının test için verdiği onayla kullanım
+koşulları geçildi ve isteğe bağlı bildirim izni reddedildi. Eğitim hamleleri
+sonrasında boş oyun tahtasına ulaşıldı. Frida, Cocos JavaScript köprüsüne
+GL iş parçacığından erişebiliyor ve skor alanlarını okuyabiliyor.
+
+Eğitim sonunda `ClassTopInfo._state.currentScore` 124 olarak okunmasına
+rağmen ekranda yeni oyunun skoru 0 göründü; bu alanın gerçek oyunda skorun
+tek kaynağı olduğu **henüz doğrulanmadı**. Test sarmalayıcıları da henüz
+kullanılabilir bir skor güncelleme çağrısı yakalamadı. Dolayısıyla bu sonuç,
+çarpanın uygulandığı veya modlu APK'nın oluşturulduğu anlamına gelmez.
+`analysis/arm-game-probe.txt` son testin ayrıntılarını içerir.
