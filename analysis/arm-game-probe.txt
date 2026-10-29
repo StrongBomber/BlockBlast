@@ -1,5 +1,5 @@
 Boot native ARM64 Android container:
-0a44896c5c533c7c286ba593dbba746422a5a6367b8f1cecf96d043f340edcbb
+502bc2a53f9d4efefce58540f992482111a6bced2fa4dae490b0ff25b3f9705e
 * daemon not running; starting now at tcp:5037
 * daemon started successfully
 connected to 127.0.0.1:5555
@@ -14,13 +14,20 @@ priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
 com.block.juggle/org.cocos2dx.javascript.AppActivity.Default
 Launch:
 Starting: Intent { cmp=com.block.juggle/org.cocos2dx.javascript.AppActivity.Default }
-game_pid=2355
+game_pid=2294
 Resumed activity:
-    topResumedActivity=ActivityRecord{c0860d7 u0 com.block.juggle/org.cocos2dx.javascript.AppActivity.Default} t8}
+    topResumedActivity=ActivityRecord{c6986a6 u0 com.block.juggle/org.cocos2dx.javascript.AppActivity.Default} t8}
+Screen text (OCR):
+Welcome to Block Blast!
+Please accept our
+
+and read our
+
+Accept Terms of Use
 Errors:
-I/ActivityManager(  234): Start proc 2355:com.block.juggle/u0a77 for next-top-activity {com.block.juggle/org.cocos2dx.javascript.AppActivity.Default}
-I/ActivityTaskManager(  234): Displayed com.block.juggle/org.cocos2dx.javascript.AppActivity.Default: +893ms
-I/ActivityManager(  234): Start proc 2588:com.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0ai9000 for  {com.block.juggle/org.chromium.content.app.SandboxedProcessService0:0}
+I/ActivityManager(  231): Start proc 2294:com.block.juggle/u0a77 for next-top-activity {com.block.juggle/org.cocos2dx.javascript.AppActivity.Default}
+I/ActivityTaskManager(  231): Displayed com.block.juggle/org.cocos2dx.javascript.AppActivity.Default: +749ms
+I/ActivityManager(  231): Start proc 2531:com.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0ai9000 for  {com.block.juggle/org.chromium.content.app.SandboxedProcessService0:0}
 Frida inventory:
 Preparing server
 Starting server
@@ -34,4 +41,5 @@ Attaching runtime inventory
 {"type": "send", "payload": {"type": "done"}}
 JavaScript global probe:
 --------- beginning of main
-10-29 16:29:25.761  2355  2512 I ArenaJS : {"keys":["require","combileRequire","requireModule","gameTick","getGameTraitName","resumeGame","callGameMode","GameCenterOpenCallback","gameSoundOpenMutedCallback","gameBGMOpenMutedCallback","getGameSoundState","getGameBGMState","GameCenterLoginResult","callGameSelectedImageResult","callGameCheckImageStatusResult","callGameDeleteImageResult","openGameMode","callGameSelectedBgImageResult","callGameCheckBgImageStatusResult","callGameDeleteBgImageResult","callGameBleBump","__require","muteGameBGMDuringAdState"],"cc":"object","requireType":"function","scene":"main","children":["Canvas","persist","GLHallMoreGamesPopupEnter","LoadingManeger"]}
+10-29 16:33:11.726  2294  2444 I ArenaJS : {"kind":"loaders","req":"function o(i, s) {\nif (!r[i]) {\nif (!t[i]) {\nvar l = i.split(\"/\");\nl = l[l.length - 1];\nif (!t[l]) {\nvar u = \"function\" == typeof __require && __require;\nif (!s && u) return u(l, !0);\nif (a) return a(l, !0);\nthrow new Error(\"Cannot find module '\" + i + \"'\");\n}\ni = l;\n}\nvar c = r[i] = {\nexports: {}\n};\nt[i][0].call(c.exports, function(e) {\nreturn o(t[i][1][e] || e);\n}, c, c.exports, e, t, r, n);\n}\nreturn r[i].exports;\n}","reqProps":[],"requireModule":"function () { [native code] }","combileRequire":"function () { [native code] }"}
+10-29 16:33:11.730  2294  2444 I ArenaJS : {"kind":"scene","name":"main","visited":681,"hits":[{"path":"/main/persist/gameUiLayer/ClassGame","cls":"ClassGame","keys":["boardContainer","boardSplashAnimation","blocksProducerContainer"]},{"path":"/main/persist/gameUiLayer/ClassGame","cls":"cc.BlockInputEvents","keys":[]},{"path":"/main/persist/gameUiLayer/ClassGame","cls":"BlocksProducerTouch","keys":["blocksProducerContainer","_producerBlocks","_faceBlocks","_blocks","_transposeBlocks"]},{"path":"/main/persist/gameUiLayer/ClassGame/bgContainer/SkinGameBg","cls":"SkinGameBgComponent","keys":[]},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board","cls":"Board","keys":["boardGrid","blockShaders","blockUnderPreEliminate","blocks","blockOverPreEliminate","blockSplash"]},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/boardGrid"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/boardGrid/SkinBoard","cls":"SkinBoardComponent","keys":["board_out_line","board_bg","board_line","ndShaderBoard"]},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/boardGrid/SkinBoard"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/boardGrid/SkinBoard/ndChessboardOutline"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/boardGrid/SkinBoard/ndChessboardBg"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/boardGrid/SkinBoard/ndChessboardLine"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/boardGrid/SkinBoard/noShaderBoard"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block","cls":"Block","keys":["block"]},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block/block","cls":"BlockMaterialUpdate","keys":[]},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block/block"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block","cls":"Block","keys":["block"]},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block/block","cls":"BlockMaterialUpdate","keys":[]},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block/block"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block","cls":"Block","keys":["block"]},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block/block","cls":"BlockMaterialUpdate","keys":[]},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block/block"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block","cls":"Block","keys":["block"]},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block/block","cls":"BlockMaterialUpdate","keys":[]},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block/block"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block","cls":"Block","keys":["block"]},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block/block","cls":"BlockMaterialUpdate","keys":[]},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block/block"},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockShaders/Block","cls":"Block","keys":["block"]},{"path":"/main/persist/gameUiLayer/ClassGame/boardContainer/Board/blockSh
