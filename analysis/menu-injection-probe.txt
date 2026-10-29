@@ -8,56 +8,56 @@ Merge the signed splits into an experimental standalone ARM64 APK:
                -o = /home/runner/work/_temp/menu-injection/merged.apk
                -f = true                                             
  ___________________________________________________________________ 
-00.010 I: [MERGE] Searching apk files ...
-00.022 I: [MERGE] Found apk files: 21
-00.260 I: [MERGE] Found modules: 21
-00.323 I: [MERGE] Merging: com.block.juggle
-00.325 I: [MERGE] Added [com.block.juggle] classes.dex -> classes.dex
-00.325 I: [MERGE] Added [com.block.juggle] classes2.dex -> classes2.dex
-00.326 I: [MERGE] Added [com.block.juggle] classes3.dex -> classes3.dex
-00.326 I: [MERGE] Added [com.block.juggle] classes4.dex -> classes4.dex
-00.326 I: [MERGE] Added [com.block.juggle] classes5.dex -> classes5.dex
-00.326 I: [MERGE] Added [com.block.juggle] classes6.dex -> classes6.dex
-00.326 I: [MERGE] Added [com.block.juggle] classes7.dex -> classes7.dex
-00.326 I: [MERGE] Added [com.block.juggle] classes8.dex -> classes8.dex
-00.326 I: [MERGE] Added [com.block.juggle] classes9.dex -> classes9.dex
-00.326 I: [MERGE] Added [com.block.juggle] classes10.dex -> classes10.dex
-00.326 I: [MERGE] Added [com.block.juggle] classes11.dex -> classes11.dex
-00.326 I: [MERGE] Added [com.block.juggle] classes12.dex -> classes12.dex
-00.327 I: [MERGE] Added [com.block.juggle] classes13.dex -> classes13.dex
-00.327 I: [MERGE] Added [com.block.juggle] classes14.dex -> classes14.dex
-00.327 I: [MERGE] Added [com.block.juggle] classes15.dex -> classes15.dex
-00.679 I: [MERGE] Merging: config.hi
-00.728 I: [MERGE] Merging: config.de
-00.777 I: [MERGE] Merging: config.ru
-00.829 I: [MERGE] Merging: config.arm64_v8a
-00.832 I: [MERGE] Merging: config.tr
-00.886 I: [MERGE] Merging: config.th
-00.927 I: [MERGE] Merging: config.ja
-00.948 I: [MERGE] Merging: config.ar
-00.971 I: [MERGE] Merging: config.vi
-00.995 I: [MERGE] Merging: config.fr
-01.023 I: [MERGE] Merging: config.my
-01.057 I: [MERGE] Merging: config.xxhdpi
-01.077 I: [MERGE] Merging: config.zh
-01.103 I: [MERGE] Merging: config.es
-01.129 I: [MERGE] Merging: config.en
-01.153 I: [MERGE] Merging: config.it
-01.175 I: [MERGE] Merging: config.ko
-01.198 I: [MERGE] Merging: config.pt
-01.226 I: [MERGE] Merging: config.in
-01.252 I: [MERGE] Merging: gamedatalib
-01.256 I: [MERGE] Added as fused module <gamedatalib>
-01.331 I: [MERGE] Clearing META-INF ...
-01.336 I: [MERGE] Sanitizing manifest ...
-01.387 I: [MERGE] Applying: extractNativeLibs=false
-01.387 I: [MERGE] Writing apk ...
-01.406 I: [MERGE] Buffering compress changed files ...
-05.661 I: [MERGE] Writing files: 11769
-06.001 I: [MERGE] Saved to: /home/runner/work/_temp/menu-injection/merged.apk
-10-29 20:10:39.478  3985  3985 W zip     : WARNING: header mismatch
+00.011 I: [MERGE] Searching apk files ...
+00.023 I: [MERGE] Found apk files: 21
+00.272 I: [MERGE] Found modules: 21
+00.338 I: [MERGE] Merging: com.block.juggle
+00.341 I: [MERGE] Added [com.block.juggle] classes.dex -> classes.dex
+00.341 I: [MERGE] Added [com.block.juggle] classes2.dex -> classes2.dex
+00.342 I: [MERGE] Added [com.block.juggle] classes3.dex -> classes3.dex
+00.342 I: [MERGE] Added [com.block.juggle] classes4.dex -> classes4.dex
+00.342 I: [MERGE] Added [com.block.juggle] classes5.dex -> classes5.dex
+00.342 I: [MERGE] Added [com.block.juggle] classes6.dex -> classes6.dex
+00.342 I: [MERGE] Added [com.block.juggle] classes7.dex -> classes7.dex
+00.342 I: [MERGE] Added [com.block.juggle] classes8.dex -> classes8.dex
+00.342 I: [MERGE] Added [com.block.juggle] classes9.dex -> classes9.dex
+00.342 I: [MERGE] Added [com.block.juggle] classes10.dex -> classes10.dex
+00.342 I: [MERGE] Added [com.block.juggle] classes11.dex -> classes11.dex
+00.342 I: [MERGE] Added [com.block.juggle] classes12.dex -> classes12.dex
+00.343 I: [MERGE] Added [com.block.juggle] classes13.dex -> classes13.dex
+00.343 I: [MERGE] Added [com.block.juggle] classes14.dex -> classes14.dex
+00.343 I: [MERGE] Added [com.block.juggle] classes15.dex -> classes15.dex
+00.701 I: [MERGE] Merging: config.hi
+00.756 I: [MERGE] Merging: config.de
+00.810 I: [MERGE] Merging: config.ru
+00.868 I: [MERGE] Merging: config.arm64_v8a
+00.871 I: [MERGE] Merging: config.tr
+00.930 I: [MERGE] Merging: config.th
+00.957 I: [MERGE] Merging: config.ja
+00.985 I: [MERGE] Merging: config.ar
+01.016 I: [MERGE] Merging: config.vi
+01.047 I: [MERGE] Merging: config.fr
+01.080 I: [MERGE] Merging: config.my
+01.122 I: [MERGE] Merging: config.xxhdpi
+01.150 I: [MERGE] Merging: config.zh
+01.190 I: [MERGE] Merging: config.es
+01.222 I: [MERGE] Merging: config.en
+01.253 I: [MERGE] Merging: config.it
+01.283 I: [MERGE] Merging: config.ko
+01.315 I: [MERGE] Merging: config.pt
+01.353 I: [MERGE] Merging: config.in
+01.390 I: [MERGE] Merging: gamedatalib
+01.394 I: [MERGE] Added as fused module <gamedatalib>
+01.476 I: [MERGE] Clearing META-INF ...
+01.482 I: [MERGE] Sanitizing manifest ...
+01.538 I: [MERGE] Applying: extractNativeLibs=false
+01.539 I: [MERGE] Writing apk ...
+01.560 I: [MERGE] Buffering compress changed files ...
+05.843 I: [MERGE] Writing files: 11769
+06.249 I: [MERGE] Saved to: /home/runner/work/_temp/menu-injection/merged.apk
+10-29 20:18:37.544  3920  3920 W zip     : WARNING: header mismatch
 
-10-29 20:10:39.482  3985  3985 W zip     : WARNING: header mismatch
+10-29 20:18:37.548  3920  3920 W zip     : WARNING: header mismatch
 
 Verifies
 Verified using v1 scheme (JAR signing): false
@@ -66,9 +66,9 @@ Verified using v3 scheme (APK Signature Scheme v3): true
 Verified using v4 scheme (APK Signature Scheme v4): false
 Verified for SourceStamp: false
 Number of signers: 1
-55517b2a5a5b36335221b537dd74ef90832b7cc107dd8506b56208262b00ebc7  /home/runner/work/_temp/BlockBlast-10.9.2-mod-arm64.apk
+6f070e91227968caba02bd5b4905eaf6b3f193607a20fbe8aed5d28c85f7d262  /home/runner/work/_temp/BlockBlast-10.9.2-mod-arm64.apk
 Boot disposable ARM64 Android:
-5559e8535e8970513d1759f2e928cc64bc412d53b4aa65ada313824613e882c9
+531579c448ddf21059d1e52f2b32db774d5a045bf6925b713b765959de0273fb
 * daemon not running; starting now at tcp:5037
 * daemon started successfully
 connected to 127.0.0.1:5555
@@ -76,11 +76,11 @@ Install experimental standalone APK:
 Performing Streamed Install
 Success
 Starting: Intent { cmp=com.block.juggle/org.cocos2dx.javascript.AppActivity.Default }
-pid=2289
+pid=2293
 Bootstrap and crash logs:
-I/ArenaMenuBootstrap( 2289): Menu attached; score bridge started
-I/ArenaScoreHook( 2289): installed
-I/ArenaScoreHook( 2289): loaded-score:0
+I/ArenaMenuBootstrap( 2293): Menu attached; score bridge started
+I/ArenaScoreHook( 2293): installed
+I/ArenaScoreHook( 2293): loaded-score:0
 Screen text:
 v0 ‘on
 
@@ -94,16 +94,64 @@ and read our Privacy Policy.
 Testing the menu selections and score awards on the disposable game:
 Declined optional notifications
 Selected: Kapalı (1x)
-Verified game award: {"after": 4, "before": 4, "current": 124, "factor": 1}
+Verified game award: {"after": 5, "before": 5, "current": 124, "factor": 1}
 Selected: 10x
-Verified game award: {"after": 50, "before": 5, "current": 128, "factor": 10}
+Verified game award: {"after": 40, "before": 4, "current": 129, "factor": 10}
 Selected: 100x
-Verified game award: {"after": 400, "before": 4, "current": 178, "factor": 100}
+Verified game award: {"after": 300, "before": 3, "current": 169, "factor": 100}
 Selected: 1000x
-Verified game award: {"after": 3000, "before": 3, "current": 578, "factor": 1000}
+Verified game award: {"after": 6000, "before": 6, "current": 469, "factor": 1000}
 All four in-game multiplier settings affected actual awards as expected.
+Restart UI: [('Allow Block Blast! to send you notifications?', 'com.android.permissioncontroller:id/permission_message'), ('ALLOW', 'com.android.permissioncontroller:id/permission_allow_button'), ('DON’T ALLOW', 'com.android.permissioncontroller:id/permission_deny_and_dont_ask_again_button')]
+Restart diagnostics: TRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+W/InputManager-JNI(  234): Input channel object '762ac5b Splash Screen com.block.juggle (client)' was disposed without first being removed with the input manager!
+D/ConnectivityService(  234): requestNetwork for uid/pid:10077/4164 activeRequest: null callbackRequest: 85 [NetworkRequest [ REQUEST id=86, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]] callback flags: 0 order: 2147483647
+D/UntrustedWifiNetworkFactory(  234): got request NetworkRequest [ REQUEST id=86, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/OemPaidWifiNetworkFactory(  234): got request NetworkRequest [ REQUEST id=86, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/MultiInternetWifiNetworkFactory(  234): got request NetworkRequest [ REQUEST id=86, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/EthernetNetworkFactory(  234): eth0: onNetworkNeeded for request: NetworkRequest [ REQUEST id=86, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/UnityAds( 4164): com.unity3d.services.core.misc.Utilities.writeFile() (line:80) :: Wrote file: /data/user/0/com.block.juggle/files/UnityAdsStorage-public-data.json
+D/ConnectivityService(  234): requestNetwork for uid/pid:10077/4164 activeRequest: null callbackRequest: 87 [NetworkRequest [ REQUEST id=88, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]] callback flags: 0 order: 2147483647
+D/ConnectivityService(  234): requestNetwork for uid/pid:10077/4164 activeRequest: null callbackRequest: 89 [NetworkRequest [ REQUEST id=90, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]] callback flags: 0 order: 2147483647
+D/EthernetNetworkFactory(  234): eth0: onNetworkNeeded for request: NetworkRequest [ REQUEST id=88, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/EthernetNetworkFactory(  234): eth0: onNetworkNeeded for request: NetworkRequest [ REQUEST id=90, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/UntrustedWifiNetworkFactory(  234): got request NetworkRequest [ REQUEST id=88, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/OemPaidWifiNetworkFactory(  234): got request NetworkRequest [ REQUEST id=88, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/MultiInternetWifiNetworkFactory(  234): got request NetworkRequest [ REQUEST id=88, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/UntrustedWifiNetworkFactory(  234): got request NetworkRequest [ REQUEST id=90, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/OemPaidWifiNetworkFactory(  234): got request NetworkRequest [ REQUEST id=90, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/MultiInternetWifiNetworkFactory(  234): got request NetworkRequest [ REQUEST id=90, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+E/VerityUtils(  234): Failed to measure fs-verity, errno 1: /data/app/~~up6Pfjj9G8XggJZyqjpq1A==/com.block.juggle-eS0E0Otlq34lAZWU7PUIOw==/base.apk
+D/UnityAds( 4164): com.unity3d.services.core.cache.CacheDirectory.getCacheDirectory() (line:146) :: Unity Ads is using internal cache directory: /data/user/0/com.block.juggle/no_backup/UnityAdsWebViewCache
+D/ConnectivityService(  234): requestNetwork for uid/pid:10077/4164 activeRequest: null callbackRequest: 91 [NetworkRequest [ REQUEST id=92, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]] callback flags: 0 order: 2147483647
+D/EthernetNetworkFactory(  234): eth0: onNetworkNeeded for request: NetworkRequest [ REQUEST id=92, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/UntrustedWifiNetworkFactory(  234): got request NetworkRequest [ REQUEST id=92, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/OemPaidWifiNetworkFactory(  234): got request NetworkRequest [ REQUEST id=92, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/MultiInternetWifiNetworkFactory(  234): got request NetworkRequest [ REQUEST id=92, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/ConnectivityService(  234): requestNetwork for uid/pid:10077/4164 activeRequest: null callbackRequest: 93 [NetworkRequest [ REQUEST id=94, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]] callback flags: 0 order: 2147483647
+D/UntrustedWifiNetworkFactory(  234): got request NetworkRequest [ REQUEST id=94, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/OemPaidWifiNetworkFactory(  234): got request NetworkRequest [ REQUEST id=94, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/MultiInternetWifiNetworkFactory(  234): got request NetworkRequest [ REQUEST id=94, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/EthernetNetworkFactory(  234): eth0: onNetworkNeeded for request: NetworkRequest [ REQUEST id=94, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/ConnectivityService(  234): requestNetwork for uid/pid:10077/4164 activeRequest: null callbackRequest: 95 [NetworkRequest [ REQUEST id=96, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]] callback flags: 0 order: 2147483647
+D/UntrustedWifiNetworkFactory(  234): got request NetworkRequest [ REQUEST id=96, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/EthernetNetworkFactory(  234): eth0: onNetworkNeeded for request: NetworkRequest [ REQUEST id=96, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/OemPaidWifiNetworkFactory(  234): got request NetworkRequest [ REQUEST id=96, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+D/MultiInternetWifiNetworkFactory(  234): got request NetworkRequest [ REQUEST id=96, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+W/JobScheduler(  234): Job didn't exist in JobStore: 87dda72 #u0a77/1 com.block.juggle/androidx.work.impl.background.systemjob.SystemJobService
+D/EthernetNetworkFactory(  234): eth0: onNetworkUnneeded for request: NetworkRequest [ REQUEST id=94, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VCN_MANAGED Uid: 10077 RequestorUid: 10077 RequestorPkg: com.block.juggle UnderlyingNetworks: Null] ]
+I/om.block.juggle( 4164): Background concurrent copying GC freed 2553013(124MB) AllocSpace objects, 804(100MB) LOS objects, 70% free, 39MB/135MB, paused 173us,132us total 140.056ms
+D/AppWidgetServiceImpl(  234): Provider info from ComponentInfo{com.block.juggle/org.cocos2dx.javascript.widget.HsSmallWidget} won't be persisted.
+D/AppWidgetServiceImpl(  234): Provider info from ComponentInfo{com.block.juggle/org.cocos2dx.javascript.widget.HsMediumWidget} won't be persisted.
+D/CarrierSvcBindHelper(  805): onPackageModified: com.block.juggle
+I/MMKV    ( 4164): <MemoryFile.cpp:203::mmap> mmap to address [0xf6ddede31000], oldPtr [0xf6e0b218b000], [/data/user/0/com.block.juggle/files/mmkv/J_AD]
+D/AndroidRuntime( 5089): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+I/AndroidRuntime( 5089): Using default boot image
+I/AndroidRuntime( 5089): Leaving lock profiling enabled
+D/AndroidRuntime( 5089): Calling main entry com.android.commands.uiautomator.Launcher
+D/AndroidRuntime( 5089): Shutting down VM
 Traceback (most recent call last):
-  File "/home/runner/work/BlockBlast/BlockBlast/tools/test_game_score.py", line 130, in <module>
+  File "/home/runner/work/BlockBlast/BlockBlast/tools/test_game_score.py", line 142, in <module>
     raise AssertionError('Score did not survive restart: expected %s; loaded %s' % (expected_score, loaded))
-AssertionError: Score did not survive restart: expected 3578; loaded []
+AssertionError: Score did not survive restart: expected 6469; loaded []
 probe_exit=1
