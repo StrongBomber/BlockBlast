@@ -1,0 +1,26 @@
+Architecture:
+aarch64
+Kernel binder support:
+ls: cannot access '/dev/binder*': No such file or directory
+ls: cannot access '/dev/ashmem': No such file or directory
+ls: cannot access '/dev/binder*': No such file or directory
+ls: cannot access '/dev/ashmem': No such file or directory
+Docker:
+28.0.4
+Pull Android container:
+13.0.0-latest: Pulling from redroid/redroid
+4fb8aea32c9d: Pulling fs layer
+4fb8aea32c9d: Download complete
+4fb8aea32c9d: Pull complete
+Digest: sha256:41e5f0c1ff27a4a474c474e5595168cedf6c40fc5dd102c5617f48c80f511e9e
+Status: Downloaded newer image for redroid/redroid:13.0.0-latest
+docker.io/redroid/redroid:13.0.0-latest
+Start Android container:
+47a4be0f12c6aa1f9e91e5abf2369bc0f43a552e7ce66d4fd215d360243e3f49
+Container state:
+running 0
+Android boot property:
+1
+Android ABI:
+arm64-v8a,armeabi-v7a,armeabi
+Kernel/device diagnostics:
