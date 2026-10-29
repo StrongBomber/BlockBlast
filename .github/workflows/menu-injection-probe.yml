@@ -1,0 +1,46 @@
+name: Experimental game menu bootstrap probe
+on:
+  push:
+    branches: [arena/fe683328-blockblast]
+    paths: [.github/workflows/menu-injection-probe.yml, tools/test_menu_injection.sh, tools/inject_menu_manifest.py]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install packaging tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq apktool apksigner zipalign adb tesseract-ocr
+          python3 -m pip install --break-system-packages 'gdown==5.2.0'
+      - name: Download source archive
+        run: gdown --id 10qUhPRvMhCKxXPAH4TYzBk7c8JSnsPql -O "$RUNNER_TEMP/source.xapk"
+      - name: Build and test disposable menu bootstrap
+        id: probe
+        shell: bash
+        run: |
+          set +e
+          timeout --kill-after=15s 1100 bash tools/test_menu_injection.sh > analysis/menu-injection-probe.txt 2>&1
+          status=$?
+          echo "probe_exit=$status" >> analysis/menu-injection-probe.txt
+          exit "$status"
+      - name: Save diagnostics only
+        if: always()
+        run: |
+          if [ -f analysis/menu-injection-probe.txt ]; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add analysis/menu-injection-probe.txt
+            if ! git diff --cached --quiet; then
+              git commit -m 'Record experimental menu injection probe'
+              git push origin HEAD:${GITHUB_REF_NAME}
+            fi
+          fi
