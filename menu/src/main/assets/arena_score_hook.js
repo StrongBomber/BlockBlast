@@ -48,6 +48,7 @@
     wrapped.__arenaScoreHook = true;
     proto.increaseScoreByRound = wrapped;
     log('installed');
+    try { log('loaded-score:' + Number(window.__require('ClassScoreInfo').classScoreInfo.score)); } catch (_) {}
   } catch (_) {
     // Bundles are loaded asynchronously; the lifecycle bridge retries later.
   }

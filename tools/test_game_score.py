@@ -119,3 +119,18 @@ for factor in (1, 10, 100, 1000):
         raise AssertionError('Wrong score multiplier: ' + repr(award))
     print('Verified game award:', json.dumps(award, sort_keys=True), flush=True)
 print('All four in-game multiplier settings affected actual awards as expected.', flush=True)
+expected_score = int(award['current'] + award['after'])
+adb('shell', 'am', 'force-stop', 'com.block.juggle')
+adb('logcat', '-c')
+adb('shell', 'am', 'start', '-n', 'com.block.juggle/org.cocos2dx.javascript.AppActivity.Default')
+time.sleep(70)
+logs = adb('logcat', '-d', '-s', 'ArenaScoreHook:I', '*:S')
+loaded = re.findall(r'loaded-score:(\d+)', logs)
+if not loaded or int(loaded[-1]) != expected_score:
+    raise AssertionError('Score did not survive restart: expected %s; loaded %s' % (expected_score, loaded))
+tap_node(text_contains('MOD MENÜ'))
+selected = [n for n in tree().iter('node') if n.get('text', '').removeprefix('✓').strip() == '1000x']
+if len(selected) != 1 or '✓' not in selected[0].get('text', ''):
+    raise AssertionError('Multiplier did not survive restart')
+tap_node(text_contains('MOD MENÜ'))
+print('Restart verified: saved score %d and 1000x selection persisted.' % expected_score, flush=True)
