@@ -39,7 +39,7 @@ def tap(text):
 
 
 def start():
-    adb('shell', 'am', 'start', '-n', APP + '/.MenuTestActivity')
+    adb('shell', 'am', 'start', '-n', APP + '/org.cocos2dx.javascript.AppActivity')
     time.sleep(3)
 
 
@@ -66,4 +66,4 @@ adb('shell', 'input', 'swipe', str(old[0]), str(old[1]), str(old[0] + 160), str(
 time.sleep(1)
 new = center(node('MOD MENÜ'))
 assert new != old, 'Floating menu did not move when dragged'
-print('Menu UI smoke test passed: choices, persistence, drag and input pass-through')
+print('Bootstrap + menu UI smoke test passed: choices, persistence, drag and input pass-through')

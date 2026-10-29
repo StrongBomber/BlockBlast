@@ -2,6 +2,10 @@
     package="ai.arena.blockblast.testapp">
     <uses-sdk android:minSdkVersion="23" android:targetSdkVersion="28" />
     <application android:label="Menu test" android:theme="@android:style/Theme.Material.Light.NoActionBar">
+        <provider android:name="ai.arena.blockblast.menu.MenuBootstrapProvider"
+            android:authorities="ai.arena.blockblast.testapp.menu.bootstrap"
+            android:exported="false" />
+        <activity android:name="org.cocos2dx.javascript.AppActivity" android:exported="true" />
         <activity android:name=".MenuTestActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
