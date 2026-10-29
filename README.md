@@ -28,8 +28,8 @@ python3 tools/inspect_scripts.py /path/to/source.xapk
 python3 tools/inspect_native.py /path/to/source.xapk
 ```
 
-Oyun dosyaları depoya eklenmedi. GitHub Actions aracılığıyla alınan geçici
-kaynak arşivi analiz sonrasında silindi; Drive dosyası tekrar özel yapıldı.
+Oyun dosyaları depoya eklenmedi. Kaynak arşiv, kullanıcı onayıyla GitHub Release üzerinde herkese açık
+yayımlandı; Drive dosyası tekrar özel yapıldı.
 Skor mantığının tespiti, menünün oyuna uygulanması ve modlu oyun paketinin
 imzalanması ile oyun üzerinde doğrulama henüz **yapılmadı**.
 
@@ -84,8 +84,8 @@ kullanılabilir bir skor güncelleme çağrısı yakalamadı. Dolayısıyla bu s
 
 ### Deneysel oyun içi menü entegrasyonu
 
-`menu-injection-probe.yml` ve `tools/test_menu_injection.sh`, kullanıcının
-geçici bağlantı izniyle kaynağı indirip binary manifest'e bir ContentProvider
+`menu-injection-probe.yml` ve `tools/test_menu_injection.sh`, GitHub
+Release üzerindeki doğrulanmış kaynağı indirip binary manifest'e bir ContentProvider
 ve yeni bir DEX ekleyerek bölünmüş paketleri test anahtarıyla imzalar. Android
 ARM testinde paketlerin kurulumu, orijinal oyunun açılması ve menünün oyun
 üzerinde görünmesi doğrulandı (Actions çalıştırması `40930769169`). Ayrı UI
@@ -98,3 +98,16 @@ Başarılı bir paketleme testi, tamamlanmış bir mod anlamına gelmez. Test
 paketleri depoya veya Actions artifaktı olarak kaydedilmez. Tam sürüm için
 önce skorun asıl hesaplama ve kalıcı kayıt noktası bulunmalı, seçilen çarpanla
 bağlanmalı ve gerçek hamleler ve yeniden başlatma ile doğrulanmalıdır.
+
+### GitHub kaynak arşivi
+
+Kaynak XAPK, kullanıcının açık onayıyla herkese açık [GitHub Release](https://github.com/StrongBomber/BlockBlast/releases/tag/blockblast-source-10.9.2)
+içinde tutulur. Çalışma akışları Drive erişimi gerektirmez. Arşivi indirip
+bütünlüğünü doğrulamak için:
+
+```sh
+bash tools/download_source.sh /tmp/blockblast-source.xapk
+```
+
+Sabit SHA-256: `b4e19afccd7fea17a7c6e8cea8e91747f4f242cbd62b1539c8d196dab66be503`.
+Bu sürüm **orijinal kaynak arşividir**, bitmiş bir modlu APK değildir.

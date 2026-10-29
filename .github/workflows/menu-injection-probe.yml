@@ -20,9 +20,8 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq zip apksigner zipalign adb tesseract-ocr
-          python3 -m pip install --break-system-packages 'gdown==5.2.0'
       - name: Download source archive
-        run: gdown --id 10qUhPRvMhCKxXPAH4TYzBk7c8JSnsPql -O "$RUNNER_TEMP/source.xapk"
+        run: bash tools/download_source.sh "$RUNNER_TEMP/source.xapk"
       - name: Build and test disposable menu bootstrap
         id: probe
         shell: bash
