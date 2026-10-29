@@ -1,7 +1,7 @@
 # BlockBlast — inceleme notları
 
 Bu depo, Drive'daki Block Blast 10.9.2 XAPK dosyasının incelenmesi için
-hazırlanmıştır; **henüz mod menü veya derlenmiş bir APK içermez**.
+hazırlanmıştır; **henüz oyuna entegre edilmiş bir mod menü veya derlenmiş APK içermez**.
 
 ## İlk bulgular
 
