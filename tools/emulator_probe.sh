@@ -21,6 +21,8 @@ mkdir -p "$(dirname "$out")" "$RUNNER_TEMP/parts"
     adb shell pidof com.block.juggle || true
     echo 'Resumed activity:'
     adb shell dumpsys activity activities | grep -E 'mResumedActivity|topResumedActivity' | head -5 || true
+    echo 'Native crash diagnostics:'
+    adb logcat -d -v brief | grep -E '^F/DEBUG|^F/libc|Abort message|Check failed|^E/AndroidRuntime' | tail -100 || true
     echo 'Relevant diagnostic log:'
     adb logcat -d -v brief | grep -E 'FATAL EXCEPTION|Fatal signal|com\.block\.juggle|INSTALL_FAILED|UnsatisfiedLinkError|Native bridge|native bridge' | tail -80 || true
   fi
