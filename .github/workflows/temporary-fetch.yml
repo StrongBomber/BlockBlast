@@ -2,39 +2,30 @@ name: Temporary source analysis
 on:
   push:
     branches: [arena/fe683328-blockblast]
-    paths: [.github/workflows/temporary-fetch.yml, tools/inspect_archive.py]
+    paths: [.github/workflows/temporary-fetch.yml, tools/inspect_scripts.py]
 permissions:
   contents: write
   actions: read
 jobs:
   inspect:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
       - uses: actions/download-artifact@v4
         with:
           name: temporary-source-archive
           path: ${{ runner.temp }}/source
           run-id: 40897904181
           github-token: ${{ github.token }}
-      - name: Inspect archive
-        run: |
-          mkdir -p analysis "$RUNNER_TEMP/apks"
-          python3 tools/inspect_archive.py "$RUNNER_TEMP/source/source.xapk" "$RUNNER_TEMP/apks" > analysis/archive-inventory.txt
-          for file in "$RUNNER_TEMP"/apks/*.apk; do
-            echo "=== $(basename "$file") ===" >> analysis/rea-inspection.txt
-            npx -y rea-agents@6.7.0 inspect-artifact "$file" --format json >> analysis/rea-inspection.txt 2>&1 || true
-          done
+      - name: Inspect scripts
+        run: python3 tools/inspect_scripts.py "$RUNNER_TEMP/source/source.xapk" > analysis/score-context.txt
       - name: Save analysis only
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add analysis/archive-inventory.txt analysis/rea-inspection.txt
+          git add analysis/score-context.txt
           if ! git diff --cached --quiet; then
-            git commit -m 'Record XAPK inspection results'
+            git commit -m 'Record score investigation'
             git push origin HEAD:${GITHUB_REF_NAME}
           fi
