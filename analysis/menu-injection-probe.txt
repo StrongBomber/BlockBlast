@@ -2,16 +2,16 @@ Patch the binary manifest without rebuilding game resources:
 Compile experimental menu dex:
 Adding classes15.dex
 Boot disposable ARM64 Android:
-98a6a7ef0573ee36e2d9615728d8136949fa490d759cfc7e322f1db69a923fc8
+4d0048a45a0f785f2114a2012cb168b3f4984351da4a1ff16f88a6860c163c6f
 * daemon not running; starting now at tcp:5037
 * daemon started successfully
 connected to 127.0.0.1:5555
 Install experimental patched split APKs:
 Success
 Starting: Intent { cmp=com.block.juggle/org.cocos2dx.javascript.AppActivity.Default }
-pid=2336
+pid=2327
 Bootstrap and crash logs:
-I/ArenaMenuBootstrap( 2336): Menu attached; score hook is not installed
+I/ArenaMenuBootstrap( 2327): Menu attached; score hook is not installed
 Screen text:
 v0 ‘on
 
