@@ -24,16 +24,17 @@ setTimeout(function () {
           methods: {run: function () {
             try {
               var code = '(function(){try{' +
-                'var g=typeof window!=="undefined"?window:this;' +
                 'var log=function(o){jsb.reflection.callStaticMethod("android/util/Log","i","(Ljava/lang/String;Ljava/lang/String;)I","ArenaJS",JSON.stringify(o));};' +
-                'var fn=function(x){try{return typeof x==="function"?String(x).slice(0,700):typeof x}catch(e){return String(e)}};' +
-                'log({kind:"loaders",req:fn(g.__require),reqProps:Object.keys(g.__require||{}),requireModule:fn(g.requireModule),combileRequire:fn(g.combileRequire)});' +
-                'var root=(typeof cc!=="undefined"&&cc.director)?cc.director.getScene():null, hits=[],seen=0;' +
-                'function walk(n,p){if(!n||seen++>1000)return;var path=p+"/"+n.name,cs=n._components||[];' +
-                'cs.forEach(function(c){try{var cl=cc.js.getClassName(c)||"?",ks=Object.keys(c).filter(function(k){return /score|block|board|level/i.test(k)}).slice(0,12);if(ks.length||/score|block|board|game/i.test(cl))hits.push({path:path,cls:cl,keys:ks})}catch(e){}});' +
-                'if(/score|block|board/i.test(n.name))hits.push({path:path});' +
-                '(n.children||[]).forEach(function(c){walk(c,path)})}' +
-                'if(root)walk(root,""); log({kind:"scene",name:root&&root.name,visited:seen,hits:hits.slice(0,60)});' +
+                'var root=cc.director.getScene(),hits=[],seen=0,unique={};' +
+                'function walk(n,p){if(!n||seen++>1500)return;var path=p+"/"+n.name;(n._components||[]).forEach(function(c){try{var cl=cc.js.getClassName(c)||"?";if(/score/i.test(cl)||/score/i.test(n.name)){var id=path+cl;if(!unique[id]){unique[id]=1;hits.push({path:path,cls:cl})}}}catch(e){}});(n.children||[]).forEach(function(c){walk(c,path)})}' +
+                'walk(root,"");log({kind:"score-components",items:hits.slice(0,35),visited:seen});' +
+                'function inspect(path,klass){var n=cc.find(path),c=n&&n.getComponent(klass);if(!c){log({kind:"missing",path:path,cls:klass});return;}' +
+                'var own=Object.getOwnPropertyNames(c).slice(0,150),proto=Object.getPrototypeOf(c),names=[],methods=[];' +
+                'for(var d=0;proto&&d<4;d++,proto=Object.getPrototypeOf(proto)){Object.getOwnPropertyNames(proto).forEach(function(k){if(names.indexOf(k)<0)names.push(k);try{var v=Object.getOwnPropertyDescriptor(proto,k).value;if(typeof v==="function"&&(/score|point|combo|elimin|place/i.test(k)||/score/i.test(String(v))))methods.push({name:k,source:String(v).slice(0,1000)})}catch(e){}})}' +
+                'log({kind:"component",cls:klass,own:own,methods:names.filter(function(k){return /score|point|combo|elimin|place|block|data/i.test(k)})});' +
+                'methods.slice(0,8).forEach(function(m){log({kind:"method",cls:klass,name:m.name,source:m.source})});' +
+                'own.forEach(function(k){try{var v=Object.getOwnPropertyDescriptor(c,k).value;if(v&&typeof v==="object"&&!Array.isArray(v)){var a=Object.keys(v).filter(function(q){return /score|point|combo/i.test(q)});if(a.length)log({kind:"nested",cls:klass,key:k,keys:a.slice(0,25)})}}catch(e){}})}' +
+                'inspect("persist/gameUiLayer/ClassGame","ClassGame");inspect("persist/gameUiLayer/ClassGame/boardContainer/Board","Board");' +
                 '}catch(e){jsb.reflection.callStaticMethod("android/util/Log","e","(Ljava/lang/String;Ljava/lang/String;)I","ArenaJS",String(e))}})();';
               send({type: 'eval_return', value: Bridge.evalString(code)});
             } catch (e) { send({type: 'eval_error', detail: String(e)}); }
