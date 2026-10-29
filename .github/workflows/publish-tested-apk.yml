@@ -11,6 +11,7 @@ jobs:
   publish:
     runs-on: ubuntu-24.04
     steps:
+      - uses: actions/checkout@v4
       - name: Download the exact tested build
         uses: actions/download-artifact@v4
         with:
@@ -23,16 +24,32 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: |
-          cd release
-          echo 'd316f9fee1388f51542d31416e7e8b106fa5eaa9a331d346269b0eed990b572b  BlockBlast-10.9.2-mod-arm64.apk' > SHA256SUMS.txt
-          sha256sum -c SHA256SUMS.txt
-          cat > release-notes.txt <<'EOF'
-          Block Blast 10.9.2 için ARM64 (arm64-v8a) modlu tek APK.
+          set +e
+          (
+            set -e
+            cd release
+            echo 'd316f9fee1388f51542d31416e7e8b106fa5eaa9a331d346269b0eed990b572b  BlockBlast-10.9.2-mod-arm64.apk' > SHA256SUMS.txt
+            sha256sum -c SHA256SUMS.txt
+            cat > release-notes.txt <<'EOF'
+            Block Blast 10.9.2 için ARM64 (arm64-v8a) modlu tek APK.
 
-          Açılır/kapanır ve sürüklenebilir menü; klasik modda kapalı/1x, 10x, 100x, 1000x, 10000x ve 100000x skor artışı. Android 13 ARM64 Redroid üzerinde gerçek oyun hamleleri, altı seçenek, skorun ve 100000x seçiminin yeniden açılışta korunması test edildi. Fiziksel cihazlarda ve diğer oyun modlarında kapsamlı test yapılmadı.
+            Açılır/kapanır ve sürüklenebilir menü; klasik modda kapalı/1x, 10x, 100x, 1000x, 10000x ve 100000x skor artışı. Android 13 ARM64 Redroid üzerinde gerçek oyun hamleleri, altı seçenek, skorun ve 100000x seçiminin yeniden açılışta korunması test edildi. Fiziksel cihazlarda ve diğer oyun modlarında kapsamlı test yapılmadı.
 
-          APK, orijinal geliştirici anahtarıyla değil, bu derlemeye özgü bir test anahtarıyla imzalanmıştır. Orijinal uygulamanın üzerine güncelleme olarak kurulamaz; orijinali kaldırmak kayıtları silebilir. Başka yeniden derlemeler de farklı anahtara sahip olabilir ve bu APK'nın üzerine kurulamayabilir.
+            APK, orijinal geliştirici anahtarıyla değil, bu derlemeye özgü bir test anahtarıyla imzalanmıştır. Orijinal uygulamanın üzerine güncelleme olarak kurulamaz; orijinali kaldırmak kayıtları silebilir. Başka yeniden derlemeler de farklı anahtara sahip olabilir ve bu APK'nın üzerine kurulamayabilir.
 
-          Test: https://github.com/StrongBomber/BlockBlast/actions/runs/40951603156
-          EOF
-          gh release create blockblast-mod-10.9.2-v2 BlockBlast-10.9.2-mod-arm64.apk SHA256SUMS.txt --target e3454463c596fa6c242dc5d444cd6917d96049bb --title 'Block Blast 10.9.2 — ARM64 mod v2' --notes-file release-notes.txt
+            Test: https://github.com/StrongBomber/BlockBlast/actions/runs/40951603156
+            EOF
+            gh release create blockblast-mod-10.9.2-v2 BlockBlast-10.9.2-mod-arm64.apk SHA256SUMS.txt --target e3454463c596fa6c242dc5d444cd6917d96049bb --title 'Block Blast 10.9.2 — ARM64 mod v2' --notes-file release-notes.txt
+          ) > "$RUNNER_TEMP/publish-result.txt" 2>&1
+          status=$?
+          cat "$RUNNER_TEMP/publish-result.txt"
+          mkdir -p analysis
+          cp "$RUNNER_TEMP/publish-result.txt" analysis/publication-result.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add analysis/publication-result.txt
+          if ! git diff --cached --quiet; then
+            git commit -m 'Record APK publication result'
+            git push origin HEAD:${GITHUB_REF_NAME}
+          fi
+          exit "$status"
