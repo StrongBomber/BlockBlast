@@ -1,0 +1,133 @@
+XAPK contents:
+com.block.juggle.apk	171967447
+icon.png	48608
+config.ar.apk	61849
+config.arm64_v8a.apk	65866449
+config.de.apk	57753
+config.en.apk	90521
+config.es.apk	82329
+config.fr.apk	74137
+config.hi.apk	70041
+config.in.apk	61849
+config.it.apk	57753
+config.ja.apk	61849
+config.ko.apk	57753
+config.my.apk	57753
+config.pt.apk	78233
+config.ru.apk	70041
+config.th.apk	70041
+config.tr.apk	57753
+config.vi.apk	57753
+config.xxhdpi.apk	328287
+config.zh.apk	102809
+gamedatalib.apk	16794
+manifest.json	2721
+
+APK com.block.juggle.apk => part-0.apk
+AndroidManifest.xml	89760
+assets/audience_network/classes.dex	5455144
+classes.dex	80596
+classes10.dex	8686452
+classes11.dex	9062652
+classes12.dex	8442816
+classes13.dex	8798772
+classes14.dex	95772
+classes2.dex	2395536
+classes3.dex	8071836
+classes4.dex	8716820
+classes5.dex	8527148
+classes6.dex	8571656
+classes7.dex	8339480
+classes8.dex	8421536
+classes9.dex	8689832
+
+APK config.ar.apk => part-1.apk
+AndroidManifest.xml	996
+
+APK config.arm64_v8a.apk => part-2.apk
+AndroidManifest.xml	1028
+lib/arm64-v8a/libapminsighta.so	102256
+lib/arm64-v8a/libapminsightb.so	124352
+lib/arm64-v8a/libapplovin-native-crash-reporter.so	860200
+lib/arm64-v8a/libbuffer_pgl.so	9000
+lib/arm64-v8a/libbugsnag-ndk.so	1152136
+lib/arm64-v8a/libbugsnag-plugin-android-anr.so	13656
+lib/arm64-v8a/libbugsnag-root-detection.so	5016
+lib/arm64-v8a/libc++_shared.so	1292904
+lib/arm64-v8a/libcallstack-repack.so	66152
+lib/arm64-v8a/libcocos2djs.so	35074752
+lib/arm64-v8a/libfbjni.so	177000
+lib/arm64-v8a/libfile_lock_pgl.so	6312
+lib/arm64-v8a/libglide-webp.so	412080
+lib/arm64-v8a/libhermes.so	2249600
+lib/arm64-v8a/libhermestooling.so	149920
+lib/arm64-v8a/libimage_processing_util_jni.so	29008
+lib/arm64-v8a/libimagepipeline.so	8760
+lib/arm64-v8a/libjsctooling.so	131112
+lib/arm64-v8a/libjsi.so	412408
+lib/arm64-v8a/libmmkv.so	597000
+lib/arm64-v8a/libnative-filters.so	23712
+lib/arm64-v8a/libnative-imagetranscoder.so	585376
+lib/arm64-v8a/libnesec-x86.so	1240248
+lib/arm64-v8a/libnesec.so	1051712
+lib/arm64-v8a/libnms.so	302248
+lib/arm64-v8a/libpglarmor.so	68776
+lib/arm64-v8a/libreactnative.so	6283008
+lib/arm64-v8a/libsdk_bc_lib.so	6022992
+lib/arm64-v8a/libsurface_util_jni.so	4832
+lib/arm64-v8a/libtask.so	6660552
+lib/arm64-v8a/libtt_ugen_layout.so	440672
+
+APK config.de.apk => part-3.apk
+AndroidManifest.xml	996
+
+APK config.en.apk => part-4.apk
+AndroidManifest.xml	996
+
+APK config.es.apk => part-5.apk
+AndroidManifest.xml	996
+
+APK config.fr.apk => part-6.apk
+AndroidManifest.xml	996
+
+APK config.hi.apk => part-7.apk
+AndroidManifest.xml	996
+
+APK config.in.apk => part-8.apk
+AndroidManifest.xml	996
+
+APK config.it.apk => part-9.apk
+AndroidManifest.xml	996
+
+APK config.ja.apk => part-10.apk
+AndroidManifest.xml	996
+
+APK config.ko.apk => part-11.apk
+AndroidManifest.xml	996
+
+APK config.my.apk => part-12.apk
+AndroidManifest.xml	996
+
+APK config.pt.apk => part-13.apk
+AndroidManifest.xml	996
+
+APK config.ru.apk => part-14.apk
+AndroidManifest.xml	996
+
+APK config.th.apk => part-15.apk
+AndroidManifest.xml	996
+
+APK config.tr.apk => part-16.apk
+AndroidManifest.xml	996
+
+APK config.vi.apk => part-17.apk
+AndroidManifest.xml	996
+
+APK config.xxhdpi.apk => part-18.apk
+AndroidManifest.xml	1032
+
+APK config.zh.apk => part-19.apk
+AndroidManifest.xml	996
+
+APK gamedatalib.apk => part-20.apk
+AndroidManifest.xml	1604
