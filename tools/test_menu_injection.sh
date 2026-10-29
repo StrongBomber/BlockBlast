@@ -9,7 +9,11 @@ echo 'Decode base APK resources and manifest, retaining original dex:'
 java -jar "$work/apktool.jar" d -f -s "$work/splits/com.block.juggle.apk" -o "$work/decoded"
 python3 tools/inject_menu_manifest.py "$work/decoded/AndroidManifest.xml"
 echo 'Rebuild with experimental lifecycle provider declaration:'
-java -jar "$work/apktool.jar" b "$work/decoded" -o "$work/base-rebuilt.apk"
+if command -v aapt2 >/dev/null; then
+  java -jar "$work/apktool.jar" b --aapt "$(command -v aapt2)" "$work/decoded" -o "$work/base-rebuilt.apk"
+else
+  java -jar "$work/apktool.jar" b --use-aapt1 --aapt "$(command -v aapt)" "$work/decoded" -o "$work/base-rebuilt.apk"
+fi
 echo 'Compile experimental menu dex:'
 curl -fsSL https://github.com/Sable/android-platforms/raw/master/android-35/android.jar -o "$work/android.jar"
 curl -fsSL https://storage.googleapis.com/r8-releases/raw/8.5.35/r8.jar -o "$work/r8.jar"
