@@ -1,0 +1,56 @@
+name: One-time authorized source transfer
+on:
+  push:
+    branches: [arena/fe683328-blockblast]
+    paths: [.github/workflows/transfer-source-to-github.yml]
+permissions:
+  contents: write
+jobs:
+  transfer:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch and validate the user-authorized source archive
+        run: |
+          set -euo pipefail
+          python -m pip install -q gdown==5.2.0
+          mkdir -p "$RUNNER_TEMP/source-transfer"
+          cd "$RUNNER_TEMP/source-transfer"
+          gdown --id 10qUhPRvMhCKxXPAH4TYzBk7c8JSnsPql -O BlockBlast-10.9.2-source.xapk
+          python - <<'PY'
+          import json, os, zipfile
+          filename = 'BlockBlast-10.9.2-source.xapk'
+          if os.path.getsize(filename) != 239403289:
+              raise SystemExit('Unexpected source archive size')
+          with zipfile.ZipFile(filename) as z:
+              bad = z.testzip()
+              if bad:
+                  raise SystemExit('Corrupt member: ' + bad)
+              names = set(z.namelist())
+              if not {'com.block.juggle.apk', 'config.arm64_v8a.apk', 'manifest.json'} <= names:
+                  raise SystemExit('Archive is missing expected game splits')
+              manifest = json.loads(z.read('manifest.json'))
+              print('Archive package:', manifest.get('package_name'))
+              if manifest.get('package_name') != 'com.block.juggle':
+                  raise SystemExit('Unexpected package name')
+          PY
+          sha256sum BlockBlast-10.9.2-source.xapk > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+      - name: Publish the authorized public GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag=blockblast-source-10.9.2
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo 'Release already exists; refusing to overwrite it.' >&2
+            exit 1
+          fi
+          gh release create "$tag" "$RUNNER_TEMP/source-transfer/BlockBlast-10.9.2-source.xapk" "$RUNNER_TEMP/source-transfer/SHA256SUMS.txt" \
+            --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title 'Block Blast 10.9.2 source archive' \
+            --notes 'Public source archive published at the user’s request for reproducible GitHub-based research and builds. The archive is unmodified. See SHA256SUMS.txt for integrity verification.'
