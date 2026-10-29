@@ -4,6 +4,7 @@ set -u
 out="$GITHUB_WORKSPACE/analysis/arm-game-probe.txt"
 mkdir -p "$(dirname "$out")" "$RUNNER_TEMP/game-splits"
 {
+  python3 tools/inspect_scripts.py "$RUNNER_TEMP/source.xapk" > "$GITHUB_WORKSPACE/analysis/score-context.txt" || true
   echo 'Boot native ARM64 Android container:'
   sudo modprobe binder_linux devices=binder,hwbinder,vndbinder 2>&1 || true
   docker pull redroid/redroid:13.0.0-latest >/dev/null || exit 0

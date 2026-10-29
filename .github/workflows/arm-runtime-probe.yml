@@ -2,7 +2,7 @@ name: Native ARM game probe
 on:
   push:
     branches: [arena/fe683328-blockblast]
-    paths: [.github/workflows/arm-runtime-probe.yml, tools/arm_game_probe.sh, tools/frida_inventory.*, tools/frida_trace.js, tools/frida_after_move.js, tools/frida_real_score.js, tools/find_terms_button.py]
+    paths: [.github/workflows/arm-runtime-probe.yml, tools/arm_game_probe.sh, tools/frida_inventory.*, tools/frida_trace.js, tools/frida_after_move.js, tools/frida_real_score.js, tools/inspect_scripts.py, tools/find_terms_button.py]
 permissions:
   contents: write
 jobs:
@@ -33,7 +33,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           if [ -f analysis/arm-game-probe.txt ]; then
-            git add analysis/arm-game-probe.txt
+            git add analysis/arm-game-probe.txt analysis/score-context.txt
             if [ -f analysis/screen-capture.txt ]; then git add analysis/screen-capture.txt; fi
             if [ -f analysis/move-captures.txt ]; then git add analysis/move-captures.txt; fi
             if ! git diff --cached --quiet; then

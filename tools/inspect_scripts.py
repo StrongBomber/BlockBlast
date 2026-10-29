@@ -4,7 +4,7 @@ import io, re, sys, zipfile
 with zipfile.ZipFile(sys.argv[1]) as xapk:
     with zipfile.ZipFile(io.BytesIO(xapk.read('com.block.juggle.apk'))) as apk:
         for name in apk.namelist():
-            if not (name.endswith('.js') and (name.startswith('assets/assets/main/') or name.startswith('assets/assets/mainTraits/') or name == 'assets/main.js')):
+            if not (name.endswith('.js') and (name.startswith('assets/assets/main/') or name.startswith('assets/assets/mainTraits/') or name.startswith('assets/assets/class/') or name == 'assets/main.js')):
                 continue
             b = apk.read(name)
             print(f'\n{name}: {len(b)} bytes; prefix={b[:24]!r}')
