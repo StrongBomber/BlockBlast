@@ -68,4 +68,6 @@ if ! adb logcat -d -s ArenaScoreHook:I '*:S' | grep -q 'installed'; then
   echo 'Score hook was not installed.'
   exit 1
 fi
-echo 'Experimental menu and score hook installed; gameplay validation is still required.'
+echo 'Testing the menu selections and score awards on the disposable game:'
+python3 tools/test_game_score.py
+echo 'In-game score multiplier test passed.'

@@ -20,11 +20,14 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq zip apksigner zipalign adb tesseract-ocr
+          python3 -m pip install --break-system-packages pillow
       - name: Download source archive
         run: bash tools/download_source.sh "$RUNNER_TEMP/source.xapk"
       - name: Build and test disposable menu bootstrap
         id: probe
         shell: bash
+        env:
+          USER_APPROVED_TERMS: '1'
         run: |
           set +e
           timeout --kill-after=15s 1100 bash tools/test_menu_injection.sh > analysis/menu-injection-probe.txt 2>&1

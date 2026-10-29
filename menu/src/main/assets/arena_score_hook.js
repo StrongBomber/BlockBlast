@@ -18,10 +18,18 @@
       var multiplier = 1;
       try { multiplier = Number(jsb.reflection.callStaticMethod(
         'ai/arena/blockblast/menu/ScoreMultiplier', 'get', '()I')); } catch (_) {}
-      if (multiplier !== 10 && multiplier !== 100 && multiplier !== 1000) return result;
+      if (multiplier !== 10 && multiplier !== 100 && multiplier !== 1000) multiplier = 1;
       var keys = ['baseScore', 'comboScore', 'screenScore', 'blockScore'];
       var current = Number(result.curScore);
       if (!Number.isFinite(current) || current < 0) return result;
+      if (multiplier === 1) {
+        var unchanged = keys.reduce(function (sum, key) {
+          var value = result[key];
+          return sum + (typeof value === 'number' && Number.isFinite(value) && value > 0 ? value : 0);
+        }, 0);
+        log(JSON.stringify({factor: 1, before: unchanged, after: unchanged, current: current}));
+        return result;
+      }
       var budget = Math.max(0, 2147483647 - current);
       var before = 0, after = 0;
       keys.forEach(function (key) {
