@@ -41,8 +41,8 @@ penceresi içinde çalışmak üzere tasarlanmıştır; sistem overlay izni iste
 Tercih cihazda saklanır. Pozitif skor artışları için kullanılacak aritmetik,
 negatif cezaları değiştirmez ve taşmada `int` üst sınırına sabitlenir.
 
-Bu bileşen henüz oyun APK'sına enjekte edilmedi ve puan güncelleme noktasına
-bağlanmadı. `menu-check.yml` bileşeni derler ve aritmetik testini çalıştırır;
+Bu bileşen deneysel bir geçici oyun paketine enjekte edilip açılışta
+görüntülendi; ancak puan güncelleme noktasına henüz bağlanmadı. `menu-check.yml` bileşeni derler ve aritmetik testini çalıştırır;
 `menu-ui-test.yml` ise geçici bir test uygulamasını emülatörde çalıştırarak
 seçimleri, tercihin saklanmasını, sürüklemeyi ve arka plana dokunma geçişini
 kontrol eder. Bu iş akışları modlu oyun APK'sı üretmez.
@@ -81,3 +81,20 @@ tek kaynağı olduğu **henüz doğrulanmadı**. Test sarmalayıcıları da hen�
 kullanılabilir bir skor güncelleme çağrısı yakalamadı. Dolayısıyla bu sonuç,
 çarpanın uygulandığı veya modlu APK'nın oluşturulduğu anlamına gelmez.
 `analysis/arm-game-probe.txt` son testin ayrıntılarını içerir.
+
+### Deneysel oyun içi menü entegrasyonu
+
+`menu-injection-probe.yml` ve `tools/test_menu_injection.sh`, kullanıcının
+geçici bağlantı izniyle kaynağı indirip binary manifest'e bir ContentProvider
+ve yeni bir DEX ekleyerek bölünmüş paketleri test anahtarıyla imzalar. Android
+ARM testinde paketlerin kurulumu, orijinal oyunun açılması ve menünün oyun
+üzerinde görünmesi doğrulandı (Actions çalıştırması `40930769169`). Ayrı UI
+testi `40928546144` ise taklit etkinlikte menünün açılmasını, seçenekleri,
+sürüklenmesini, tercih kaydını ve dokunma geçişini kontrol eder.
+
+Bu yalnızca **deneysel menü entegrasyonudur**: `MenuBootstrapProvider` skor
+hook'u kurmaz; 10x/100x/1000x seçenekleri gerçek oyun skorunu değiştirmez.
+Başarılı bir paketleme testi, tamamlanmış bir mod anlamına gelmez. Test
+paketleri depoya veya Actions artifaktı olarak kaydedilmez. Tam sürüm için
+önce skorun asıl hesaplama ve kalıcı kayıt noktası bulunmalı, seçilen çarpanla
+bağlanmalı ve gerçek hamleler ve yeniden başlatma ile doğrulanmalıdır.
