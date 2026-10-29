@@ -22,6 +22,8 @@ mkdir -p "$(dirname "$out")" "$RUNNER_TEMP/game-splits"
   rc=$?
   echo "install_exit=$rc"
   [ "$rc" -eq 0 ] || exit 0
+  # Disable the Android system's immersive-mode tutorial in the disposable device.
+  adb shell settings put secure immersive_mode_confirmations confirmed || true
   adb logcat -c
   echo 'Resolve launch activity:'
   adb shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.LAUNCHER com.block.juggle
