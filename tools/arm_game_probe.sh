@@ -126,6 +126,23 @@ PYSCREEN
     sleep 5
     echo 'Attaching runtime inventory'
     timeout 45 "$RUNNER_TEMP/frida-venv/bin/python" tools/frida_inventory.py "$pid" tools/frida_inventory.js || echo 'Runtime inventory failed or timed out'
+    echo 'Install temporary score tracing in disposable game:'
+    timeout 35 "$RUNNER_TEMP/frida-venv/bin/python" tools/frida_inventory.py "$pid" tools/frida_trace.js || echo 'Trace setup failed'
+    echo 'Drag the tutorial piece to the indicated board position:'
+    adb shell input swipe 360 1050 360 650 1200 || true
+    sleep 8
+    timeout 15 adb shell screencap -p /sdcard/played.png && timeout 15 adb pull /sdcard/played.png "$RUNNER_TEMP/played.png" >/dev/null 2>&1 || true
+    if [ -f "$RUNNER_TEMP/played.png" ]; then
+      python3 - "$RUNNER_TEMP/played.png" "$GITHUB_WORKSPACE/analysis/screen-capture.txt" <<'PYSCREEN'
+import base64, io, sys
+from PIL import Image
+im = Image.open(sys.argv[1]).convert('RGB'); im.thumbnail((360, 800))
+b = io.BytesIO(); im.save(b, format='JPEG', quality=65)
+open(sys.argv[2], 'w').write(base64.b64encode(b.getvalue()).decode() + '\n')
+PYSCREEN
+    fi
+    echo 'Score state after drag:'
+    timeout 35 "$RUNNER_TEMP/frida-venv/bin/python" tools/frida_inventory.py "$pid" tools/frida_after_move.js || true
     echo 'JavaScript global probe:'
     timeout 15 adb logcat -d -s ArenaJS:I '*:S' | tail -100 || true
 
