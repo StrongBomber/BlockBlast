@@ -7,7 +7,7 @@ Serving...
 All files should be loaded. Notifying the device.
 Performing Incremental Install
 Success
-Install command complete in 3850 ms
+Install command complete in 1908 ms
 install_exit=0
 Launch result:
   bash arg: -p
@@ -24,44 +24,114 @@ args: [-p, com.block.juggle, -c, android.intent.category.LAUNCHER, 1]
 data="com.block.juggle"
 data="android.intent.category.LAUNCHER"
 Events injected: 1
-## Network stats: elapsed time=32ms (0ms mobile, 0ms wifi, 32ms not connected)
+## Network stats: elapsed time=61ms (0ms mobile, 0ms wifi, 61ms not connected)
 Process:
+3549
 Resumed activity:
-    mResumedActivity: ActivityRecord{21420fa u0 com.google.android.apps.nexuslauncher/.NexusLauncherActivity t8}
+    mResumedActivity: ActivityRecord{75e3eef u0 com.block.juggle/org.cocos2dx.javascript.AppActivity.Default t9}
+Native crash diagnostics:
+E/AndroidRuntime( 3549): FATAL EXCEPTION: main
+E/AndroidRuntime( 3549): Process: com.block.juggle, PID: 3549
+E/AndroidRuntime( 3549): java.lang.AssertionError
+E/AndroidRuntime( 3549): 	at com.facebook.infer.annotation.Assertions.assertNotNull(SourceFile:2)
+E/AndroidRuntime( 3549): 	at com.facebook.react.ReactInstanceManager$ReactContextInitParams.<init>(SourceFile:6)
+E/AndroidRuntime( 3549): 	at com.facebook.react.ReactInstanceManager.recreateReactContextInBackground(SourceFile:5)
+E/AndroidRuntime( 3549): 	at com.facebook.react.ReactInstanceManager.recreateReactContextInBackgroundFromBundleLoader(SourceFile:23)
+E/AndroidRuntime( 3549): 	at com.facebook.react.ReactInstanceManager.recreateReactContextInBackgroundInner(SourceFile:65)
+E/AndroidRuntime( 3549): 	at com.facebook.react.ReactInstanceManager.createReactContextInBackground(SourceFile:18)
+E/AndroidRuntime( 3549): 	at pg.f.l(SourceFile:133)
+E/AndroidRuntime( 3549): 	at org.cocos2dx.javascript.DemokApplication.E(SourceFile:52)
+E/AndroidRuntime( 3549): 	at org.cocos2dx.javascript.DemokApplication.safedk_DemokApplication_onCreate_8cb917d2c37706f0e635aad7cd9ee3e2(SourceFile:131)
+E/AndroidRuntime( 3549): 	at org.cocos2dx.javascript.DemokApplication.onCreate(Unknown Source:8)
+E/AndroidRuntime( 3549): 	at com.netease.nis.wrapper.MyApplication.onCreate(Unknown Source:40)
+E/AndroidRuntime( 3549): 	at android.app.Instrumentation.callApplicationOnCreate(Instrumentation.java:1192)
+E/AndroidRuntime( 3549): 	at android.app.ActivityThread.handleBindApplication(ActivityThread.java:6712)
+E/AndroidRuntime( 3549): 	at android.app.ActivityThread.access$1300(ActivityThread.java:237)
+E/AndroidRuntime( 3549): 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1913)
+E/AndroidRuntime( 3549): 	at android.os.Handler.dispatchMessage(Handler.java:106)
+E/AndroidRuntime( 3549): 	at android.os.Looper.loop(Looper.java:223)
+E/AndroidRuntime( 3549): 	at android.app.ActivityThread.main(ActivityThread.java:7656)
+E/AndroidRuntime( 3549): 	at java.lang.reflect.Method.invoke(Native Method)
+E/AndroidRuntime( 3549): 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:592)
+E/AndroidRuntime( 3549): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:947)
+F/libc    ( 6915): Fatal signal 7 (SIGBUS), code 2 (BUS_ADRERR), fault addr 0xe978a000 in tid 6915 (dex2oat32), pid 6915 (dex2oat32)
+F/DEBUG   ( 6919): *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+F/DEBUG   ( 6919): Build fingerprint: 'google/sdk_gphone_x86_64/generic_x86_64_arm64:11/RSR1.201211.001/7027799:user/release-keys'
+F/DEBUG   ( 6919): Revision: '0'
+F/DEBUG   ( 6919): ABI: 'x86'
+F/DEBUG   ( 6919): Timestamp: 2026-10-29 10:45:30-0500
+F/DEBUG   ( 6919): pid: 6915, tid: 6915, name: dex2oat32  >>> /apex/com.android.art/bin/dex2oat32 <<<
+F/DEBUG   ( 6919): uid: 50154
+F/DEBUG   ( 6919): signal 7 (SIGBUS), code 2 (BUS_ADRERR), fault addr 0xe978a000
+F/DEBUG   ( 6919):     eax fffffe50  ebx 00013ac8  ecx 2afbfacc  edx 000415ee
+F/DEBUG   ( 6919):     edi e9788bfc  esi 000415ee
+F/DEBUG   ( 6919):     ebp ff86ede8  esp ff86edd0  eip 63fa402e
+F/DEBUG   ( 6919): backtrace:
+F/DEBUG   ( 6919):       #00 pc 0011302e  /apex/com.android.art/bin/dex2oat32 (adler32_z+238) (BuildId: dcf02afd1fe767b6a82a55c869ffd73e)
+F/DEBUG   ( 6919):       #01 pc 00113236  /apex/com.android.art/bin/dex2oat32 (adler32+38) (BuildId: dcf02afd1fe767b6a82a55c869ffd73e)
+F/DEBUG   ( 6919):       #02 pc 0002005f  /apex/com.android.art/lib/libdexfile.so (art::DexFile::CalculateChecksum() const+63) (BuildId: 901a1a23b710cc352d28c0726933fb6d)
+F/DEBUG   ( 6919):       #03 pc 0002a4f0  /apex/com.android.art/lib/libdexfile.so (art::dex::DexFileVerifier::CheckHeader()+64) (BuildId: 901a1a23b710cc352d28c0726933fb6d)
+F/DEBUG   ( 6919):       #04 pc 000343ac  /apex/com.android.art/lib/libdexfile.so (art::dex::DexFileVerifier::Verify()+44) (BuildId: 901a1a23b710cc352d28c0726933fb6d)
+F/DEBUG   ( 6919):       #05 pc 00034daa  /apex/com.android.art/lib/libdexfile.so (art::dex::Verify(art::DexFile const*, unsigned char const*, unsigned int, char const*, bool, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*)+186) (BuildId: 901a1a23b710cc352d28c0726933fb6d)
+F/DEBUG   ( 6919):       #06 pc 00026389  /apex/com.android.art/lib/libdexfile.so (art::DexFileLoader::OpenCommon(unsigned char const*, unsigned int, unsigned char const*, unsigned int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, unsigned int, art::OatDexFile const*, bool, bool, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::unique_ptr<art::DexFileContainer, std::__1::default_delete<art::DexFileContainer> >, art::DexFileLoader::VerifyResult*)+697) (BuildId: 901a1a23b710cc352d28c0726933fb6d)
+F/DEBUG   ( 6919):       #07 pc 0001aa24  /apex/com.android.art/lib/libdexfile.so (art::ArtDexFileLoader::Open(unsigned char const*, unsigned int, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> > const&, unsigned int, art::OatDexFile const*, bool, bool, std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char> >*, std::__1::unique_ptr<art::DexFileContainer, std::__1::default_delete<art::DexFileContainer> >) const+324) (BuildId: 901a1a23b710cc352d28c0726933fb6d)
+F/DEBUG   ( 6919):       #08 pc 000f4451  /apex/com.android.art/bin/dex2oat32 (art::linker::OatWriter::WriteAndOpenDexFiles(unix_file::FdFile*, bool, bool, art::linker::CopyOption, std::__1::vector<art::MemMap, std::__1::allocator<art::MemMap> >*, std::__1::vector<std::__1::unique_ptr<art::DexFile const, std::__1::default_delete<art::DexFile const> >, std::__1::allocator<std::__1::unique_ptr<art::DexFile const, std::__1::default_delete<art::DexFile const> > > >*)+2737) (BuildId: dcf02afd1fe767b6a82a55c869ffd73e)
+F/DEBUG   ( 6919):       #09 pc 0007be83  /apex/com.android.art/bin/dex2oat32 (art::Dex2Oat::Setup()+7875) (BuildId: dcf02afd1fe767b6a82a55c869ffd73e)
+F/DEBUG   ( 6919):       #10 pc 00070ea2  /apex/com.android.art/bin/dex2oat32 (art::Dex2oat(int, char**)+7682) (BuildId: dcf02afd1fe767b6a82a55c869ffd73e)
+F/DEBUG   ( 6919):       #11 pc 0006f090  /apex/com.android.art/bin/dex2oat32 (main+32) (BuildId: dcf02afd1fe767b6a82a55c869ffd73e)
+F/DEBUG   ( 6919):       #12 pc 00052373  /apex/com.android.runtime/lib/bionic/libc.so (__libc_init+115) (BuildId: 57f4eb5e1df9fa8bd21032ad6be9823f)
 Relevant diagnostic log:
-V/BackupManagerService(  514): [UserID:0] restoreAtInstall pkg=com.block.juggle token=1 restoreSet=0
-I/MediaProvider( 1676): Invalidating LocalCallingIdentity cache for package com.block.juggle. Reason: package android.intent.action.PACKAGE_ADDED
-I/GsaVoiceInteractionSrv( 1512): O received Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) }
-D/AvrcpMediaPlayerList(  719): Name of package changed: com.block.juggle
-I/Finsky  ( 2361): [2] ste.d(9): Invalidating cached PackageState for com.block.juggle
-W/Monkey  ( 3558): args: [-p, com.block.juggle, -c, android.intent.category.LAUNCHER, 1]
-W/Monkey  ( 3558):  arg: "com.block.juggle"
-W/Monkey  ( 3558): data="com.block.juggle"
-I/ActivityTaskManager(  514): START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.block.juggle/org.cocos2dx.javascript.AppActivity.Default} from uid 2000
-I/Finsky  ( 2361): [266] eqs.a(12): Asset module storage cleared for package com.block.juggle.
-I/ActivityManager(  514): Start proc 3643:com.block.juggle/u0a154 for pre-top-activity {com.block.juggle/org.cocos2dx.javascript.AppActivity.Default}
-I/IntentFilterIntentOp( 1309): Verifying IntentFilter. verificationId:0 scheme:"https" hosts:"mainactivity blockblastgamectv.onelink.me www.hungrystudio.com blockblastgame.onelink.me" package:"com.block.juggle".
-W/GCM     ( 1189): Unexpected forwarded intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) }
-W/GCM     ( 1189): Unexpected forwarded intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) }
-I/ChromeSync( 1309): [Sync,SyncIntentOperation] Handling the intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) }.
-I/ChromeSync( 1309): [Persistence,AffiliationManager] One of affiliation or grouping data for android://dTUYhRfz2fbzA7ABcrXztrhHSdpOlALH_xZRWqjeXywabgYUfBAW4JKVgIfmXeRtWrdvvoG-Nym2QdrmzENBbw==@com.block.juggle/ was not found. Marking affiliation data as stale...
-I/chatty  ( 3643): uid=10154(com.block.juggle) identical 18 lines
-W/om.block.juggle( 3643): type=1400 audit(0.0:232): avc: denied { read } for name="cache" dev="dm-4" ino=16 scontext=u:r:untrusted_app:s0:c154,c256,c512,c768 tcontext=u:object_r:cache_file:s0 tclass=lnk_file permissive=0 app=com.block.juggle
-F/libc    ( 3643): Fatal signal 6 (SIGABRT), code -1 (SI_QUEUE) in tid 3643 (om.block.juggle), pid 3643 (om.block.juggle)
-F/DEBUG   ( 4005): pid: 3643, tid: 3643, name: om.block.juggle  >>> com.block.juggle <<<
-W/ActivityTaskManager(  514):   Force finishing activity com.block.juggle/org.cocos2dx.javascript.AppActivity.Default
-I/ActivityManager(  514): Process com.block.juggle (pid 3643) has died: prcp TOP 
-W/ActivityTaskManager(  514): Activity top resumed state loss timeout for ActivityRecord{47db494 u0 com.block.juggle/org.cocos2dx.javascript.AppActivity.Default t-1 f}}
-W/BroadcastQueue(  514): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.packageinstaller/com.android.packageinstaller.PackageInstalledReceiver
-W/BroadcastQueue(  514): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.android.vending/com.google.android.finsky.packagemanager.impl.PackageMonitorReceiverImpl$RegisteredReceiver
-W/BroadcastQueue(  514): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.gms/.games.chimera.GamesSystemBroadcastReceiverProxy
-W/BroadcastQueue(  514): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.gms/.gass.chimera.PackageChangeBroadcastReceiver
-W/BroadcastQueue(  514): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.gms/.chimera.GmsIntentOperationService$PersistentTrustedReceiver
-W/BroadcastQueue(  514): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.googlequicksearchbox/com.google.android.apps.gsa.googlequicksearchbox.GelStubAppWatcher
-W/BroadcastQueue(  514): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.ims/.receivers.RcsAutoStartReceiver
-I/PackageDexOptimizer(  514): Running dexopt (dexoptNeeded=1) on: /data/app/~~TXRkAgLpcrML3gI8H3UtOA==/com.block.juggle-oN9PCbSrnV2KS5DsUFugWw==/base.apk pkg=com.block.juggle isa=x86_64 dexoptFlags=boot_complete,public,enable_hidden_api_checks targetFilter=verify oatDir=null classLoaderContext=PCL[]{PCL[/system_ext/framework/androidx.window.sidecar.jar]}
-V/installd(  428): DexInv: --- BEGIN '/data/app/~~TXRkAgLpcrML3gI8H3UtOA==/com.block.juggle-oN9PCbSrnV2KS5DsUFugWw==/base.apk' ---
-I/dex2oat32( 6251): /apex/com.android.art/bin/dex2oat32 --input-vdex-fd=-1 --output-vdex-fd=9 --updatable-bcp-packages-file=/system/etc/updatable-bcp-packages.txt --resolve-startup-const-strings=true --max-image-block-size=524288 --compiler-filter=verify --classpath-dir=/data/app/~~TXRkAgLpcrML3gI8H3UtOA==/com.block.juggle-oN9PCbSrnV2KS5DsUFugWw== --class-loader-context=PCL[]{PCL[/system_ext/framework/androidx.window.sidecar.jar]} --generate-mini-debug-info --compact-dex-level=none --compilation-reason=boot
-V/installd(  428): DexInv: --- END '/data/app/~~TXRkAgLpcrML3gI8H3UtOA==/com.block.juggle-oN9PCbSrnV2KS5DsUFugWw==/base.apk' (success) ---
-I/BackgroundDexOptService(  514): Pinning optimized code {android, com.block.juggle}
-D/IorapForwardingService(  514): onPackagesUpdated: com.block.juggle
+V/BackupManagerService(  517): [UserID:0] restoreAtInstall pkg=com.block.juggle token=1 restoreSet=0
+I/MediaProvider( 1690): Invalidating LocalCallingIdentity cache for package com.block.juggle. Reason: package android.intent.action.PACKAGE_ADDED
+I/Finsky  ( 2138): [2] ste.d(9): Invalidating cached PackageState for com.block.juggle
+I/GsaVoiceInteractionSrv( 1698): O received Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) }
+D/AvrcpMediaPlayerList(  728): Name of package changed: com.block.juggle
+W/GCM     ( 1176): Unexpected forwarded intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) }
+W/GCM     ( 1176): Unexpected forwarded intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) }
+I/Finsky  ( 2138): [269] eqs.a(12): Asset module storage cleared for package com.block.juggle.
+W/BroadcastQueue(  517): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.packageinstaller/com.android.packageinstaller.PackageInstalledReceiver
+W/BroadcastQueue(  517): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.android.vending/com.google.android.finsky.packagemanager.impl.PackageMonitorReceiverImpl$RegisteredReceiver
+W/BroadcastQueue(  517): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.gms/.games.chimera.GamesSystemBroadcastReceiverProxy
+W/BroadcastQueue(  517): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.gms/.gass.chimera.PackageChangeBroadcastReceiver
+W/BroadcastQueue(  517): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.gms/.chimera.GmsIntentOperationService$PersistentTrustedReceiver
+W/BroadcastQueue(  517): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.googlequicksearchbox/com.google.android.apps.gsa.googlequicksearchbox.GelStubAppWatcher
+W/BroadcastQueue(  517): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.ims/.receivers.RcsAutoStartReceiver
+I/IntentFilterIntentOp( 1367): Verifying IntentFilter. verificationId:0 scheme:"https" hosts:"mainactivity blockblastgamectv.onelink.me www.hungrystudio.com blockblastgame.onelink.me" package:"com.block.juggle".
+W/Monkey  ( 3383): args: [-p, com.block.juggle, -c, android.intent.category.LAUNCHER, 1]
+W/Monkey  ( 3383):  arg: "com.block.juggle"
+W/Monkey  ( 3383): data="com.block.juggle"
+I/ActivityTaskManager(  517): START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.block.juggle/org.cocos2dx.javascript.AppActivity.Default} from uid 2000
+I/ActivityManager(  517): Start proc 3549:com.block.juggle/u0a154 for pre-top-activity {com.block.juggle/org.cocos2dx.javascript.AppActivity.Default}
+I/ChromeSync( 1367): [Sync,SyncIntentOperation] Handling the intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) }.
+I/ChromeSync( 1367): [Persistence,AffiliationManager] One of affiliation or grouping data for android://iWsGNGxi7oM9YoV7F6wMSzo1cnCuWzqeE-bLDKcJj4ykxJTEA_5IZE9XvKoYQ2O8LPWz8DbiWshePaISriqvAw==@com.block.juggle/ was not found. Marking affiliation data as stale...
+I/chatty  ( 3549): uid=10154(com.block.juggle) identical 18 lines
+W/om.block.juggle( 3549): type=1400 audit(0.0:116): avc: denied { read } for name="cache" dev="dm-4" ino=16 scontext=u:r:untrusted_app:s0:c154,c256,c512,c768 tcontext=u:object_r:cache_file:s0 tclass=lnk_file permissive=0 app=com.block.juggle
+I/MMKV    ( 3549): <MMKV.cpp:225::initializeMMKV> root dir: /data/user/0/com.block.juggle/files/mmkv
+I/MMKV    ( 3549): <MemoryFile.cpp:98::open> open fd[0x46], /data/user/0/com.block.juggle/files/mmkv/J_AD
+I/MMKV    ( 3549): <MemoryFile.cpp:203::mmap> mmap to address [0x7da403c96000], oldPtr [0x0], [/data/user/0/com.block.juggle/files/mmkv/J_AD]
+I/MMKV    ( 3549): <MemoryFile.cpp:98::open> open fd[0x47], /data/user/0/com.block.juggle/files/mmkv/J_AD.crc
+I/MMKV    ( 3549): <MemoryFile.cpp:203::mmap> mmap to address [0x7da403c66000], oldPtr [0x0], [/data/user/0/com.block.juggle/files/mmkv/J_AD.crc]
+I/TetheringManager( 3549): registerTetheringEventCallback:com.block.juggle
+I/chatty  ( 3549): uid=10154(com.block.juggle) identical 2 lines
+D/ConnectivityService(  517): requestNetwork for uid/pid:10154/3549 NetworkRequest [ TRACK_DEFAULT id=33, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ]
+D/WifiNetworkFactory(  517): got request NetworkRequest [ TRACK_DEFAULT id=33, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ] with score 60 and providerId 3
+D/UntrustedWifiNetworkFactory(  517): got request NetworkRequest [ TRACK_DEFAULT id=33, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ] with score 60 and providerId 3
+D/PhoneSwitcherNetworkRequstListener( 1060): got request NetworkRequest [ TRACK_DEFAULT id=33, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ] with score 60 and providerId 3
+W/ActivityManager(  517): Receiver with filter android.content.IntentFilter@ff14491 already registered for pid 3549, callerPackage is com.block.juggle
+W/ActivityManager(  517): Receiver with filter android.content.IntentFilter@d4c72da already registered for pid 3549, callerPackage is com.block.juggle
+W/ActivityManager(  517): Receiver with filter android.content.IntentFilter@59c7650 already registered for pid 3549, callerPackage is com.block.juggle
+E/AndroidRuntime( 3549): FATAL EXCEPTION: main
+E/AndroidRuntime( 3549): Process: com.block.juggle, PID: 3549
+D/AvrcpMediaPlayerList(  728): Name of package changed: com.block.juggle
+D/ConnectivityService(  517): requestNetwork for uid/pid:10154/3549 NetworkRequest [ TRACK_DEFAULT id=35, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ]
+D/WifiNetworkFactory(  517): got request NetworkRequest [ TRACK_DEFAULT id=35, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ] with score 60 and providerId 3
+D/UntrustedWifiNetworkFactory(  517): got request NetworkRequest [ TRACK_DEFAULT id=35, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ] with score 60 and providerId 3
+D/PhoneSwitcherNetworkRequstListener( 1060): got request NetworkRequest [ TRACK_DEFAULT id=35, [ Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED Uid: 10154 AdministratorUids: [] RequestorUid: 10154 RequestorPackageName: com.block.juggle] ] with score 60 and providerId 3
+I/Fitness ( 1176): OnPackageChangedOperation got intent: Intent { act=android.intent.action.PACKAGE_CHANGED dat=package:com.block.juggle flg=0x45000010 cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) } [CONTEXT service_id=17 ]
+I/PackageDexOptimizer(  517): Running dexopt (dexoptNeeded=1) on: /data/app/~~adBCK8C60ZVFiJA1OdCj4Q==/com.block.juggle-M1YILNjT21wFGwcoHx5XvQ==/base.apk pkg=com.block.juggle isa=x86_64 dexoptFlags=boot_complete,public,enable_hidden_api_checks targetFilter=verify oatDir=null classLoaderContext=PCL[]{PCL[/system_ext/framework/androidx.window.sidecar.jar]}
+V/installd(  436): DexInv: --- BEGIN '/data/app/~~adBCK8C60ZVFiJA1OdCj4Q==/com.block.juggle-M1YILNjT21wFGwcoHx5XvQ==/base.apk' ---
+I/dex2oat32( 6915): /apex/com.android.art/bin/dex2oat32 --input-vdex-fd=-1 --output-vdex-fd=9 --updatable-bcp-packages-file=/system/etc/updatable-bcp-packages.txt --resolve-startup-const-strings=true --max-image-block-size=524288 --compiler-filter=verify --classpath-dir=/data/app/~~adBCK8C60ZVFiJA1OdCj4Q==/com.block.juggle-M1YILNjT21wFGwcoHx5XvQ== --class-loader-context=PCL[]{PCL[/system_ext/framework/androidx.window.sidecar.jar]} --generate-mini-debug-info --compact-dex-level=none --compilation-reason=boot
+F/libc    ( 6915): Fatal signal 7 (SIGBUS), code 2 (BUS_ADRERR), fault addr 0xe978a000 in tid 6915 (dex2oat32), pid 6915 (dex2oat32)
+V/installd(  436): DexInv: --- END '/data/app/~~adBCK8C60ZVFiJA1OdCj4Q==/com.block.juggle-M1YILNjT21wFGwcoHx5XvQ==/base.apk' --- status=0x   7, process failed
+E/installd(  436): Dex2oat invocation for /data/app/~~adBCK8C60ZVFiJA1OdCj4Q==/com.block.juggle-M1YILNjT21wFGwcoHx5XvQ==/base.apk failed with 0x0007 (7)
+W/PackageDexOptimizer(  517): com.android.server.pm.Installer$InstallerException: android.os.ServiceSpecificException: Dex2oat invocation for /data/app/~~adBCK8C60ZVFiJA1OdCj4Q==/com.block.juggle-M1YILNjT21wFGwcoHx5XvQ==/base.apk failed with 0x0007 (code 7)
