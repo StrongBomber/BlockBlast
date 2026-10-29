@@ -23,3 +23,4 @@ jobs:
           mkdir -p "$RUNNER_TEMP/menu-classes"
           javac --release 8 -cp "$ANDROID_HOME/platforms/android-35/android.jar" -d "$RUNNER_TEMP/menu-classes" $(find menu/src -name '*.java')
           java -cp "$RUNNER_TEMP/menu-classes" ai.arena.blockblast.menu.ScoreMultiplierTest
+          node menu/src/test/score_hook_test.js

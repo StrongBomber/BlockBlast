@@ -26,7 +26,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/classes" "$RUNNER_TEMP/dex"
           javac --release 8 -cp "$jar" -d "$RUNNER_TEMP/classes" $(find menu/src/main menu/testapp/src -name '*.java')
           "$bt/d8" --min-api 23 --lib "$jar" --output "$RUNNER_TEMP/dex" $(find "$RUNNER_TEMP/classes" -name '*.class')
-          "$bt/aapt" package -f -M menu/testapp/AndroidManifest.xml -I "$jar" -F "$RUNNER_TEMP/unsigned.apk"
+          "$bt/aapt" package -f -M menu/testapp/AndroidManifest.xml -A menu/src/main/assets -I "$jar" -F "$RUNNER_TEMP/unsigned.apk"
           (cd "$RUNNER_TEMP/dex" && zip -q "$RUNNER_TEMP/unsigned.apk" classes.dex)
           "$bt/zipalign" -f 4 "$RUNNER_TEMP/unsigned.apk" "$RUNNER_TEMP/aligned.apk"
           keytool -genkeypair -keystore "$RUNNER_TEMP/test.keystore" -storepass android -keypass android -alias test -dname 'CN=Disposable test' -keyalg RSA -validity 1 >/dev/null 2>&1

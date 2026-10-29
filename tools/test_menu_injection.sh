@@ -13,6 +13,9 @@ java -cp "$work/apkeditor.jar:$work" InjectBinaryManifest "$work/original-manife
 cp "$work/splits/com.block.juggle.apk" "$work/base-rebuilt.apk"
 zip -q -d "$work/base-rebuilt.apk" AndroidManifest.xml
 (cd "$work" && zip -q "$work/base-rebuilt.apk" AndroidManifest.xml)
+mkdir -p "$work/assets"
+cp menu/src/main/assets/arena_score_hook.js "$work/assets/arena_score_hook.js"
+(cd "$work" && zip -q "$work/base-rebuilt.apk" assets/arena_score_hook.js)
 echo 'Compile experimental menu dex:'
 curl -fsSL https://github.com/Sable/android-platforms/raw/master/android-35/android.jar -o "$work/android.jar"
 curl -fsSL https://storage.googleapis.com/r8-releases/raw/8.5.35/r8.jar -o "$work/r8.jar"
@@ -53,7 +56,7 @@ adb shell am start -n com.block.juggle/org.cocos2dx.javascript.AppActivity.Defau
 sleep 75
 echo "pid=$(adb shell pidof com.block.juggle | tr -d '\r')"
 echo 'Bootstrap and crash logs:'
-adb logcat -d -v brief | grep -E 'ArenaMenuBootstrap|AndroidRuntime|F/libc|Force finishing|Process com.block.juggle' | tail -100 || true
+adb logcat -d -v brief | grep -E 'ArenaMenuBootstrap|ArenaScoreBridge|ArenaScoreHook|AndroidRuntime|F/libc|Force finishing|Process com.block.juggle' | tail -100 || true
 adb shell screencap -p /sdcard/menu.png && adb pull /sdcard/menu.png "$work/menu.png" >/dev/null
 echo 'Screen text:'
 tesseract "$work/menu.png" stdout 2>/dev/null || true
@@ -61,4 +64,8 @@ if ! adb logcat -d -s ArenaMenuBootstrap:I '*:S' | grep -q 'Menu attached'; then
   echo 'Bootstrap attachment was not observed.'
   exit 1
 fi
-echo 'Experimental menu bootstrap attached; score hook remains unimplemented.'
+if ! adb logcat -d -s ArenaScoreHook:I '*:S' | grep -q 'installed'; then
+  echo 'Score hook was not installed.'
+  exit 1
+fi
+echo 'Experimental menu and score hook installed; gameplay validation is still required.'

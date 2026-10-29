@@ -8,9 +8,12 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.Set;
 
 /** Experimental lifecycle entry point for an injected, in-activity menu.
- * This class does not install a score hook or modify scores. */
+ * The score hook is loaded separately on the game's GL thread. */
 public final class MenuBootstrapProvider extends ContentProvider {
     private static final String TAG = "ArenaMenuBootstrap";
     private static final String GAME_ACTIVITY = "org.cocos2dx.javascript.AppActivity";
@@ -22,13 +25,16 @@ public final class MenuBootstrapProvider extends ContentProvider {
         }
         Application application = (Application) getContext().getApplicationContext();
         application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+            private final Set<Activity> resumed = Collections.newSetFromMap(new IdentityHashMap<Activity, Boolean>());
             @Override public void onActivityResumed(Activity activity) {
                 if (!activity.getClass().getName().startsWith(GAME_ACTIVITY)) return;
+                resumed.add(activity);
                 activity.getWindow().getDecorView().postDelayed(() -> {
-                    if (activity.isFinishing() || activity.isDestroyed()) return;
+                    if (!resumed.contains(activity) || activity.isFinishing() || activity.isDestroyed()) return;
                     try {
                         FloatingMenu.attach(activity);
-                        Log.i(TAG, "Menu attached; score hook is not installed");
+                        ScoreHookBridge.start(activity);
+                        Log.i(TAG, "Menu attached; score bridge started");
                     } catch (RuntimeException e) {
                         Log.e(TAG, "Could not attach menu", e);
                     }
@@ -36,10 +42,10 @@ public final class MenuBootstrapProvider extends ContentProvider {
             }
             @Override public void onActivityCreated(Activity a, Bundle state) {}
             @Override public void onActivityStarted(Activity a) {}
-            @Override public void onActivityPaused(Activity a) {}
+            @Override public void onActivityPaused(Activity a) { resumed.remove(a); ScoreHookBridge.stop(a); }
             @Override public void onActivityStopped(Activity a) {}
             @Override public void onActivitySaveInstanceState(Activity a, Bundle out) {}
-            @Override public void onActivityDestroyed(Activity a) {}
+            @Override public void onActivityDestroyed(Activity a) { resumed.remove(a); ScoreHookBridge.stop(a); }
         });
         return true;
     }
