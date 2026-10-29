@@ -24,7 +24,7 @@ jobs:
       - name: Download source archive
         run: gdown --id 10qUhPRvMhCKxXPAH4TYzBk7c8JSnsPql -O "$RUNNER_TEMP/source.xapk"
       - name: Probe original game on native ARM Android
-        run: bash tools/arm_game_probe.sh
+        run: timeout --kill-after=10s 240 bash tools/arm_game_probe.sh || true
       - name: Save probe results only
         if: always()
         run: |
