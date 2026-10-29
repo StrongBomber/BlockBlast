@@ -1,0 +1,27 @@
+name: ARM runtime feasibility probe
+on:
+  push:
+    branches: [arena/fe683328-blockblast]
+    paths: [.github/workflows/arm-runtime-probe.yml, tools/arm_runtime_probe.sh]
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - name: Probe ARM Android runtime
+        run: bash tools/arm_runtime_probe.sh
+      - name: Save environment diagnostics
+        if: always()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if [ -f analysis/arm-runtime-probe.txt ]; then
+            git add analysis/arm-runtime-probe.txt
+            if ! git diff --cached --quiet; then
+              git commit -m 'Record ARM runtime feasibility'
+              git push origin HEAD:${GITHUB_REF_NAME}
+            fi
+          fi
