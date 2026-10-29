@@ -36,12 +36,30 @@ mkdir -p "$(dirname "$out")" "$RUNNER_TEMP/game-splits"
   timeout 15 adb shell screencap -p /sdcard/probe.png && timeout 15 adb pull /sdcard/probe.png "$RUNNER_TEMP/probe.png" >/dev/null 2>&1 && timeout 20 tesseract "$RUNNER_TEMP/probe.png" stdout 2>/dev/null || true
   if [ "${USER_APPROVED_TERMS:-0}" = 1 ] && [ -f "$RUNNER_TEMP/probe.png" ]; then
     echo 'Test user explicitly approved accepting the displayed terms.'
+    # Android's full-screen education overlay can cover the terms dialog.
+    if coords=$(python3 tools/find_terms_button.py "$RUNNER_TEMP/probe.png" GOT IT 2>/dev/null); then
+      echo 'Dismissing Android fullscreen hint.'
+      read -r x y <<< "$coords"; adb shell input tap "$x" "$y"; sleep 3
+      adb shell screencap -p /sdcard/probe.png && adb pull /sdcard/probe.png "$RUNNER_TEMP/probe.png" >/dev/null 2>&1 || true
+    fi
     if coords=$(python3 tools/find_terms_button.py "$RUNNER_TEMP/probe.png"); then
       echo "Confirmed terms button at: $coords"
-      # OCR output is numeric and constrained by the Python parser.
-      read -r x y <<< "$coords"
-      adb shell input tap "$x" "$y"
-      sleep 45
+      read -r x y <<< "$coords"; adb shell input tap "$x" "$y"
+      sleep 5
+      timeout 15 adb shell screencap -p /sdcard/after.png && timeout 15 adb pull /sdcard/after.png "$RUNNER_TEMP/after.png" >/dev/null 2>&1 || true
+      # If the first tap summoned the Android hint, dismiss it, re-identify the
+      # exact terms button, and only then perform the user-authorized tap.
+      if coords=$(python3 tools/find_terms_button.py "$RUNNER_TEMP/after.png" GOT IT 2>/dev/null); then
+        echo 'Dismissing Android fullscreen hint and retrying authorized tap.'
+        read -r x y <<< "$coords"; adb shell input tap "$x" "$y"; sleep 3
+        adb shell screencap -p /sdcard/probe.png && adb pull /sdcard/probe.png "$RUNNER_TEMP/probe.png" >/dev/null 2>&1 || true
+        if coords=$(python3 tools/find_terms_button.py "$RUNNER_TEMP/probe.png"); then
+          read -r x y <<< "$coords"; adb shell input tap "$x" "$y"
+        else
+          echo 'Terms button not confirmed after dismissing hint; no retry.'
+        fi
+      fi
+      sleep 40
       timeout 15 adb shell screencap -p /sdcard/after.png && timeout 15 adb pull /sdcard/after.png "$RUNNER_TEMP/after.png" >/dev/null 2>&1 || true
       if [ -f "$RUNNER_TEMP/after.png" ]; then
         echo 'Screen text after terms:'

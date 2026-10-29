@@ -18,17 +18,18 @@ for row in rows:
     if text:
         key = tuple(row[x] for x in ('page_num', 'block_num', 'par_num', 'line_num'))
         lines.setdefault(key, []).append(row)
+target = [word.lower() for word in sys.argv[2:]] or ['accept', 'terms', 'of', 'use']
 matches = []
 for line in lines.values():
     words = [row['text'].strip().lower() for row in line]
-    for i in range(len(words) - 3):
-        if words[i:i+4] == ['accept', 'terms', 'of', 'use']:
-            button = line[i:i+4]
+    for i in range(len(words) - len(target) + 1):
+        if words[i:i+len(target)] == target:
+            button = line[i:i+len(target)]
             x1 = min(int(r['left']) for r in button)
             y1 = min(int(r['top']) for r in button)
             x2 = max(int(r['left']) + int(r['width']) for r in button)
             y2 = max(int(r['top']) + int(r['height']) for r in button)
             matches.append(((x1 + x2) // 2, (y1 + y2) // 2))
 if len(matches) != 1:
-    raise SystemExit('Expected exactly one Accept Terms of Use button; found %d' % len(matches))
+    raise SystemExit('Expected exactly one matching button; found %d' % len(matches))
 print(*matches[0])
