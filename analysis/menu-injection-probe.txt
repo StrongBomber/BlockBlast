@@ -8,56 +8,56 @@ Merge the signed splits into an experimental standalone ARM64 APK:
                -o = /home/runner/work/_temp/menu-injection/merged.apk
                -f = true                                             
  ___________________________________________________________________ 
-00.009 I: [MERGE] Searching apk files ...
-00.020 I: [MERGE] Found apk files: 21
-00.252 I: [MERGE] Found modules: 21
-00.312 I: [MERGE] Merging: com.block.juggle
-00.314 I: [MERGE] Added [com.block.juggle] classes.dex -> classes.dex
-00.314 I: [MERGE] Added [com.block.juggle] classes2.dex -> classes2.dex
-00.315 I: [MERGE] Added [com.block.juggle] classes3.dex -> classes3.dex
-00.315 I: [MERGE] Added [com.block.juggle] classes4.dex -> classes4.dex
-00.315 I: [MERGE] Added [com.block.juggle] classes5.dex -> classes5.dex
-00.315 I: [MERGE] Added [com.block.juggle] classes6.dex -> classes6.dex
-00.315 I: [MERGE] Added [com.block.juggle] classes7.dex -> classes7.dex
-00.315 I: [MERGE] Added [com.block.juggle] classes8.dex -> classes8.dex
-00.315 I: [MERGE] Added [com.block.juggle] classes9.dex -> classes9.dex
-00.315 I: [MERGE] Added [com.block.juggle] classes10.dex -> classes10.dex
-00.315 I: [MERGE] Added [com.block.juggle] classes11.dex -> classes11.dex
-00.315 I: [MERGE] Added [com.block.juggle] classes12.dex -> classes12.dex
-00.316 I: [MERGE] Added [com.block.juggle] classes13.dex -> classes13.dex
-00.316 I: [MERGE] Added [com.block.juggle] classes14.dex -> classes14.dex
-00.316 I: [MERGE] Added [com.block.juggle] classes15.dex -> classes15.dex
-00.649 I: [MERGE] Merging: config.hi
-00.700 I: [MERGE] Merging: config.de
-00.756 I: [MERGE] Merging: config.ru
-00.807 I: [MERGE] Merging: config.arm64_v8a
-00.810 I: [MERGE] Merging: config.tr
-00.862 I: [MERGE] Merging: config.th
-00.883 I: [MERGE] Merging: config.ja
-00.904 I: [MERGE] Merging: config.ar
-00.925 I: [MERGE] Merging: config.vi
-00.947 I: [MERGE] Merging: config.fr
-00.974 I: [MERGE] Merging: config.my
-00.999 I: [MERGE] Merging: config.xxhdpi
-01.022 I: [MERGE] Merging: config.zh
-01.050 I: [MERGE] Merging: config.es
-01.078 I: [MERGE] Merging: config.en
-01.104 I: [MERGE] Merging: config.it
-01.130 I: [MERGE] Merging: config.ko
-01.156 I: [MERGE] Merging: config.pt
-01.188 I: [MERGE] Merging: config.in
-01.217 I: [MERGE] Merging: gamedatalib
-01.221 I: [MERGE] Added as fused module <gamedatalib>
-01.296 I: [MERGE] Clearing META-INF ...
-01.302 I: [MERGE] Sanitizing manifest ...
-01.370 I: [MERGE] Applying: extractNativeLibs=false
-01.371 I: [MERGE] Writing apk ...
-01.388 I: [MERGE] Buffering compress changed files ...
-05.598 I: [MERGE] Writing files: 11769
-06.060 I: [MERGE] Saved to: /home/runner/work/_temp/menu-injection/merged.apk
-10-29 20:26:34.743  4173  4173 W zip     : WARNING: header mismatch
+00.010 I: [MERGE] Searching apk files ...
+00.022 I: [MERGE] Found apk files: 21
+00.261 I: [MERGE] Found modules: 21
+00.324 I: [MERGE] Merging: com.block.juggle
+00.326 I: [MERGE] Added [com.block.juggle] classes.dex -> classes.dex
+00.326 I: [MERGE] Added [com.block.juggle] classes2.dex -> classes2.dex
+00.327 I: [MERGE] Added [com.block.juggle] classes3.dex -> classes3.dex
+00.327 I: [MERGE] Added [com.block.juggle] classes4.dex -> classes4.dex
+00.327 I: [MERGE] Added [com.block.juggle] classes5.dex -> classes5.dex
+00.327 I: [MERGE] Added [com.block.juggle] classes6.dex -> classes6.dex
+00.327 I: [MERGE] Added [com.block.juggle] classes7.dex -> classes7.dex
+00.327 I: [MERGE] Added [com.block.juggle] classes8.dex -> classes8.dex
+00.327 I: [MERGE] Added [com.block.juggle] classes9.dex -> classes9.dex
+00.327 I: [MERGE] Added [com.block.juggle] classes10.dex -> classes10.dex
+00.328 I: [MERGE] Added [com.block.juggle] classes11.dex -> classes11.dex
+00.328 I: [MERGE] Added [com.block.juggle] classes12.dex -> classes12.dex
+00.328 I: [MERGE] Added [com.block.juggle] classes13.dex -> classes13.dex
+00.328 I: [MERGE] Added [com.block.juggle] classes14.dex -> classes14.dex
+00.328 I: [MERGE] Added [com.block.juggle] classes15.dex -> classes15.dex
+00.673 I: [MERGE] Merging: config.hi
+00.719 I: [MERGE] Merging: config.de
+00.764 I: [MERGE] Merging: config.ru
+00.813 I: [MERGE] Merging: config.arm64_v8a
+00.815 I: [MERGE] Merging: config.tr
+00.864 I: [MERGE] Merging: config.th
+00.889 I: [MERGE] Merging: config.ja
+00.913 I: [MERGE] Merging: config.ar
+00.938 I: [MERGE] Merging: config.vi
+00.964 I: [MERGE] Merging: config.fr
+00.999 I: [MERGE] Merging: config.my
+01.028 I: [MERGE] Merging: config.xxhdpi
+01.056 I: [MERGE] Merging: config.zh
+01.090 I: [MERGE] Merging: config.es
+01.122 I: [MERGE] Merging: config.en
+01.152 I: [MERGE] Merging: config.it
+01.180 I: [MERGE] Merging: config.ko
+01.208 I: [MERGE] Merging: config.pt
+01.242 I: [MERGE] Merging: config.in
+01.274 I: [MERGE] Merging: gamedatalib
+01.278 I: [MERGE] Added as fused module <gamedatalib>
+01.378 I: [MERGE] Clearing META-INF ...
+01.384 I: [MERGE] Sanitizing manifest ...
+01.431 I: [MERGE] Applying: extractNativeLibs=false
+01.431 I: [MERGE] Writing apk ...
+01.447 I: [MERGE] Buffering compress changed files ...
+05.751 I: [MERGE] Writing files: 11769
+06.137 I: [MERGE] Saved to: /home/runner/work/_temp/menu-injection/merged.apk
+10-29 20:44:36.600  3921  3921 W zip     : WARNING: header mismatch
 
-10-29 20:26:34.747  4173  4173 W zip     : WARNING: header mismatch
+10-29 20:44:36.604  3921  3921 W zip     : WARNING: header mismatch
 
 Verifies
 Verified using v1 scheme (JAR signing): false
@@ -66,9 +66,9 @@ Verified using v3 scheme (APK Signature Scheme v3): true
 Verified using v4 scheme (APK Signature Scheme v4): false
 Verified for SourceStamp: false
 Number of signers: 1
-4a802fbef4cd9caf66b01906de3c80d4035876f637356a4e26fb68457fd8f680  /home/runner/work/_temp/BlockBlast-10.9.2-mod-arm64.apk
+d316f9fee1388f51542d31416e7e8b106fa5eaa9a331d346269b0eed990b572b  /home/runner/work/_temp/BlockBlast-10.9.2-mod-arm64.apk
 Boot disposable ARM64 Android:
-c92f3722118652535923610c7d641f7873f3f65dbb8c5b1284cce8e3609c809c
+e8d8958696788b8f5db5f4be4567f571900f1dce083d11ca4a23bf0dc8461620
 * daemon not running; starting now at tcp:5037
 * daemon started successfully
 connected to 127.0.0.1:5555
@@ -76,11 +76,11 @@ Install experimental standalone APK:
 Performing Streamed Install
 Success
 Starting: Intent { cmp=com.block.juggle/org.cocos2dx.javascript.AppActivity.Default }
-pid=2310
+pid=2263
 Bootstrap and crash logs:
-I/ArenaMenuBootstrap( 2310): Menu attached; score bridge started
-I/ArenaScoreHook( 2310): installed
-I/ArenaScoreHook( 2310): loaded-score:0
+I/ArenaMenuBootstrap( 2263): Menu attached; score bridge started
+I/ArenaScoreHook( 2263): installed
+I/ArenaScoreHook( 2263): loaded-score:0
 Screen text:
 v0 ‘on
 
@@ -94,15 +94,19 @@ and read our Privacy Policy.
 Testing the menu selections and score awards on the disposable game:
 Declined optional notifications
 Selected: Kapalı (1x)
-Verified game award: {"after": 4, "before": 4, "current": 124, "factor": 1}
+Verified game award: {"after": 5, "before": 5, "current": 124, "factor": 1}
 Selected: 10x
-Verified game award: {"after": 40, "before": 4, "current": 128, "factor": 10}
+Verified game award: {"after": 50, "before": 5, "current": 129, "factor": 10}
 Selected: 100x
-Verified game award: {"after": 300, "before": 3, "current": 168, "factor": 100}
+Verified game award: {"after": 500, "before": 5, "current": 179, "factor": 100}
 Selected: 1000x
-Verified game award: {"after": 14000, "before": 14, "current": 468, "factor": 1000}
-All four in-game multiplier settings affected actual awards as expected.
+Verified game award: {"after": 6000, "before": 6, "current": 679, "factor": 1000}
+Selected: 10000x
+Verified game award: {"after": 40000, "before": 4, "current": 6679, "factor": 10000}
+Selected: 100000x
+Verified game award: {"after": 600000, "before": 6, "current": 46679, "factor": 100000}
+All six in-game multiplier settings affected actual awards as expected.
 Declined repeated optional notification request
-Restart verified: saved score 14468 and 1000x selection persisted.
+Restart verified: saved score 646679 and 100000x selection persisted.
 In-game score multiplier test passed.
 probe_exit=0
