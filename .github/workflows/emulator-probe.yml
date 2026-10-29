@@ -11,6 +11,9 @@ jobs:
     timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -29,6 +32,13 @@ jobs:
             "$bt/zipalign" -p -f 4 "$split" "$RUNNER_TEMP/aligned/$name"
             "$bt/apksigner" sign --ks "$RUNNER_TEMP/test.keystore" --ks-pass pass:android --key-pass pass:android --out "$RUNNER_TEMP/signed/$name" "$RUNNER_TEMP/aligned/$name"
           done
+      - name: Inspect launcher class with REA
+        run: |
+          wget -q https://github.com/1013503897/jadx-headless-mcp/releases/download/v0.7.1/jadx-headless-mcp-0.7.1-all.jar -O "$RUNNER_TEMP/jadx.jar"
+          echo '6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75  '"$RUNNER_TEMP"'/jadx.jar' | sha256sum -c -
+          export REA_JADX_MCP_JAR="$RUNNER_TEMP/jadx.jar"
+          export REA_JADX_HEAP_MIB=4096 REA_JADX_OPERATION_TIMEOUT_MS=600000
+          npx -y rea-agents@6.7.0 inspect-android-class "$RUNNER_TEMP/unsigned/com.block.juggle.apk" org.cocos2dx.javascript.AppActivity --format json > analysis/rea-activity.txt 2>&1 || true
       - name: Enable KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -41,7 +51,7 @@ jobs:
           target: google_apis_playstore
           arch: x86_64
           disable-animations: true
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -memory 4096 -cores 4
           script: bash tools/emulator_probe.sh
       - name: Save probe results only
         if: always()
@@ -50,6 +60,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           if [ -f analysis/emulator-probe.txt ]; then
             git add analysis/emulator-probe.txt
+            if [ -f analysis/rea-activity.txt ]; then git add analysis/rea-activity.txt; fi
             if ! git diff --cached --quiet; then
               git commit -m 'Record emulator probe results'
               git push origin HEAD:${GITHUB_REF_NAME}

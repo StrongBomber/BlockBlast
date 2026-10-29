@@ -1,0 +1,57 @@
+Emulator ABI:
+x86_64,x86,arm64-v8a,armeabi-v7a,armeabi
+APK splits:
+Install result:
+Success
+install_exit=0
+Launch result:
+  bash arg: -p
+  bash arg: com.block.juggle
+  bash arg: -c
+  bash arg: android.intent.category.LAUNCHER
+  bash arg: 1
+args: [-p, com.block.juggle, -c, android.intent.category.LAUNCHER, 1]
+ arg: "-p"
+ arg: "com.block.juggle"
+ arg: "-c"
+ arg: "android.intent.category.LAUNCHER"
+ arg: "1"
+data="com.block.juggle"
+data="android.intent.category.LAUNCHER"
+Events injected: 1
+## Network stats: elapsed time=86ms (0ms mobile, 0ms wifi, 86ms not connected)
+Process:
+Resumed activity:
+    mResumedActivity: ActivityRecord{b95f2c4 u0 com.google.android.apps.nexuslauncher/.NexusLauncherActivity t8}
+Relevant diagnostic log:
+V/installd(  412): DexInv: --- END '/data/app/~~gOvfvT__aHJkPC0MeWh_jA==/com.block.juggle-8VUq-dO9ploQZlTONavcig==/base.apk' (success) ---
+V/BackupManagerService(  486): [UserID:0] restoreAtInstall pkg=com.block.juggle token=1 restoreSet=0
+I/IntentFilterIntentOp( 1383): Verifying IntentFilter. verificationId:0 scheme:"https" hosts:"mainactivity blockblastgamectv.onelink.me www.hungrystudio.com blockblastgame.onelink.me" package:"com.block.juggle".
+I/MediaProvider( 1781): Invalidating LocalCallingIdentity cache for package com.block.juggle. Reason: package android.intent.action.PACKAGE_ADDED
+I/Finsky  ( 2563): [2] ste.d(9): Invalidating cached PackageState for com.block.juggle
+I/GsaVoiceInteractionSrv( 1549): O received Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) }
+D/AvrcpMediaPlayerList(  678): Name of package changed: com.block.juggle
+I/Finsky  ( 2563): [345] eqs.a(12): Asset module storage cleared for package com.block.juggle.
+W/BroadcastQueue(  486): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.packageinstaller/com.android.packageinstaller.PackageInstalledReceiver
+W/BroadcastQueue(  486): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.android.vending/com.google.android.finsky.packagemanager.impl.PackageMonitorReceiverImpl$RegisteredReceiver
+W/BroadcastQueue(  486): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.gms/.games.chimera.GamesSystemBroadcastReceiverProxy
+W/BroadcastQueue(  486): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.gms/.gass.chimera.PackageChangeBroadcastReceiver
+W/BroadcastQueue(  486): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.gms/.chimera.GmsIntentOperationService$PersistentTrustedReceiver
+W/BroadcastQueue(  486): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.googlequicksearchbox/com.google.android.apps.gsa.googlequicksearchbox.GelStubAppWatcher
+W/BroadcastQueue(  486): Background execution not allowed: receiving Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 (has extras) } to com.google.android.ims/.receivers.RcsAutoStartReceiver
+W/GCM     ( 1119): Unexpected forwarded intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) }
+W/GCM     ( 1119): Unexpected forwarded intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 cmp=com.google.android.gms/.chimera.PersistentIntentOperationService (has extras) }
+I/ChromeSync( 1383): [Sync,SyncIntentOperation] Handling the intent: Intent { act=android.intent.action.PACKAGE_ADDED dat=package:com.block.juggle flg=0x4000010 cmp=com.google.android.gms/.chimera.GmsIntentOperationService (has extras) }.
+I/ChromeSync( 1383): [Persistence,AffiliationManager] One of affiliation or grouping data for android://RnBO4nz8uFa0m1dqXqDatmsTif_yFBJWyOpv7ivQKaGtOP18bRTgUGwZ0oFw20xFRaDN2wY52DhL5r-wb7F7EA==@com.block.juggle/ was not found. Marking affiliation data as stale...
+W/Monkey  ( 6194): args: [-p, com.block.juggle, -c, android.intent.category.LAUNCHER, 1]
+W/Monkey  ( 6194):  arg: "com.block.juggle"
+W/Monkey  ( 6194): data="com.block.juggle"
+I/ActivityTaskManager(  486): START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.block.juggle/org.cocos2dx.javascript.AppActivity.Default} from uid 2000
+I/ActivityManager(  486): Start proc 6254:com.block.juggle/u0a154 for pre-top-activity {com.block.juggle/org.cocos2dx.javascript.AppActivity.Default}
+I/chatty  ( 6254): uid=10154(com.block.juggle) identical 18 lines
+E/AndroidRuntime( 6254): FATAL EXCEPTION: main
+E/AndroidRuntime( 6254): Process: com.block.juggle, PID: 6254
+E/AndroidRuntime( 6254): java.lang.UnsatisfiedLinkError: dlopen failed: "/data/app/~~gOvfvT__aHJkPC0MeWh_jA==/com.block.juggle-8VUq-dO9ploQZlTONavcig==/split_config.arm64_v8a.apk!/lib/arm64-v8a/libnesec-x86.so" is for EM_X86_64 (62) instead of EM_AARCH64 (183)
+W/ActivityTaskManager(  486):   Force finishing activity com.block.juggle/org.cocos2dx.javascript.AppActivity.Default
+W/ActivityTaskManager(  486): Activity top resumed state loss timeout for ActivityRecord{3767309 u0 com.block.juggle/org.cocos2dx.javascript.AppActivity.Default t9 f}}
+I/ActivityManager(  486): Process com.block.juggle (pid 6254) has died: prcp TOP 
