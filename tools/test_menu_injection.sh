@@ -45,7 +45,12 @@ zipalign -f -p 4 "$work/merged.apk" "$work/merged-aligned.apk"
 apksigner sign --ks "$work/test.keystore" --ks-pass pass:android --key-pass pass:android --out "$RUNNER_TEMP/BlockBlast-10.9.2-mod-arm64.apk" "$work/merged-aligned.apk"
 apksigner verify --verbose "$RUNNER_TEMP/BlockBlast-10.9.2-mod-arm64.apk"
 sha256sum "$RUNNER_TEMP/BlockBlast-10.9.2-mod-arm64.apk"
-echo 'Boot disposable ARM64 Android:'
+echo 'Compile test-only multi-touch injector:'
+mkdir -p "$work/input-classes" "$work/input-dex"
+javac --release 8 -cp "$work/android.jar" -d "$work/input-classes" tools/InjectMultiTouch.java
+java -cp "$work/r8.jar" com.android.tools.r8.D8 --min-api 23 --lib "$work/android.jar" --output "$work/input-dex" "$work/input-classes/InjectMultiTouch.class"
+(cd "$work/input-dex" && zip -q "$work/arena-multitouch.jar" classes.dex)
+echo 'Boot disposable ARM64 Android:' 
 sudo modprobe binder_linux devices=binder,hwbinder,vndbinder || true
 docker pull redroid/redroid:13.0.0-latest >/dev/null
 docker run -d --name android-menu-injection --privileged -p 5555:5555 redroid/redroid:13.0.0-latest androidboot.redroid_gpu_mode=guest
@@ -54,6 +59,7 @@ sleep 35
 adb connect 127.0.0.1:5555
 export ANDROID_SERIAL=127.0.0.1:5555
 timeout 120 adb wait-for-device
+adb push "$work/arena-multitouch.jar" /data/local/tmp/arena-multitouch.jar >/dev/null
 adb shell settings put secure immersive_mode_confirmations confirmed || true
 echo 'Install experimental standalone APK:'
 timeout 120 adb install --no-incremental -r "$RUNNER_TEMP/BlockBlast-10.9.2-mod-arm64.apk"
@@ -74,6 +80,8 @@ if ! adb logcat -d -s ArenaScoreHook:I '*:S' | grep -q 'installed'; then
   echo 'Score hook was not installed.'
   exit 1
 fi
+echo 'Testing multi-touch visibility in the actual game:'
+python3 tools/test_game_multitouch.py
 echo 'Testing the menu selections and score awards on the disposable game:'
 python3 tools/test_game_score.py # exercise real game choices and restart
 echo 'In-game score multiplier test passed.'
