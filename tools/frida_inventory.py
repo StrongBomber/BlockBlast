@@ -13,7 +13,7 @@ script = session.create_script(open(source, encoding='utf-8').read())
 
 def message(msg, data):
     print(json.dumps(msg, ensure_ascii=True), flush=True)
-    if msg.get('type') == 'error' or msg.get('payload', {}).get('type') in ('classes', 'error'):
+    if msg.get('type') == 'error' or msg.get('payload', {}).get('type') in ('done', 'error'):
         done.set()
 
 script.on('message', message)
