@@ -1,0 +1,2 @@
+INFO  REPORT: Execute script: FindScriptLoader.java '/home/runner/work/BlockBlast/BlockBlast/analysis/loader-decompile.txt'  (HeadlessAnalyzer)  
+INFO  REPORT: Import succeeded (HeadlessAnalyzer)  

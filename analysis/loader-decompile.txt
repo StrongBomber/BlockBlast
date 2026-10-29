@@ -1,0 +1,17 @@
+
+STRING .note.gnu.proc::0032fb80 [ERROR] (/Users/jycocos/.jenkins/cache/blockblast_cocos_unify/cocos2d-x/cocos/scripting/js-bindings/manual/jsb_global.cpp, 279): Can't decrypt code for %s
+
+
+STRING .note.gnu.proc::003d174c Can't decrypt code for %s, trying others method
+
+STRING .note.gnu.proc::003d177c [ERROR] (/Users/jycocos/.jenkins/cache/blockblast_cocos_unify/cocos2d-x/cocos/scripting/js-bindings/manual/jsb_global.cpp, 257): Can't decrypt code for %s
+
+
+STRING .note.gnu.proc::003d1818 [ERROR] (/Users/jycocos/.jenkins/cache/blockblast_cocos_unify/cocos2d-x/cocos/scripting/js-bindings/manual/jsb_global.cpp, 265): Can't decrypt code for %s
+
+
+STRING .note.gnu.proc::0042cbf6 ScriptEngine::runScript script %s, buffer is empty!
+
+
+STRING .note.gnu.proc::00441700 [ERROR] (/Users/jycocos/.jenkins/cache/blockblast_cocos_unify/cocos2d-x/cocos/scripting/js-bindings/manual/jsb_global.cpp, 226): Can't decrypt code for %s, empty file
+
