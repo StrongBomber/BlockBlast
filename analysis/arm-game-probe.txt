@@ -1,5 +1,5 @@
 Boot native ARM64 Android container:
-40931c1bc3e21d4beff27479dba205be3e7fffb95f8efd5c5f3759bb3286b343
+34d2a68636f3a907456e182925f00c95e3be9b8c534a6029bd973e68dd13a5b1
 * daemon not running; starting now at tcp:5037
 * daemon started successfully
 connected to 127.0.0.1:5555
@@ -14,9 +14,9 @@ priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=false
 com.block.juggle/org.cocos2dx.javascript.AppActivity.Default
 Launch:
 Starting: Intent { cmp=com.block.juggle/org.cocos2dx.javascript.AppActivity.Default }
-game_pid=2350
+game_pid=2363
 Resumed activity:
-    topResumedActivity=ActivityRecord{82eb6aa u0 com.block.juggle/org.cocos2dx.javascript.AppActivity.Default} t8}
+    topResumedActivity=ActivityRecord{dd9b4ca u0 com.block.juggle/org.cocos2dx.javascript.AppActivity.Default} t8}
 Screen text (OCR):
 Welcome to Block Blast!
 Please accept our
@@ -25,9 +25,9 @@ and read our
 
 Accept Terms of Use
 Errors:
-I/ActivityManager(  231): Start proc 2350:com.block.juggle/u0a77 for next-top-activity {com.block.juggle/org.cocos2dx.javascript.AppActivity.Default}
-I/ActivityTaskManager(  231): Displayed com.block.juggle/org.cocos2dx.javascript.AppActivity.Default: +775ms
-I/ActivityManager(  231): Start proc 2570:com.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0ai9000 for  {com.block.juggle/org.chromium.content.app.SandboxedProcessService0:0}
+I/ActivityManager(  239): Start proc 2363:com.block.juggle/u0a77 for next-top-activity {com.block.juggle/org.cocos2dx.javascript.AppActivity.Default}
+I/ActivityTaskManager(  239): Displayed com.block.juggle/org.cocos2dx.javascript.AppActivity.Default: +958ms
+I/ActivityManager(  239): Start proc 2602:com.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0ai9000 for  {com.block.juggle/org.chromium.content.app.SandboxedProcessService0:0}
 Frida inventory:
 Preparing server
 Starting server
@@ -41,21 +41,15 @@ Attaching runtime inventory
 {"type": "send", "payload": {"type": "done"}}
 JavaScript global probe:
 --------- beginning of main
-10-29 16:44:26.502  2350  2502 I ArenaJS : {"kind":"describe","label":"ClassGame","cls":"t","own":["_super","_name","_objFlags","node","__scriptAsset","_enabled","_id","__eventTargets","_state","bgContainer","boardContainer","boardSplashAnimation","topContainer","guideContainer","blocksProducerContainer","operator","deltaTime","_eventManager","_touchListener","_touchNode"],"methods":[]}
-10-29 16:44:26.502  2350  2502 I ArenaJS : {"kind":"describe","label":"ClassGame.operator","cls":"CCClass","own":["_name","_objFlags","_parent","_children","_active","_components","_prefab","_opacity","_color","_contentSize","_anchorPoint","_position","_scale","_trs","_eulerAngles","_skewX","_skewY","_zIndex","_localZOrder","_is3DNode","_groupIndex","_activeInHierarchy","_id","__eventTargets","_reorderChildDirty","_widget","_renderComponent","_capturingListeners","_bubblingListeners","_touchListener","_mouseListener","_spaceInfo","_matrix","_worldMatrix","_localMatDirty","_worldMatDirty","_eventMask","_cullingMask","_childArrivalOrder","_globalZOrderDirty","_globalZOrderList","_globalZOrder","_isGlobalZOrderRoot","_globalOpacity","_proxy","_dirtyPtr","_inJsbDirtyList"],"methods":["_initDataFromPool","_backDataIntoPool"]}
-10-29 16:44:26.502  2350  2502 I ArenaJS : {"kind":"describe","label":"operator._prefab","cls":"CCClass","own":["root","asset","fileId","sync"],"methods":[]}
-10-29 16:44:26.502  2350  2502 I ArenaJS : {"kind":"describe","label":"operator._color","cls":"e","own":["_val"],"methods":[]}
-10-29 16:44:26.502  2350  2502 I ArenaJS : {"kind":"describe","label":"operator._contentSize","cls":"e","own":["width","height"],"methods":[]}
-10-29 16:44:26.502  2350  2502 I ArenaJS : {"kind":"describe","label":"operator._anchorPoint","cls":"i","own":["mag","magSqr","subSelf","mulSelf","divSelf","scaleSelf","negSelf","x","y","z"],"methods":[]}
-10-29 16:44:26.502  2350  2502 I ArenaJS : {"kind":"describe","label":"operator._trs","cls":"Float32Array","own":["0","1","2","3","4","5","6","7","8","9"],"methods":[]}
-10-29 16:44:26.502  2350  2502 I ArenaJS : {"kind":"describe","label":"operator._eulerAngles","cls":"i","own":["mag","magSqr","subSelf","mulSelf","divSelf","scaleSelf","negSelf","x","y","z","angle","project"],"methods":[]}
-10-29 16:44:26.502  2350  2502 I ArenaJS : {"kind":"describe","label":"operator._bubblingListeners","cls":"s","own":["_callbackTable"],"methods":[]}
-10-29 16:44:26.502  2350  2502 I ArenaJS : {"kind":"describe","label":"operator._touchListener","cls":"o","own":["_onEvent","_type","_listenerID","_registered","_fixedPriority","_node","_target","_paused","_isEnabled","_claimedTouches","swallowTouches","owner","mask","onTouchBegan","onTouchMoved","onTouchEnded","onTouchCancelled"],"methods":[]}
-10-29 16:44:26.502  2350  2502 I ArenaJS : {"kind":"describe","label":"operator._spaceInfo","cls":"Object","own":["index","unitID","trs","localMat","worldMat","dirty","parent","zOrder","cullingMask","opacity","is3D","skew"],"methods":[]}
-10-29 16:44:26.503  2350  2502 I ArenaJS : {"kind":"describe","label":"operator._matrix","cls":"i","own":["m"],"methods":[]}
-10-29 16:44:26.503  2350  2502 I ArenaJS : {"kind":"describe","label":"operator._worldMatrix","cls":"i","own":["m"],"methods":[]}
-10-29 16:44:26.503  2350  2502 I ArenaJS : {"kind":"describe","label":"operator._proxy","cls":"NodeProxy","own":["_owner","_dirtyPtr","_parentPtr","_zOrderPtr","_cullingMaskPtr","_opacityPtr","_is3DPtr","_skewPtr","_isVisitingTraversal"],"methods":[]}
-10-29 16:44:26.503  2350  2502 I ArenaJS : {"kind":"describe","label":"operator._dirtyPtr","cls":"Uint32Array","own":["0"],"methods":[]}
-10-29 16:44:26.503  2350  2502 I ArenaJS : {"kind":"describe","label":"top:cc.Widget","cls":"CCClass","own":["_name","_objFlags","node","__scriptAsset","_enabled","alignMode","_wasAlignOnce","_target","_alignFlags","_left","_right","_top","_bottom","_verticalCenter","_horizontalCenter","_isAbsLeft","_isAbsRight","_isAbsTop","_isAbsBottom","_isAbsHorizontalCenter","_isAbsVerticalCenter","_originalWidth","_originalHeight","_id","__eventTargets"],"methods":[]}
-10-29 16:44:26.503  2350  2502 I ArenaJS : {"kind":"describe","label":"top:ClassTopInfo","cls":"t","own":["_super","_name","_objFlags","node","__scriptAsset","_enabled","_id","__eventTargets","_state","highNode","curNode","comboAnim","highScore","curScore","setBtn","setupRed","curScoreIntervalId","highScoreIntervalId","curAnimScore","curAnimHighScore","shareTraitTarget"],"methods":["getCurScoreNode","initComboAnim","playScoreAnim","comboAnimState","comboAnimStateFinish","updateScore","updateScoreWithOutAnimation","setScoreLabel","setHighScoreLabel","setHighScoreLabelWithoutAnimation","updateCurrentScore","resetScore","updateCurrentHighScore","beforeScoreScroll","updateScoreCurrentScoreWithAnimation","onScorePlayAni","modifyScoreInGuide","currentScoreAnimationEnd","updateScoreHighScoreWithAnimation","highScoreAnimationEnd","clearCurScoreIntervalId","clearHighScoreIntervalId"]}
-10-29 16:44:26.503  2350  2502 I ArenaJS : {"kind":"nested-score","label":"top:ClassTopInfo","key":"_state","keys":["directRefreshScore","highScore","currentScore","comboAnimState","addScore"]}
+10-29 16:48:04.525  2363  2516 I ArenaJS : {"kind":"state","cls":"Object","keys":["directRefreshScore","highScore","currentScore","parent","setupRed","comboAnimState","continuousEliminateTimes","addScore"]}
+10-29 16:48:04.525  2363  2516 I ArenaJS : {"kind":"field","name":"directRefreshScore","type":"boolean","value":null,"descriptor":{"get":null,"set":null},"source":null}
+10-29 16:48:04.525  2363  2516 I ArenaJS : {"kind":"field","name":"highScore","type":"number","value":0,"descriptor":{"get":null,"set":null},"source":null}
+10-29 16:48:04.525  2363  2516 I ArenaJS : {"kind":"field","name":"currentScore","type":"number","value":0,"descriptor":{"get":null,"set":null},"source":null}
+10-29 16:48:04.526  2363  2516 I ArenaJS : {"kind":"field","name":"comboAnimState","type":"number","value":0,"descriptor":{"get":null,"set":null},"source":null}
+10-29 16:48:04.526  2363  2516 I ArenaJS : {"kind":"field","name":"addScore","type":"number","value":0,"descriptor":{"get":null,"set":null},"source":null}
+10-29 16:48:04.526  2363  2516 I ArenaJS : {"kind":"method","name":"updateScore","source":"function() {\nfor (var t = [], o = 0; o < arguments.length; o++) t[o] = arguments[o];\nif (\"function\" != typeof l.__should_execute__ || l.__should_execute__()) {\nvar f = window.traitsInfo;\nif (!f) return e.call.apply(e, a([ this ], r(t), !1));\nif (!n) return e.call.apply(e, a([ this ], r(t), !1));\nvar d = function(t, e) {\nvar n, a, o, c, l, f, d, v = null === (o = window.traitsInfo) || void 0 === o ? void 0 : o.traitsData;\nif (!v) return [];\nvar p = null === (c = s[t]) || void 0 === c ? void 0 : c[e];\nif (p) return p;\nvar h = null === (l = null == v ? void 0 : v[t]) || void 0 === l ? void 0 : l[e], y = (null == h ? void 0 : h.decorators) ? h.decorators.slice() : [], g = null === (d = null === (f = window.traitRegisterEvents) || void 0 === f ? void 0 : f[t]) || void 0 === d ? void 0 : d[e];\nif (g) {\nvar _ = function(t) {\nvar e = u(t);\n-1 === y.findIndex(function(t) {\nreturn t.traitClassName"}
+10-29 16:48:04.526  2363  2516 I ArenaJS : {"kind":"method","name":"updateCurrentScore","source":"function() {\nfor (var t = [], o = 0; o < arguments.length; o++) t[o] = arguments[o];\nif (\"function\" != typeof l.__should_execute__ || l.__should_execute__()) {\nvar f = window.traitsInfo;\nif (!f) return e.call.apply(e, a([ this ], r(t), !1));\nif (!n) return e.call.apply(e, a([ this ], r(t), !1));\nvar d = function(t, e) {\nvar n, a, o, c, l, f, d, v = null === (o = window.traitsInfo) || void 0 === o ? void 0 : o.traitsData;\nif (!v) return [];\nvar p = null === (c = s[t]) || void 0 === c ? void 0 : c[e];\nif (p) return p;\nvar h = null === (l = null == v ? void 0 : v[t]) || void 0 === l ? void 0 : l[e], y = (null == h ? void 0 : h.decorators) ? h.decorators.slice() : [], g = null === (d = null === (f = window.traitRegisterEvents) || void 0 === f ? void 0 : f[t]) || void 0 === d ? void 0 : d[e];\nif (g) {\nvar _ = function(t) {\nvar e = u(t);\n-1 === y.findIndex(function(t) {\nreturn t.traitClassName"}
+10-29 16:48:04.526  2363  2516 I ArenaJS : {"kind":"method","name":"resetScore","source":"function() {\nfor (var t = [], o = 0; o < arguments.length; o++) t[o] = arguments[o];\nif (\"function\" != typeof l.__should_execute__ || l.__should_execute__()) {\nvar f = window.traitsInfo;\nif (!f) return e.call.apply(e, a([ this ], r(t), !1));\nif (!n) return e.call.apply(e, a([ this ], r(t), !1));\nvar d = function(t, e) {\nvar n, a, o, c, l, f, d, v = null === (o = window.traitsInfo) || void 0 === o ? void 0 : o.traitsData;\nif (!v) return [];\nvar p = null === (c = s[t]) || void 0 === c ? void 0 : c[e];\nif (p) return p;\nvar h = null === (l = null == v ? void 0 : v[t]) || void 0 === l ? void 0 : l[e], y = (null == h ? void 0 : h.decorators) ? h.decorators.slice() : [], g = null === (d = null === (f = window.traitRegisterEvents) || void 0 === f ? void 0 : f[t]) || void 0 === d ? void 0 : d[e];\nif (g) {\nvar _ = function(t) {\nvar e = u(t);\n-1 === y.findIndex(function(t) {\nreturn t.traitClassName"}
+10-29 16:48:04.526  2363  2516 I ArenaJS : {"kind":"method","name":"modifyScoreInGuide","source":"function() {\nfor (var t = [], o = 0; o < arguments.length; o++) t[o] = arguments[o];\nif (\"function\" != typeof l.__should_execute__ || l.__should_execute__()) {\nvar f = window.traitsInfo;\nif (!f) return e.call.apply(e, a([ this ], r(t), !1));\nif (!n) return e.call.apply(e, a([ this ], r(t), !1));\nvar d = function(t, e) {\nvar n, a, o, c, l, f, d, v = null === (o = window.traitsInfo) || void 0 === o ? void 0 : o.traitsData;\nif (!v) return [];\nvar p = null === (c = s[t]) || void 0 === c ? void 0 : c[e];\nif (p) return p;\nvar h = null === (l = null == v ? void 0 : v[t]) || void 0 === l ? void 0 : l[e], y = (null == h ? void 0 : h.decorators) ? h.decorators.slice() : [], g = null === (d = null === (f = window.traitRegisterEvents) || void 0 === f ? void 0 : f[t]) || void 0 === d ? void 0 : d[e];\nif (g) {\nvar _ = function(t) {\nvar e = u(t);\n-1 === y.findIndex(function(t) {\nreturn t.traitClassName"}
+10-29 16:48:04.527  2363  2516 I ArenaJS : {"kind":"component-state","item":{"path":"/main/persist/gameUiLayer/ClassGame/topContainer/ClassTopInfo","cls":"ClassTopInfo","keys":["directRefreshScore","highScore","currentScore","addScore"]}}
+10-29 16:48:04.527  2363  2516 I ArenaJS : {"kind":"component-state","item":{"path":"/main/persist/gameUiLayer/ClassGame/topContainer/ClassTopInfo/highNode/SkinCrown","cls":"SkinCrownComponent","keys":["score"]}}
