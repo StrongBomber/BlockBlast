@@ -146,7 +146,7 @@ with open(sys.argv[2], 'a') as out: out.write(sys.argv[3] + ':' + base64.b64enco
 PYSCREEN
       fi
     done
-    echo 'Inspect real combo state, storage and experimentally set it to 90:'
+    echo 'Inspect combo state, test progression from 90 and restore it:'
     timeout 35 "$RUNNER_TEMP/frida-venv/bin/python" tools/frida_inventory.py "$pid" tools/frida_combo.js || true
     echo 'Instrument score state after tutorial and make a normal-game move:'
     timeout 35 "$RUNNER_TEMP/frida-venv/bin/python" tools/frida_inventory.py "$pid" tools/frida_real_score.js || true

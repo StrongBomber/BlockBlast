@@ -19,8 +19,8 @@ Java.perform(function () {
           if (!table) break;
           Object.keys(table).forEach(function(name) {
             if (!/BlocksProducerTouch|ClassGameInfo|ClassScore_Proxy/.test(name)) return;
-            var source=String(table[name][0]), regex=/_continuousEliminateTimes|continuousEliminateTimes|_unEliminateTimes/g, match, count=0;
-            while ((match=regex.exec(source)) && count++<25) log({kind:'factory',module:name,context:source.slice(Math.max(0,match.index-350),match.index+650)});
+            var source=String(table[name][0]), regex=/prototype[.](computeContinuousEliminateTimes|computeUnEliminateTimes|resetComboState)|_continuousEliminateTimes/g, match, count=0;
+            while ((match=regex.exec(source)) && count++<80) log({kind:'factory',module:name,context:source.slice(Math.max(0,match.index-350),match.index+650)});
           });
         }
 
@@ -35,8 +35,14 @@ Java.perform(function () {
           log({kind:'computed',before:before,after:this._continuousEliminateTimes,args:args,result:result});
           return result;
         };
-        component._continuousEliminateTimes=90;
+        component.resetComboState(90, 0);
         log({kind:'set',combo:component._continuousEliminateTimes,un:component._unEliminateTimes});
+        var old = component._putEliminates;
+        component._putEliminates = [{}];
+        component.computeContinuousEliminateTimes(component._comboAllowNoContinuousTimes);
+        log({kind:'simulated-clear',combo:component._continuousEliminateTimes,un:component._unEliminateTimes});
+        component._putEliminates = old;
+        component.resetComboState(90,0);
       } catch(e) { log({kind:'error',message:String(e),stack:String(e.stack)}); }
     }.toString() + ')();';
     send({type:'eval_return',value:Bridge.evalString(code)});
