@@ -1,6 +1,7 @@
 package ai.arena.blockblast.menu;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -8,13 +9,13 @@ import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.text.InputFilter;
 import android.text.InputType;
-import android.view.inputmethod.InputMethodManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.EditText;
@@ -97,53 +98,30 @@ public final class FloatingMenu {
         status.setPadding(dp(activity, 4), 0, dp(activity, 4), dp(activity, 8));
         options.addView(status);
 
-        TextView customHeading = new TextView(activity);
-        customHeading.setText("ÖZEL ÇARPAN");
-        customHeading.setTextSize(10);
-        customHeading.setTextColor(0xff9eb1d0);
-        customHeading.setPadding(dp(activity, 4), dp(activity, 3), 0, dp(activity, 4));
-        options.addView(customHeading);
-        EditText custom = numberInput(activity, "Örn. 37");
-        custom.setContentDescription("Özel çarpan değeri");
-        options.addView(custom, new LinearLayout.LayoutParams(-1, dp(activity, 42)));
-        Button customApply = actionButton(activity, "Çarpanı uygula");
+        Button customApply = actionButton(activity, "Özel çarpan gir");
         LinearLayout.LayoutParams customParams = new LinearLayout.LayoutParams(-1, dp(activity, 40));
-        customParams.topMargin = dp(activity, 5);
-        customParams.bottomMargin = dp(activity, 10);
+        customParams.bottomMargin = dp(activity, 5);
         options.addView(customApply, customParams);
-
-        TextView comboHeading = new TextView(activity);
-        comboHeading.setText("KOMBO DEĞERİ");
-        comboHeading.setTextSize(10);
-        comboHeading.setTextColor(0xff9eb1d0);
-        comboHeading.setPadding(dp(activity, 4), dp(activity, 3), 0, dp(activity, 4));
-        options.addView(comboHeading);
-        EditText combo = numberInput(activity, "Örn. 90");
-        combo.setContentDescription("Özel kombo değeri");
-        options.addView(combo, new LinearLayout.LayoutParams(-1, dp(activity, 42)));
-        Button comboApply = actionButton(activity, "Komboyu ayarla");
+        Button comboApply = actionButton(activity, "Kombo değeri gir");
         LinearLayout.LayoutParams comboParams = new LinearLayout.LayoutParams(-1, dp(activity, 40));
-        comboParams.topMargin = dp(activity, 5);
         comboParams.bottomMargin = dp(activity, 5);
         options.addView(comboApply, comboParams);
         TextView comboStatus = new TextView(activity);
         comboStatus.setTextColor(0xff9eb1d0);
         comboStatus.setTextSize(10);
-        comboStatus.setText("Değer bir kez uygulanır; oyun normal kurallarla devam eder.");
+        comboStatus.setText("Kombo bir kez ayarlanır, normal kurallarla devam eder.");
         comboStatus.setPadding(dp(activity, 4), 0, dp(activity, 4), dp(activity, 10));
         options.addView(comboStatus);
-        comboApply.setOnClickListener(v -> {
-            Integer value = parseInput(combo, 0, ComboControl.MAX_COMBO);
-            if (value == null) return;
-            ComboControl.request(value);
-            Log.i("ArenaComboMenu", "requested=" + value);
-            comboStatus.setText("Kombo isteği: " + value);
-            closeKeyboard(activity, combo);
-            comboStatus.postDelayed(() -> {
-                if (ComboControl.getPending() == -1) comboStatus.setText("Kombo ayarlandı: " + value);
-                else comboStatus.setText("Oyun hazır olduğunda uygulanacak: " + value);
-            }, 2500);
-        });
+        comboApply.setOnClickListener(v -> showNumberDialog(activity, panel, "Özel kombo", "Örn. 90",
+                "Özel kombo değeri", 0, ComboControl.MAX_COMBO, value -> {
+                    ComboControl.request(value);
+                    Log.i("ArenaComboMenu", "requested=" + value);
+                    comboStatus.setText("Kombo isteği: " + value);
+                    comboStatus.postDelayed(() -> {
+                        if (ComboControl.getPending() == -1) comboStatus.setText("Kombo ayarlandı: " + value);
+                        else comboStatus.setText("Oyun hazır olduğunda uygulanacak: " + value);
+                    }, 2500);
+                }));
 
         int[] values = {1, 10, 100, 1000, 10000, 100000};
         Button[] choices = new Button[values.length];
@@ -168,14 +146,12 @@ public final class FloatingMenu {
             });
         }
         updateLabels(activity, choices, values, status);
-        customApply.setOnClickListener(v -> {
-            Integer value = parseInput(custom, 1, Integer.MAX_VALUE);
-            if (value == null) return;
-            ScoreMultiplier.set(value);
-            prefs.edit().putInt(MULTIPLIER, value).apply();
-            updateLabels(activity, choices, values, status);
-            closeKeyboard(activity, custom);
-        });
+        customApply.setOnClickListener(v -> showNumberDialog(activity, panel, "Özel çarpan", "Örn. 37",
+                "Özel çarpan değeri", 1, Integer.MAX_VALUE, value -> {
+                    ScoreMultiplier.set(value);
+                    prefs.edit().putInt(MULTIPLIER, value).apply();
+                    updateLabels(activity, choices, values, status);
+                }));
 
         TextView hint = new TextView(activity);
         hint.setText("3 parmakla gizle / göster");
@@ -288,10 +264,30 @@ public final class FloatingMenu {
         }
     }
 
-    private static void closeKeyboard(Activity activity, EditText input) {
-        InputMethodManager manager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (manager != null) manager.hideSoftInputFromWindow(input.getWindowToken(), 0);
-        input.clearFocus();
+    private interface NumberAction { void apply(int value); }
+
+    private static void showNumberDialog(Activity activity, View panel, String title, String placeholder,
+                                         String description, int min, int max, NumberAction action) {
+        EditText input = numberInput(activity, placeholder);
+        input.setContentDescription(description);
+        LinearLayout container = new LinearLayout(activity);
+        container.setPadding(dp(activity, 24), dp(activity, 8), dp(activity, 24), dp(activity, 8));
+        container.addView(input, new LinearLayout.LayoutParams(-1, dp(activity, 48)));
+        AlertDialog dialog = new AlertDialog.Builder(activity).setTitle(title).setView(container)
+                .setNegativeButton("İptal", null).setPositiveButton("Uygula", null).create();
+        dialog.setOnShowListener(ignored -> {
+            ThreeFingerVisibility.install(dialog.getWindow(), panel, dialog::dismiss);
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+                Integer value = parseInput(input, min, max);
+                if (value == null) return;
+                action.apply(value);
+                dialog.dismiss();
+            });
+            input.requestFocus();
+            dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+                    | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        });
+        dialog.show();
     }
 
     private static int dp(Context context, int value) {

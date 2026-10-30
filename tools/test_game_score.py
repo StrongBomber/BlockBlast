@@ -74,11 +74,11 @@ def select_factor(factor):
     tap_node(text_contains('MOD MENÜ'))
     label = 'Kapalı (1x)' if factor == 1 else str(factor) + 'x'
     if factor == 37:
-        adb('shell', 'input', 'tap', *center(scroll_node(lambda n: n.get('content-desc') == 'Özel çarpan değeri')))
-        time.sleep(1)
+        adb('shell', 'input', 'tap', *center(scroll_node(text_contains('Özel çarpan gir'))))
+        time.sleep(2)
+        tap_node(lambda n: n.get('content-desc') == 'Özel çarpan değeri')
         adb('shell', 'input', 'text', '37')
-        adb('shell', 'input', 'tap', *center(scroll_node(text_contains('Çarpanı uygula'))))
-        time.sleep(1)
+        tap_node(lambda n: n.get('resource-id') == 'android:id/button1')
         if not any(n.get('text') == 'Aktif: 37x' for n in tree().iter('node')):
             raise AssertionError('Custom multiplier was not selected')
     else:
@@ -124,10 +124,11 @@ time.sleep(8)
 
 # Queue a one-shot combo request via the actual menu and wait for the GL bridge.
 tap_node(text_contains('MOD MENÜ'))
-field = scroll_node(lambda n: n.get('content-desc') == 'Özel kombo değeri')
-adb('shell', 'input', 'tap', *center(field))
+adb('shell', 'input', 'tap', *center(scroll_node(text_contains('Kombo değeri gir'))))
+time.sleep(2)
+tap_node(lambda n: n.get('content-desc') == 'Özel kombo değeri')
 adb('shell', 'input', 'text', '90')
-adb('shell', 'input', 'tap', *center(scroll_node(text_contains('Komboyu ayarla'))))
+tap_node(lambda n: n.get('resource-id') == 'android:id/button1')
 time.sleep(5)
 tap_node(text_contains('MOD MENÜ'))
 combo_logs = adb('logcat', '-d', '-s', 'ArenaComboHook:I', '*:S')

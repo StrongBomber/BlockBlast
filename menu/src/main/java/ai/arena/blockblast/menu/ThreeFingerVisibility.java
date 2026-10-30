@@ -11,6 +11,10 @@ final class ThreeFingerVisibility {
     private ThreeFingerVisibility() {}
 
     static void install(Window window, View panel) {
+        install(window, panel, null);
+    }
+
+    static void install(Window window, View panel, Runnable whenHidden) {
         final Window.Callback original = window.getCallback();
         if (original == null) throw new IllegalStateException("Window callback is unavailable");
         final boolean[] toggled = {false};
@@ -25,6 +29,7 @@ final class ThreeFingerVisibility {
                         if (action == MotionEvent.ACTION_POINTER_DOWN && event.getPointerCount() == 3
                                 && !toggled[0]) {
                             panel.setVisibility(panel.getVisibility() == View.VISIBLE ? View.INVISIBLE : View.VISIBLE);
+                            if (panel.getVisibility() != View.VISIBLE && whenHidden != null) panel.post(whenHidden);
                             toggled[0] = true;
                         }
                         if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) toggled[0] = false;
