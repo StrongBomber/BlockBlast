@@ -146,6 +146,8 @@ with open(sys.argv[2], 'a') as out: out.write(sys.argv[3] + ':' + base64.b64enco
 PYSCREEN
       fi
     done
+    echo 'Inspect real combo state and experimentally set it to 90:'
+    timeout 35 "$RUNNER_TEMP/frida-venv/bin/python" tools/frida_inventory.py "$pid" tools/frida_combo.js || true
     echo 'Instrument score state after tutorial and make a normal-game move:'
     timeout 35 "$RUNNER_TEMP/frida-venv/bin/python" tools/frida_inventory.py "$pid" tools/frida_real_score.js || true
     adb shell input swipe 150 1050 180 780 1200 || true
@@ -162,6 +164,8 @@ PYSCREEN
     fi
     echo 'Score state after drag:'
     timeout 35 "$RUNNER_TEMP/frida-venv/bin/python" tools/frida_inventory.py "$pid" tools/frida_after_move.js || true
+    echo 'Combo investigation:'
+    timeout 15 adb logcat -d -s ArenaComboProbe:I '*:S' | tail -100 || true
     echo 'JavaScript global probe:'
     timeout 15 adb logcat -d -s ArenaJS:I '*:S' | tail -100 || true
 
