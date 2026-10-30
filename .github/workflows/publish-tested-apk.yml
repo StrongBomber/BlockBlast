@@ -18,7 +18,7 @@ jobs:
           name: BlockBlast-10.9.2-mod-arm64
           path: release
           github-token: ${{ github.token }}
-          run-id: 40960017510
+          run-id: 41024669481
       - name: Check digest and publish
         env:
           GH_TOKEN: ${{ github.token }}
@@ -28,9 +28,9 @@ jobs:
           (
           set -e
           cd release
-          echo '3083377b68cee6f19b275d5b01e0360c716279137c9b34e3846a753b12d97984  BlockBlast-10.9.2-mod-arm64.apk' > SHA256SUMS.txt
+          echo '0a09b7d5d297f44df5baf2093fbec092dea0c591a449d164bb7f5705b4c0933c  BlockBlast-10.9.2-mod-arm64.apk' > SHA256SUMS.txt
           sha256sum -c SHA256SUMS.txt
-          gh release upload blockblast-mod-10.9.2-v3 BlockBlast-10.9.2-mod-arm64.apk SHA256SUMS.txt
+          gh release upload blockblast-mod-10.9.2-v4 BlockBlast-10.9.2-mod-arm64.apk SHA256SUMS.txt
           ) > "$RUNNER_TEMP/publish-result.txt" 2>&1
           status=$?
           cat "$RUNNER_TEMP/publish-result.txt"
