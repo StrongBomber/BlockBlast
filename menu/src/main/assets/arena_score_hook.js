@@ -57,7 +57,7 @@
 /* Apply a one-shot combo request to the classic game's own counter on its GL thread. */
 (function () {
   try {
-    if (!window.jsb || !jsb.reflection || !window.cc) return;
+    if (!window.jsb || !jsb.reflection || typeof cc === 'undefined') return;
     var pending = Number(jsb.reflection.callStaticMethod(
       'ai/arena/blockblast/menu/ComboControl', 'getPending', '()I'));
     if (!Number.isInteger(pending) || pending < 0 || pending > 1000000) return;
@@ -88,7 +88,11 @@
     jsb.reflection.callStaticMethod('android/util/Log', 'i',
       '(Ljava/lang/String;Ljava/lang/String;)I', 'ArenaComboHook',
       JSON.stringify({applied: pending, before: before, unEliminateTimes: producer._unEliminateTimes}));
-  } catch (_) {
+  } catch (err) {
+    try {
+      jsb.reflection.callStaticMethod('android/util/Log', 'w',
+        '(Ljava/lang/String;Ljava/lang/String;)I', 'ArenaComboHook', 'error: ' + String(err));
+    } catch (_) {}
     // Keep the request pending while the classic game is not ready.
   }
 })();

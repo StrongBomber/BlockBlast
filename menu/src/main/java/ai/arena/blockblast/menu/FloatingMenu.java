@@ -9,6 +9,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.view.inputmethod.InputMethodManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -135,6 +136,7 @@ public final class FloatingMenu {
             Integer value = parseInput(combo, 0, ComboControl.MAX_COMBO);
             if (value == null) return;
             ComboControl.request(value);
+            Log.i("ArenaComboMenu", "requested=" + value);
             comboStatus.setText("Kombo isteği: " + value);
             closeKeyboard(activity, combo);
             comboStatus.postDelayed(() -> {

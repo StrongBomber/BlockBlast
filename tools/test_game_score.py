@@ -132,6 +132,9 @@ time.sleep(5)
 tap_node(text_contains('MOD MENÜ'))
 combo_logs = adb('logcat', '-d', '-s', 'ArenaComboHook:I', '*:S')
 if not re.search(r'"applied":90', combo_logs):
+    diagnostics = adb('logcat', '-d', '-s', 'ArenaComboHook:I', 'ArenaComboMenu:I', 'ArenaScoreBridge:W', 'AndroidRuntime:E', '*:S')
+    print('Combo diagnostics:', diagnostics[-10000:], flush=True)
+    print('Visible UI:', [(n.get('text'), n.get('content-desc')) for n in tree().iter('node') if n.get('text') or n.get('content-desc')], flush=True)
     raise AssertionError('Custom combo request did not reach the actual game: ' + combo_logs)
 print('Verified custom combo 90 applied to actual game counter.', flush=True)
 
