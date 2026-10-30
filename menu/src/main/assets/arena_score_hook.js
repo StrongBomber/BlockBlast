@@ -18,7 +18,7 @@
       var multiplier = 1;
       try { multiplier = Number(jsb.reflection.callStaticMethod(
         'ai/arena/blockblast/menu/ScoreMultiplier', 'get', '()I')); } catch (_) {}
-      if (multiplier !== 10 && multiplier !== 100 && multiplier !== 1000 && multiplier !== 10000 && multiplier !== 100000) multiplier = 1;
+      if (!Number.isInteger(multiplier) || multiplier < 1 || multiplier > 2147483647) multiplier = 1;
       var keys = ['baseScore', 'comboScore', 'screenScore', 'blockScore'];
       var current = Number(result.curScore);
       if (!Number.isFinite(current) || current < 0) return result;
@@ -51,5 +51,44 @@
     try { log('loaded-score:' + Number(window.__require('ClassScoreInfo').classScoreInfo.score)); } catch (_) {}
   } catch (_) {
     // Bundles are loaded asynchronously; the lifecycle bridge retries later.
+  }
+})();
+
+/* Apply a one-shot combo request to the classic game's own counter on its GL thread. */
+(function () {
+  try {
+    if (!window.jsb || !jsb.reflection || !window.cc) return;
+    var pending = Number(jsb.reflection.callStaticMethod(
+      'ai/arena/blockblast/menu/ComboControl', 'getPending', '()I'));
+    if (!Number.isInteger(pending) || pending < 0 || pending > 1000000) return;
+    var game = cc.find('persist/gameUiLayer/ClassGame');
+    var producer = game && game.getComponent('BlocksProducerTouch');
+    if (!producer || typeof producer.resetComboState !== 'function') return;
+    var compute = producer.computeContinuousEliminateTimes;
+    if (typeof compute === 'function' && !compute.__arenaComboTrace) {
+      var traced = function () {
+        var old = this._continuousEliminateTimes;
+        var result = compute.apply(this, arguments);
+        try {
+          jsb.reflection.callStaticMethod('android/util/Log', 'i',
+            '(Ljava/lang/String;Ljava/lang/String;)I', 'ArenaComboHook',
+            JSON.stringify({step: true, before: old, after: this._continuousEliminateTimes,
+              cleared: this._putEliminates && this._putEliminates.length}));
+        } catch (_) {}
+        return result;
+      };
+      traced.__arenaComboTrace = true;
+      producer.computeContinuousEliminateTimes = traced;
+    }
+    var before = producer._continuousEliminateTimes;
+    producer.resetComboState(pending, 0);
+    if (producer._continuousEliminateTimes !== pending) return;
+    jsb.reflection.callStaticMethod('ai/arena/blockblast/menu/ComboControl',
+      'acknowledge', '(I)V', pending);
+    jsb.reflection.callStaticMethod('android/util/Log', 'i',
+      '(Ljava/lang/String;Ljava/lang/String;)I', 'ArenaComboHook',
+      JSON.stringify({applied: pending, before: before, unEliminateTimes: producer._unEliminateTimes}));
+  } catch (_) {
+    // Keep the request pending while the classic game is not ready.
   }
 })();

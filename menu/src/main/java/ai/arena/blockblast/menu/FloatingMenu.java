@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.view.inputmethod.InputMethodManager;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +16,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -92,6 +96,53 @@ public final class FloatingMenu {
         status.setPadding(dp(activity, 4), 0, dp(activity, 4), dp(activity, 8));
         options.addView(status);
 
+        TextView customHeading = new TextView(activity);
+        customHeading.setText("ÖZEL ÇARPAN");
+        customHeading.setTextSize(10);
+        customHeading.setTextColor(0xff9eb1d0);
+        customHeading.setPadding(dp(activity, 4), dp(activity, 3), 0, dp(activity, 4));
+        options.addView(customHeading);
+        EditText custom = numberInput(activity, "Örn. 37");
+        custom.setContentDescription("Özel çarpan değeri");
+        options.addView(custom, new LinearLayout.LayoutParams(-1, dp(activity, 42)));
+        Button customApply = actionButton(activity, "Çarpanı uygula");
+        LinearLayout.LayoutParams customParams = new LinearLayout.LayoutParams(-1, dp(activity, 40));
+        customParams.topMargin = dp(activity, 5);
+        customParams.bottomMargin = dp(activity, 10);
+        options.addView(customApply, customParams);
+
+        TextView comboHeading = new TextView(activity);
+        comboHeading.setText("KOMBO DEĞERİ");
+        comboHeading.setTextSize(10);
+        comboHeading.setTextColor(0xff9eb1d0);
+        comboHeading.setPadding(dp(activity, 4), dp(activity, 3), 0, dp(activity, 4));
+        options.addView(comboHeading);
+        EditText combo = numberInput(activity, "Örn. 90");
+        combo.setContentDescription("Özel kombo değeri");
+        options.addView(combo, new LinearLayout.LayoutParams(-1, dp(activity, 42)));
+        Button comboApply = actionButton(activity, "Komboyu ayarla");
+        LinearLayout.LayoutParams comboParams = new LinearLayout.LayoutParams(-1, dp(activity, 40));
+        comboParams.topMargin = dp(activity, 5);
+        comboParams.bottomMargin = dp(activity, 5);
+        options.addView(comboApply, comboParams);
+        TextView comboStatus = new TextView(activity);
+        comboStatus.setTextColor(0xff9eb1d0);
+        comboStatus.setTextSize(10);
+        comboStatus.setText("Değer bir kez uygulanır; oyun normal kurallarla devam eder.");
+        comboStatus.setPadding(dp(activity, 4), 0, dp(activity, 4), dp(activity, 10));
+        options.addView(comboStatus);
+        comboApply.setOnClickListener(v -> {
+            Integer value = parseInput(combo, 0, ComboControl.MAX_COMBO);
+            if (value == null) return;
+            ComboControl.request(value);
+            comboStatus.setText("Kombo isteği: " + value);
+            closeKeyboard(activity, combo);
+            comboStatus.postDelayed(() -> {
+                if (ComboControl.getPending() == -1) comboStatus.setText("Kombo ayarlandı: " + value);
+                else comboStatus.setText("Oyun hazır olduğunda uygulanacak: " + value);
+            }, 2500);
+        });
+
         int[] values = {1, 10, 100, 1000, 10000, 100000};
         Button[] choices = new Button[values.length];
         for (int i = 0; i < values.length; i++) {
@@ -115,6 +166,14 @@ public final class FloatingMenu {
             });
         }
         updateLabels(activity, choices, values, status);
+        customApply.setOnClickListener(v -> {
+            Integer value = parseInput(custom, 1, Integer.MAX_VALUE);
+            if (value == null) return;
+            ScoreMultiplier.set(value);
+            prefs.edit().putInt(MULTIPLIER, value).apply();
+            updateLabels(activity, choices, values, status);
+            closeKeyboard(activity, custom);
+        });
 
         TextView hint = new TextView(activity);
         hint.setText("3 parmakla gizle / göster");
@@ -187,6 +246,50 @@ public final class FloatingMenu {
             buttons[i].setBackground(outlined(active ? 0xff245b62 : 0xff29364c,
                     active ? 0xff5ecfbb : 0xff364862, dp(activity, 8), dp(activity, 1)));
         }
+    }
+
+    private static EditText numberInput(Activity activity, String placeholder) {
+        EditText input = new EditText(activity);
+        input.setSingleLine(true);
+        input.setTextSize(13);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
+        input.setTextColor(Color.WHITE);
+        input.setHintTextColor(0xff9eb1d0);
+        input.setHint(placeholder);
+        input.setPadding(dp(activity, 12), 0, dp(activity, 8), 0);
+        input.setBackground(outlined(0xff202d42, 0xff536b8e, dp(activity, 8), dp(activity, 1)));
+        return input;
+    }
+
+    private static Button actionButton(Activity activity, String text) {
+        Button button = new Button(activity);
+        button.setText(text);
+        button.setAllCaps(false);
+        button.setTextSize(12);
+        button.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        button.setTextColor(0xffd6f9f2);
+        button.setMinHeight(0);
+        button.setMinimumHeight(0);
+        button.setBackground(outlined(0xff245b62, 0xff5ecfbb, dp(activity, 8), dp(activity, 1)));
+        return button;
+    }
+
+    private static Integer parseInput(EditText input, int min, int max) {
+        try {
+            long value = Long.parseLong(input.getText().toString().trim());
+            if (value < min || value > max) throw new NumberFormatException();
+            return (int) value;
+        } catch (NumberFormatException ex) {
+            input.setError("Geçerli aralık: " + min + "–" + max);
+            return null;
+        }
+    }
+
+    private static void closeKeyboard(Activity activity, EditText input) {
+        InputMethodManager manager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (manager != null) manager.hideSoftInputFromWindow(input.getWindowToken(), 0);
+        input.clearFocus();
     }
 
     private static int dp(Context context, int value) {

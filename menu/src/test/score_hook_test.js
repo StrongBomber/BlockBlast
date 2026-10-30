@@ -19,7 +19,7 @@ vm.runInContext(hook, context);
 assert.equal(Proxy.prototype.increaseScoreByRound, wrapped, 'install must be idempotent');
 const proxy = new Proxy();
 const group = () => ({curScore: 20, baseScore: 3, comboScore: 5, screenScore: 2, blockScore: 1});
-for (const factor of [1, 10, 100, 1000, 10000, 100000]) {
+for (const factor of [1, 10, 37, 100, 1000, 10000, 100000]) {
   multiplier = factor;
   const value = proxy.increaseScoreByRound(group());
   assert.equal(value.curScore, 20);
@@ -34,5 +34,5 @@ assert.equal(limited.curScore + limited.baseScore + limited.comboScore, 21474836
 const penalties = proxy.increaseScoreByRound({curScore: 100, baseScore: -2, comboScore: 1, screenScore: 0, blockScore: 0});
 assert.equal(penalties.baseScore, -2);
 assert.equal(penalties.comboScore, 100000);
-assert.equal(calls, 8, 'original executes once per award');
+assert.equal(calls, 9, 'original executes once per award');
 console.log('Score hook tests passed');

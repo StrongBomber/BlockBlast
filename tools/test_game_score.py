@@ -44,12 +44,12 @@ def text_contains(value):
     return lambda node: value in node.get('text', '')
 
 
-def choice_node(label):
-    """Scroll the menu in both directions to find an entirely visible choice."""
+def scroll_node(match):
+    """Find a visible menu control in either scroll direction."""
     for direction in ('up', 'down'):
         for _ in range(4):
             root = tree()
-            nodes = [n for n in root.iter('node') if n.get('text', '').removeprefix('✓').strip() == label]
+            nodes = [n for n in root.iter('node') if match(n)]
             if len(nodes) == 1:
                 x1, y1, x2, y2 = map(int, re.findall(r'\d+', nodes[0].get('bounds', '')))
                 if y2 - y1 >= 35:
@@ -63,16 +63,29 @@ def choice_node(label):
             adb('shell', 'input', 'swipe', x, top if direction == 'up' else bottom,
                 x, bottom if direction == 'up' else top, 500)
             time.sleep(1)
-    raise AssertionError('Could not find menu choice: ' + label)
+    raise AssertionError('Could not find menu control')
+
+
+def choice_node(label):
+    return scroll_node(lambda n: n.get('text', '').removeprefix('✓').strip() == label)
 
 
 def select_factor(factor):
     tap_node(text_contains('MOD MENÜ'))
     label = 'Kapalı (1x)' if factor == 1 else str(factor) + 'x'
-    adb('shell', 'input', 'tap', *center(choice_node(label)))
-    time.sleep(1)
-    if '✓' not in choice_node(label).get('text', ''):
-        raise AssertionError('Menu did not select ' + label)
+    if factor == 37:
+        adb('shell', 'input', 'tap', *center(scroll_node(lambda n: n.get('content-desc') == 'Özel çarpan değeri')))
+        time.sleep(1)
+        adb('shell', 'input', 'text', '37')
+        adb('shell', 'input', 'tap', *center(scroll_node(text_contains('Çarpanı uygula'))))
+        time.sleep(1)
+        if not any(n.get('text') == 'Aktif: 37x' for n in tree().iter('node')):
+            raise AssertionError('Custom multiplier was not selected')
+    else:
+        adb('shell', 'input', 'tap', *center(choice_node(label)))
+        time.sleep(1)
+        if '✓' not in choice_node(label).get('text', ''):
+            raise AssertionError('Menu did not select ' + label)
     tap_node(text_contains('MOD MENÜ'))
     print('Selected:', label, flush=True)
 
@@ -109,9 +122,22 @@ for y in (480, 540, 600, 700, 780):
     time.sleep(3)
 time.sleep(8)
 
+# Queue a one-shot combo request via the actual menu and wait for the GL bridge.
+tap_node(text_contains('MOD MENÜ'))
+field = scroll_node(lambda n: n.get('content-desc') == 'Özel kombo değeri')
+adb('shell', 'input', 'tap', *center(field))
+adb('shell', 'input', 'text', '90')
+adb('shell', 'input', 'tap', *center(scroll_node(text_contains('Komboyu ayarla'))))
+time.sleep(5)
+tap_node(text_contains('MOD MENÜ'))
+combo_logs = adb('logcat', '-d', '-s', 'ArenaComboHook:I', '*:S')
+if not re.search(r'"applied":90', combo_logs):
+    raise AssertionError('Custom combo request did not reach the actual game: ' + combo_logs)
+print('Verified custom combo 90 applied to actual game counter.', flush=True)
+
 # Try candidate tray/board positions; require a genuine awarded score for each
 # factor, rather than inferring success merely from a UI selection or install.
-for factor in (1, 10, 100, 1000, 10000, 100000):
+for factor in (1, 37, 10, 100, 1000, 10000, 100000):
     select_factor(factor)
     adb('logcat', '-c')
     award = None
@@ -139,8 +165,14 @@ for factor in (1, 10, 100, 1000, 10000, 100000):
         raise AssertionError('No actual score award observed for factor ' + str(factor))
     if award['after'] != award['before'] * factor:
         raise AssertionError('Wrong score multiplier: ' + repr(award))
+    if factor == 1:
+        combo_logs = adb('logcat', '-d', '-s', 'ArenaComboHook:I', '*:S')
+        steps = [json.loads(m.group(1)) for m in re.finditer(r'(\{"step":true[^\n]*?\})', combo_logs)]
+        if not steps or steps[0].get('before') != 90 or steps[0].get('after') not in (90, 91):
+            raise AssertionError('First game move did not continue from combo 90: ' + combo_logs)
+        print('Verified next real-game combo calculation:', json.dumps(steps[0], sort_keys=True), flush=True)
     print('Verified game award:', json.dumps(award, sort_keys=True), flush=True)
-print('All six in-game multiplier settings affected actual awards as expected.', flush=True)
+print('All preset and custom in-game multiplier settings affected actual awards as expected.', flush=True)
 expected_score = int(award['current'] + award['after'])
 adb('shell', 'am', 'force-stop', 'com.block.juggle')
 adb('logcat', '-c')

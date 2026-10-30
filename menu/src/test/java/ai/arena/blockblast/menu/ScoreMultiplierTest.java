@@ -6,7 +6,7 @@ public final class ScoreMultiplierTest {
     }
 
     public static void main(String[] args) {
-        for (int multiplier : new int[] {1, 10, 100, 1000, 10000, 100000}) {
+        for (int multiplier : new int[] {1, 10, 37, 100, 1000, 10000, 100000}) {
             ScoreMultiplier.set(multiplier);
             check(ScoreMultiplier.get() == multiplier);
             check(ScoreMultiplier.applyToAward(7) == 7 * multiplier);
@@ -14,6 +14,9 @@ public final class ScoreMultiplierTest {
             check(ScoreMultiplier.applyToAward(-3) == -3);
         }
         check(ScoreMultiplier.applyToAward(Integer.MAX_VALUE) == Integer.MAX_VALUE);
+        ScoreMultiplier.set(Integer.MAX_VALUE);
+        check(ScoreMultiplier.applyToAward(2) == Integer.MAX_VALUE);
+        ScoreMultiplier.set(100000);
         try {
             ScoreMultiplier.set(0);
             throw new AssertionError("Invalid setting accepted");

@@ -77,6 +77,22 @@ tap('Oyun alanı: 0')
 node('Oyun alanı: 1')  # An empty area of the overlay must not consume gameplay taps.
 node('By Raiwesy')
 tap('MOD MENÜ')
+tap('Örn. 37')
+adb('shell', 'input', 'text', '37')
+tap('Çarpanı uygula')
+node('Aktif: 37x')
+tap('MOD MENÜ')
+adb('shell', 'am', 'force-stop', APP)
+start()
+tap('MOD MENÜ')
+node('Aktif: 37x')  # Custom multiplier survives process restart.
+x, y = center(choice('Örn. 90'))
+adb('shell', 'input', 'tap', str(x), str(y))
+adb('shell', 'input', 'text', '90')
+x, y = center(choice('Komboyu ayarla'))
+adb('shell', 'input', 'tap', str(x), str(y))
+time.sleep(3)
+node('Kombo isteği: 90') if any('Kombo isteği: 90' in n.get('text', '') for n in tree().iter('node')) else node('Oyun hazır olduğunda uygulanacak: 90')
 for label in ('Kapalı (1x)', '10x', '100x', '1000x', '10000x', '100000x'):
     select(label)
 
